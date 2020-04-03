@@ -8,7 +8,7 @@ public class Student extends User{
 	
 	Date lastStatusUpdateDate;
 	
-	String references;
+	ArrayList<String> references;
 	
 	ArrayList<String> employmentRecords = new ArrayList<String>();
 	
@@ -36,12 +36,12 @@ public class Student extends User{
 		this.lastStatusUpdateDate = lastStatusUpdateDate;
 	}
 
-	public String getReferences() {
+	public ArrayList<String> getReferences() {
 		return references;
 	}
 
-	public void setReferences(String references) {
-		this.references = references;
+	public void setReferences(String reference) {
+		references.add(reference);
 	}
 
 	public ArrayList<String> getEmploymentRecords() {
