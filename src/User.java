@@ -3,12 +3,14 @@ public class User {
 	
 	private String username;
 	private String password;
+	private String emailAddress;
 	
 	
 
-	protected User(String username, String password) {
+	protected User(String username, String password, String emailAddress) {
 		this.username = username;
 		this.password = password;
+		this.emailAddress = emailAddress;
 	}
 
 	public String getUsername() {
@@ -23,12 +25,12 @@ public class User {
 		this.password = password;
 	}
 	
-	public boolean validatePassword(String password)//to restrain the access of the correct password
+	public boolean validatePassword(String password) throws InvalidCredentialsException//to restrain the access of the correct password
 	{
-		if(this.password.equals(password))
-			return true;
+		if(!this.password.equals(password))
+			throw new InvalidCredentialsException("Wrong Password.Please try again.");
 		else
-			return false;
+			return true;
 		
 	}
 	
