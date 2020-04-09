@@ -1,5 +1,5 @@
 
-public class User {
+public abstract class User {
 	
 	private String username;
 	private String password;
@@ -33,6 +33,8 @@ public class User {
 			return true;
 		
 	}
+	
+	public abstract String getDetails();
 	
 
 }

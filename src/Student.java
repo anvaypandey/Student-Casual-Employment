@@ -10,12 +10,17 @@ public class Student extends User{
 	
 	ArrayList<String> references;
 	
-	ArrayList<String> employmentRecords = new ArrayList<String>();
+	ArrayList<String> employmentRecords;
 	
 	String locationCV;
 
-	protected Student(String username, String password, String email) {
+	protected Student(String username, String password, String email, Availability availability) {
 		super(username, password,email);
+		
+		status = ApplicantStatus.Unknown;
+		this.availability = availability;
+		references = new ArrayList<String>();
+		employmentRecords = new ArrayList<String>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -58,6 +63,12 @@ public class Student extends User{
 
 	public void setLocationCV(String locationCV) {
 		this.locationCV = locationCV;
+	}
+
+	@Override
+	public String getDetails() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

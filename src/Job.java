@@ -6,6 +6,8 @@ public class Job {
 	ArrayList<Student> shortlist;
 	Employee employeeUsername;
 	
+	String jobDescription;
+	
 	
 
 }

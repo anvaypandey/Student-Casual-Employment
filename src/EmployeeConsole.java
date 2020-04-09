@@ -14,6 +14,7 @@ public class EmployeeConsole {
 
 	private void managemenu() 
 	{
+		String menu = "Welcome Employee"; 
 		// TODO Auto-generated method stub
 		
 	}
