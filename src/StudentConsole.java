@@ -5,6 +5,8 @@ public class StudentConsole {
 	boolean depart = false;
 
 	Scanner scan = new Scanner(System.in);
+	
+	Student std = (Student)MainConsole.userList.get(MainConsole.user);
 
 	public void run()
 	{
@@ -29,10 +31,11 @@ public class StudentConsole {
 					+ "5. Add Refernce\n" 
 					+ "6. Update Reference\n"
 					+ "7. Upload CV\n" // for later
-					+ "8. Lodge Complaint\n"
-					+ "9. Change Username\n" //Let this be for now
-					+ "10. Change Password\n"
-					+ "11. Logout"
+					+ "8. Add new Job Category to your list"
+					+ "9. Lodge Complaint\n"
+					+ "10. Change Username\n" //Let this be for now
+					+ "11. Change Password\n"
+					+ "12. Logout\n"
 					+ "Enter your choice: ";
 			
 			System.out.println(menu);
@@ -64,15 +67,18 @@ public class StudentConsole {
 				uploadCV();
 				break;
 			case 8:
-				lodgeComplaint();
+				addJobCategory();
 				break;
 			case 9:
-				changeUsername();
+				lodgeComplaint();
 				break;
 			case 10:
-				changePassword();
+				changeUsername();
 				break;
 			case 11:
+				changePassword();
+				break;
+			case 12:
 				System.out.println("You have successfully logged out!\n");
 				depart = true;
 				return;
@@ -88,6 +94,16 @@ public class StudentConsole {
 		//switch case
 	}
 
+
+	private void addJobCategory() {
+		
+		// show then the list from the pre defined List
+		
+		//
+		
+		// TODO Auto-generated method stub
+		
+	}
 
 	private void changePassword() {
 		
@@ -108,7 +124,7 @@ public class StudentConsole {
 		
 		MainConsole.userList.put(newUsername, a1);
 		
-		//MainConsole.userList.remove(MainConsole.user);
+		MainConsole.userList.remove(MainConsole.user);
 		
 		//MainConsole.user = newUsername; // If we want to continue from here
 		
@@ -119,6 +135,12 @@ public class StudentConsole {
 	}
 
 	private void lodgeComplaint() {
+		
+		String complaint = null;
+		
+		//Student std = (Student)MainConsole.userList.get(MainConsole.user);
+		
+		std.addComplaint(complaint);
 		// TODO Auto-generated method stub
 		
 	}
@@ -149,11 +171,18 @@ public class StudentConsole {
 	}
 
 	private void updateStatus() {
+		
+		//update the lastUpdateDate
 		// TODO Auto-generated method stub
 
 	}
 
 	private void updateAvailability() {
+		
+		// check if the student is intntl or not
+		//give options of type of availability
+		Availability availability = Availability.PartTime;
+		std.setAvailability(availability);
 		// TODO Auto-generated method stub
 
 	}
