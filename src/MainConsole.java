@@ -6,8 +6,9 @@ public class MainConsole {
 	
 	static HashMap<String, User> userList = new HashMap<>();
 	
-	ArrayList<Job>  jobListings = new ArrayList<Job>();
+	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
+	static ArrayList<String> jobCategories = new ArrayList<String>();
 	
 	
 	static String user;
@@ -16,6 +17,8 @@ public class MainConsole {
 	
 	public void run() 
 	{
+		userList.put("admin", new Maintainence("admin","admin","admin@gmail.com"));
+		
 		while (true)
 		{
 			login();

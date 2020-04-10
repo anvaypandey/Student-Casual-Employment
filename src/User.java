@@ -5,12 +5,14 @@ public abstract class User {
 	private String password;
 	private String emailAddress;
 	
+	private BlacklistStatus blacklistStatus;
 	
 
 	protected User(String username, String password, String emailAddress) {
 		this.username = username;
 		this.password = password;
-		this.emailAddress = emailAddress;
+		this.setEmailAddress(emailAddress);
+		blacklistStatus=BlacklistStatus.NONE;
 	}
 
 	public String getUsername() {
@@ -25,6 +27,11 @@ public abstract class User {
 		this.password = password;
 	}
 	
+	public String getPassword()
+	{
+		return password;
+	}
+	
 	public boolean validatePassword(String password) throws InvalidCredentialsException//to restrain the access of the correct password
 	{
 		if(!this.password.equals(password))
@@ -34,6 +41,22 @@ public abstract class User {
 		
 	}
 	
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+	
+	public BlacklistStatus getBlacklistStatus() {
+		return blacklistStatus;
+	}
+
+	public void setBlacklistStatus(BlacklistStatus blacklistStatus) {
+		this.blacklistStatus = blacklistStatus;
+	}
+
 	public abstract String getDetails();
 	
 

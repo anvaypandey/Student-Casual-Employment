@@ -34,6 +34,8 @@ public class StudentConsole {
 					+ "10. Change Password\n"
 					+ "11. Logout"
 					+ "Enter your choice: ";
+			
+			System.out.println(menu);
 
 			int userChoice = Integer.parseInt(scan.nextLine());
 
@@ -88,11 +90,30 @@ public class StudentConsole {
 
 
 	private void changePassword() {
+		
+		System.out.println("New Password");
+		
+		String newPassword = scan.nextLine();
+		
+		MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void changeUsername() {
+		
+		String newUsername = "abc";
+		
+		User a1 = new Student ((Student)MainConsole.userList.get(MainConsole.user));
+		
+		MainConsole.userList.put(newUsername, a1);
+		
+		//MainConsole.userList.remove(MainConsole.user);
+		
+		//MainConsole.user = newUsername; // If we want to continue from here
+		
+		depart =true; //to login again
+		
 		// TODO Auto-generated method stub
 		
 	}
@@ -120,7 +141,6 @@ public class StudentConsole {
 		 * String employmentRecord = null; abc.setEmploymentRecords(employmentRecord);
 		 */
 		// TODO Auto-generated method stub
-
 	}
 
 	private void addRecord() {
