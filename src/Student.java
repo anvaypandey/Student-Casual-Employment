@@ -10,12 +10,38 @@ public class Student extends User{
 	
 	ArrayList<String> references;
 	
-	ArrayList<String> employmentRecords = new ArrayList<String>();
+	ArrayList<String> employmentRecords;
 	
 	String locationCV;
+	
+	ArrayList<String> complaints;
+	
+	ArrayList<String> jobCategories = new ArrayList<String>();
+	
+	
 
-	protected Student(String username, String password, String email) {
+	protected Student(String username, String password, String email, Availability availability) {
 		super(username, password,email);
+		
+		status = ApplicantStatus.Unknown;
+		this.availability = availability;
+		references = new ArrayList<String>();
+		employmentRecords = new ArrayList<String>();
+		complaints = new ArrayList<String>();
+		
+		// TODO Auto-generated constructor stub
+	}
+
+	public Student(Student that) {
+		
+		super(that.getUsername(),that.getPassword(),that.getEmailAddress());
+		status = ApplicantStatus.Unknown;
+		this.availability = that.getAvailability();
+		references.addAll(that.getReferences());
+		employmentRecords.addAll(that.getEmploymentRecords());
+		complaints.addAll(that.getComplaints());
+		jobCategories.addAll(that.getJobCategories());
+		setBlacklistStatus(that.getBlacklistStatus());
 		// TODO Auto-generated constructor stub
 	}
 
@@ -58,6 +84,28 @@ public class Student extends User{
 
 	public void setLocationCV(String locationCV) {
 		this.locationCV = locationCV;
+	}
+	
+	public ArrayList<String> getJobCategories() {
+		return jobCategories;
+	}
+
+	public void addJobCategory(String jobCategory) {
+		this.jobCategories.add(jobCategory);
+	}
+
+	public ArrayList<String> getComplaints() {
+		return complaints;
+	}
+
+	public void addComplaint(String complaint) {
+		this.complaints.add(complaint);
+	}
+
+	@Override
+	public String getDetails() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

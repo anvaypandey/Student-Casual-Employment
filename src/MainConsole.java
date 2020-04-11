@@ -1,18 +1,24 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class MainConsole {
 	
-	HashMap<String, User> userList = new HashMap<String, User>();
+	static HashMap<String, User> userList = new HashMap<>();
+	
+	static ArrayList<Job>  jobListings = new ArrayList<Job>();
+	
+	static ArrayList<String> jobCategories = new ArrayList<String>();
 	
 	
-	
-	String user;
+	static String user;
 	
 	Scanner scan = new Scanner(System.in);
 	
 	public void run() 
 	{
+		userList.put("admin", new Maintainence("admin","admin","admin@gmail.com"));
+		
 		while (true)
 		{
 			login();
@@ -158,13 +164,30 @@ public class MainConsole {
 						String email = scan.nextLine();
 						
 						if(choice ==1)
-							userList.put(username, new Student(username,password,email));
+						{
+							System.out.println("Enter \'I\' if you are an International Student, anything else if you are a local student ");
+							String option = scan.nextLine();
+							if(option.equalsIgnoreCase("I"))
+								userList.put(username, new Student(username,password,email,Availability.PartTime));
+							else
+								userList.put(username, new Student(username,password,email,Availability.FullTime));	
+						}
+							
 						else
 							userList.put(username, new Employee(username, password,email));
+						
+						System.out.println("Registration complete! Please Login to access your account");
 						flag = true;
 					}
 					else
-						System.out.println("This username already exists! Please try another username");
+					{
+						System.err.println("This username already exists! Please try another username");
+						System.out.println("\nEnter Q to quit or anything else to try again");
+						String input = scan.nextLine();
+						if(input.equalsIgnoreCase("Q"))
+							flag = true;
+					}
+						
 						
 				}
 			}
