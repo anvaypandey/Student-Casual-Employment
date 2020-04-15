@@ -35,7 +35,7 @@ public class Student extends User{
 	public Student(Student that) {
 		
 		super(that.getUsername(),that.getPassword(),that.getEmailAddress());
-		status = ApplicantStatus.Unknown;
+		status = that.getStatus();
 		this.availability = that.getAvailability();
 		references.addAll(that.getReferences());
 		employmentRecords.addAll(that.getEmploymentRecords());
@@ -100,6 +100,15 @@ public class Student extends User{
 
 	public void addComplaint(String complaint) {
 		this.complaints.add(complaint);
+		//if complaints are 3 then blacklisted
+	}
+
+	public ApplicantStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ApplicantStatus status) {
+		this.status = status;
 	}
 
 	@Override

@@ -4,7 +4,7 @@ public class Job {
 	
 	String JobId;
 	ArrayList<Student> shortlist;
-	Employee employeeUsername;
+	Employer employeeUsername;
 	
 	String jobDescription;
 	

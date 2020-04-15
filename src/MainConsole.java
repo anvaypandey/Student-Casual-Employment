@@ -28,9 +28,9 @@ public class MainConsole {
 				stdConsole.run();
 				
 			}
-			else if(userList.get(user) instanceof Employee)
+			else if(userList.get(user) instanceof Employer)
 			{
-				EmployeeConsole empConsole = new EmployeeConsole();
+				EmployerConsole empConsole = new EmployerConsole();
 				empConsole.run();
 			}
 			else
@@ -174,7 +174,7 @@ public class MainConsole {
 						}
 							
 						else
-							userList.put(username, new Employee(username, password,email));
+							userList.put(username, new Employer(username, password,email));
 						
 						System.out.println("Registration complete! Please Login to access your account");
 						flag = true;
