@@ -67,7 +67,7 @@ public class StudentConsole {
 				uploadCV();
 				break;
 			case 8:
-				addJobCategory();
+				chooseJobCategory();
 				break;
 			case 9:
 				lodgeComplaint();
@@ -95,7 +95,7 @@ public class StudentConsole {
 	}
 
 
-	private void addJobCategory() {
+	private void chooseJobCategory() {
 		
 		// show then the list from the pre defined List
 		
@@ -140,7 +140,7 @@ public class StudentConsole {
 		
 		//Student std = (Student)MainConsole.userList.get(MainConsole.user);
 		
-		std.addComplaint(complaint);
+		((Student)MainConsole.userList.get(MainConsole.user)).addComplaint(complaint);
 		// TODO Auto-generated method stub
 		
 	}
@@ -182,7 +182,7 @@ public class StudentConsole {
 		// check if the student is intntl or not
 		//give options of type of availability
 		Availability availability = Availability.PartTime;
-		std.setAvailability(availability);
+		((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability);
 		// TODO Auto-generated method stub
 
 	}
