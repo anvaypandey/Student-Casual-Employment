@@ -50,4 +50,34 @@ public class EmployerConsole {
 		
 	}
 
+	private void searchApplicants() 
+	{
+			// TODO Auto-generated method stub
+		
+	}
+
+	private void shortlistApplicants() 
+	{
+			// TODO Auto-generated method stub
+		
+	}
+
+	private void rankApplicants() 
+	{
+			// TODO Auto-generated method stub
+		
+	}
+
+	private void setInterview() 
+	{
+			// TODO Auto-generated method stub
+		
+	}
+
+	private void offerJob() 
+	{
+			// TODO Auto-generated method stub
+		
+	}
+
 }
