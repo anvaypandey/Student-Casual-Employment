@@ -94,7 +94,7 @@ public class MaintenanceConsole {
 		{
 			if(i ==1 && me.getValue() instanceof Student)
 				me.getValue().getDetails();
-			else if(i==2 && me.getValue() instanceof Employee)
+			else if(i==2 && me.getValue() instanceof Employer)
 				me.getValue().getDetails();
 			else if(i == 3 && me.getValue().getBlacklistStatus() != BlacklistStatus.NONE)
 				me.getValue().getDetails();

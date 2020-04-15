@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class EmployeeConsole {
+public class EmployerConsole {
 	
 	boolean depart = false;
 	Scanner  scan = new Scanner(System.in);
@@ -36,7 +36,7 @@ public class EmployeeConsole {
 		
 		String newUsername = "abc";
 		
-		User a1 = new Employee((Employee)MainConsole.userList.get(MainConsole.user));
+		User a1 = new Employer((Employer)MainConsole.userList.get(MainConsole.user));
 		
 		MainConsole.userList.put(newUsername, a1);
 		
