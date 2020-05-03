@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class LoginTest {
 	
-	static HashMap<String, User> userList = new HashMap<>();
+	HashMap<String, User> userList = new HashMap<>();
 	
 	@Before
 	public void setUp() {
@@ -25,30 +25,6 @@ public class LoginTest {
 		
 	}
 	
-	
-	
-	
-//	@Test(expected = InvalidCredentialsException.class)
-//	public void testInvalidCredentialsException() {
-//		MainConsole main = new MainConsole();
-//		main.login();
-//		
-//		userList.put("s123", new Student("s123", "password", "s123@gmail.com", Availability.FullTime));
-//		String choice = "1";
-//		InputStream in = new ByteArrayInputStream(choice.getBytes());
-//		System.setIn(in);
-//		
-//		String user = "s123";
-//		InputStream username = new ByteArrayInputStream(user.getBytes());
-//		System.setIn(username);
-//		
-//		String password = "pord";
-//		InputStream pass = new ByteArrayInputStream(password.getBytes());
-//		System.setIn(pass);  
-//		
-//		
-//		
-//	}
 	
 	
 

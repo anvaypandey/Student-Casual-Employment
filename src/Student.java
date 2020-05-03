@@ -37,10 +37,10 @@ public class Student extends User{
 		super(that.getUsername(),that.getPassword(),that.getEmailAddress());
 		status = ApplicantStatus.Unknown;
 		this.availability = that.getAvailability();
-		references.addAll(that.getReferences());
-		employmentRecords.addAll(that.getEmploymentRecords());
-		complaints.addAll(that.getComplaints());
-		jobCategories.addAll(that.getJobCategories());
+//		references.addAll(that.getReferences());
+//		employmentRecords.addAll(that.getEmploymentRecords());
+//		complaints.addAll(that.getComplaints());
+//		jobCategories.addAll(that.getJobCategories());
 		setBlacklistStatus(that.getBlacklistStatus());
 		// TODO Auto-generated constructor stub
 	}
