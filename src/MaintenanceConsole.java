@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class MaintenanceConsole {
@@ -39,16 +36,12 @@ public class MaintenanceConsole {
 
 			switch(userChoice)
 			{
-			case 1: 
-				accessRecords(userChoice); 
+			case 1:
+				case 2:
+				case 3:
+					accessRecords(userChoice); 
 				break;
-			case 2:
-				accessRecords(userChoice);
-				break;
-			case 3:
-				accessRecords(userChoice);
-				break;
-			case 4:
+				case 4:
 				blackListUser();
 				break;
 			case 5:
