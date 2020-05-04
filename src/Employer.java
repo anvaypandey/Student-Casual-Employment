@@ -1,23 +1,23 @@
 import java.util.ArrayList;
 
-public class Employee extends User {
+public class Employer extends User {
 	
 	String phNo;
 	ArrayList<String> complaints;
 	
 	
-	public Employee(String username, String password, String email) {
+	public Employer(String username, String password, String email) {
 		super(username, password,email);
 		complaints = new ArrayList<String>();
 		
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Employee(Employee that)
+	public Employer(Employer that)
 	{
 		super(that.getUsername(),that.getPassword(),that.getEmailAddress());
 		setBlacklistStatus(that.getBlacklistStatus());
-		complaints.addAll(that.getComplaints());
+		complaints.addAll(that.getComplaints());//will throw null pointer exception
 		
 		
 	}
@@ -28,6 +28,8 @@ public class Employee extends User {
 
 	public void addComplaint(String complaint) {
 		this.complaints.add(complaint);
+		if(complaints.size()==3)
+			setBlacklistStatus(BlacklistStatus.PROVISIONAL);
 	}
 
 	@Override

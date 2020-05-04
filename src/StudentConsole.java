@@ -24,20 +24,20 @@ public class StudentConsole {
 	{
 		try
 		{
+
 			String menu = "1. Update your Availability\n"
 					+ "2. Update your Status\n"
 					+ "3. Add Records\n"
 					+ "4. Update Records\n"
-					+ "5. Add Refernce\n" 
+					+ "5. Add Refernce\n"
 					+ "6. Update Reference\n"
 					+ "7. Upload CV\n" // for later
-					+ "8. Add new Job Category to your list"
+					+ "8. Add new Job Category to your list\n"
 					+ "9. Lodge Complaint\n"
 					+ "10. Change Username\n" //Let this be for now
 					+ "11. Change Password\n"
 					+ "12. Logout\n"
 					+ "Enter your choice: ";
-			
 			System.out.println(menu);
 
 			int userChoice = Integer.parseInt(scan.nextLine());
@@ -67,7 +67,7 @@ public class StudentConsole {
 				uploadCV();
 				break;
 			case 8:
-				addJobCategory();
+				chooseJobCategory();
 				break;
 			case 9:
 				lodgeComplaint();
@@ -95,7 +95,7 @@ public class StudentConsole {
 	}
 
 
-	private void addJobCategory() {
+	private void chooseJobCategory() {
 		
 		// show then the list from the pre defined List
 		
@@ -140,7 +140,7 @@ public class StudentConsole {
 		
 		//Student std = (Student)MainConsole.userList.get(MainConsole.user);
 		
-		std.addComplaint(complaint);
+		((Student)MainConsole.userList.get(MainConsole.user)).addComplaint(complaint);
 		// TODO Auto-generated method stub
 		
 	}
@@ -182,7 +182,7 @@ public class StudentConsole {
 		// check if the student is intntl or not
 		//give options of type of availability
 		Availability availability = Availability.PartTime;
-		std.setAvailability(availability);
+		((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability);
 		// TODO Auto-generated method stub
 
 	}
