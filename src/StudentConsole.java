@@ -116,7 +116,7 @@ public class StudentConsole {
 		
 	}
 
-	private void changeUsername() {
+	public void changeUsername() {
 		
 		String newUsername = "abc";
 		

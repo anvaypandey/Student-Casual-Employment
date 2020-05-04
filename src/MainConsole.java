@@ -48,7 +48,7 @@ public class MainConsole {
 		
 	}
 	
-	private void login()
+	public void login()
 	{
 		boolean flag = false;
 		
