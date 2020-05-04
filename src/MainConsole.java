@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class MainConsole {
 	
 	static HashMap<String, User> userList = new HashMap<>();
+	static BlacklistStatus userBlacklistStatus;
 	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
@@ -22,15 +23,16 @@ public class MainConsole {
 		while (true)
 		{
 			login();
+			userBlacklistStatus = userList.get(user).getBlacklistStatus();
 			if(userList.get(user) instanceof Student)
 			{
 				StudentConsole stdConsole = new StudentConsole();
 				stdConsole.run();
 				
 			}
-			else if(userList.get(user) instanceof Employee)
+			else if(userList.get(user) instanceof Employer)
 			{
-				EmployeeConsole empConsole = new EmployeeConsole();
+				EmployerConsole empConsole = new EmployerConsole();
 				empConsole.run();
 			}
 			else
@@ -142,7 +144,7 @@ public class MainConsole {
 			try
 			{
 				System.out.println("Which type of user are you?\n"
-						+ "1. Student"
+						+ "1. Student\n"
 						+ "2. Employee");
 				int choice = Integer.parseInt(scan.nextLine());
 				
@@ -174,7 +176,7 @@ public class MainConsole {
 						}
 							
 						else
-							userList.put(username, new Employee(username, password,email));
+							userList.put(username, new Employer(username, password,email));
 						
 						System.out.println("Registration complete! Please Login to access your account");
 						flag = true;
