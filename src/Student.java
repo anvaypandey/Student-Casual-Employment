@@ -37,6 +37,8 @@ public class Student extends User{
 		super(that.getUsername(),that.getPassword(),that.getEmailAddress());
 		status = that.getStatus();
 		this.availability = that.getAvailability();
+
+		//collections will throw null pointer exception
 		references.addAll(that.getReferences());
 		employmentRecords.addAll(that.getEmploymentRecords());
 		complaints.addAll(that.getComplaints());
