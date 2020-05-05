@@ -17,7 +17,7 @@ public class Employer extends User {
 	{
 		super(that.getUsername(),that.getPassword(),that.getEmailAddress());
 		setBlacklistStatus(that.getBlacklistStatus());
-		complaints.addAll(that.getComplaints());
+		complaints.addAll(that.getComplaints());//will throw null pointer exception
 		
 		
 	}
@@ -28,6 +28,8 @@ public class Employer extends User {
 
 	public void addComplaint(String complaint) {
 		this.complaints.add(complaint);
+		if(complaints.size()==3)
+			setBlacklistStatus(BlacklistStatus.PROVISIONAL);
 	}
 
 	@Override

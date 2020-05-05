@@ -24,20 +24,20 @@ public class StudentConsole {
 	{
 		try
 		{
+
 			String menu = "1. Update your Availability\n"
 					+ "2. Update your Status\n"
 					+ "3. Add Records\n"
 					+ "4. Update Records\n"
-					+ "5. Add Refernce\n" 
+					+ "5. Add Refernce\n"
 					+ "6. Update Reference\n"
 					+ "7. Upload CV\n" // for later
-					+ "8. Add new Job Category to your list"
+					+ "8. Add new Job Category to your list\n"
 					+ "9. Lodge Complaint\n"
 					+ "10. Change Username\n" //Let this be for now
 					+ "11. Change Password\n"
 					+ "12. Logout\n"
 					+ "Enter your choice: ";
-			
 			System.out.println(menu);
 
 			int userChoice = Integer.parseInt(scan.nextLine());
@@ -116,7 +116,7 @@ public class StudentConsole {
 		
 	}
 
-	private void changeUsername() {
+	public void changeUsername() {
 		
 		String newUsername = "abc";
 		

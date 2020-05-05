@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class MainConsole {
 	
 	static HashMap<String, User> userList = new HashMap<>();
+	static BlacklistStatus userBlacklistStatus;
 	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
@@ -22,6 +23,7 @@ public class MainConsole {
 		while (true)
 		{
 			login();
+			userBlacklistStatus = userList.get(user).getBlacklistStatus();
 			if(userList.get(user) instanceof Student)
 			{
 				StudentConsole stdConsole = new StudentConsole();
@@ -46,7 +48,7 @@ public class MainConsole {
 		
 	}
 	
-	private void login()
+	public void login()
 	{
 		boolean flag = false;
 		
@@ -142,7 +144,7 @@ public class MainConsole {
 			try
 			{
 				System.out.println("Which type of user are you?\n"
-						+ "1. Student"
+						+ "1. Student\n"
 						+ "2. Employee");
 				int choice = Integer.parseInt(scan.nextLine());
 				

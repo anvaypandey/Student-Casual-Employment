@@ -7,17 +7,21 @@ public class EmployerConsole {
 	Scanner  scan = new Scanner(System.in);
 
 	public void run() {
+
+		System.out.println(" Welcome Employer "+ MainConsole.user);
 		do
 		{
 			managemenu();
 		}while(!depart);
-		// TODO Auto-generated method stub
 		
 	}
 
-	private void managemenu() 
+	private void managemenu()
 	{
-		String menu = "Welcome Employee"; 
+		String menu ="1. Create a new Job Listing\n "
+				+"2. Search candidates based on Availability\n"
+				+ "Enter your choice: ";
+		System.out.println(menu);
 		// TODO Auto-generated method stub
 		
 	}
@@ -26,7 +30,7 @@ public class EmployerConsole {
 		
 		System.out.println("New Password");
 		
-		String newPassword = scan .nextLine();
+		String newPassword = scan.nextLine();
 		
 		MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
 		// TODO Auto-generated method stub
@@ -34,8 +38,9 @@ public class EmployerConsole {
 	}
 
 	private void changeUsername() {
-		
-		String newUsername = "abc";
+
+		System.out.println(" Enter the new Username");
+		String newUsername = scan.nextLine();
 		
 		User a1 = new Employer((Employer)MainConsole.userList.get(MainConsole.user));
 		
@@ -53,6 +58,7 @@ public class EmployerConsole {
 
 	private void searchApplicants() 
 	{
+<<<<<<< HEAD
 		int choice=0;
 			switch(choice)
 			{
@@ -62,6 +68,10 @@ public class EmployerConsole {
 			
 
 		
+=======
+
+
+>>>>>>> 6276b61a0c1a11b4d32a39fa509a01686b075401
 		// TODO Auto-generated method stub
 		
 	}
@@ -86,7 +96,19 @@ public class EmployerConsole {
 
 	private void shortlistApplicants() 
 	{
-			// TODO Auto-generated method stub
+		int jobIndex = jobInput();
+		if(jobIndex == -2)
+			System.out.println(" You are not authorised to utilise these privileges");
+		else if(jobIndex == -1)
+			return;
+		else
+		{
+
+
+
+		}
+
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -106,6 +128,78 @@ public class EmployerConsole {
 	{
 			// TODO Auto-generated method stub
 		
+	}
+
+	private void addNewJob()
+	{
+
+	}
+
+	private int jobInput()
+	{
+		String jobId =null;
+		String input = null;
+		if(showTheirJobListings())
+		{
+			if(MainConsole.userBlacklistStatus == BlacklistStatus.NONE)
+			{
+				do {
+					System.out.println("Enter the job ID :");
+					jobId = scan.nextLine();
+
+					if(validJobId(jobId)<0)
+					{
+						System.out.println("Invalid Job Id.\nEnter Q to quit or any other value to try again");
+						input = scan.nextLine();
+					}
+
+				}while (!input.equalsIgnoreCase("q"));
+
+				if(input.equalsIgnoreCase("q"))
+					return -2;
+			}
+			else
+				return -1;
+
+		}
+		else
+			return -2;
+
+		return validJobId(jobId);
+
+	}
+
+	private int validJobId(String jobListing)
+	{
+		int i;
+		for(i=0;i<MainConsole.jobListings.size();i++)
+		{
+			if(MainConsole.jobListings.get(i).getJobId().equalsIgnoreCase(jobListing))
+				break;
+		}
+		if(i<MainConsole.jobListings.size())
+			return i;
+		else
+			return -1;
+	}
+
+	private boolean showTheirJobListings()
+	{
+		boolean exists = false;
+		for(int i=0;i<MainConsole.jobListings.size();i++)
+		{
+			 Job job = MainConsole.jobListings.get(i);
+			if(job.getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
+			{
+				exists = true;
+				System.out.println(job.getDetails()+ "\n");
+
+			}
+		}
+		if (!exists)
+			System.out.println("You have zero Job Listings");
+
+		return exists;
 	}
 
 }
