@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StudentConsole {
@@ -7,6 +8,9 @@ public class StudentConsole {
 	Scanner scan = new Scanner(System.in);
 	
 	Student std = (Student)MainConsole.userList.get(MainConsole.user);
+	
+	static ArrayList<String> CV = new ArrayList<String>();
+	static ArrayList<String> Reference = new ArrayList<String>();
 
 	public void run()
 	{
@@ -96,13 +100,57 @@ public class StudentConsole {
 
 
 	private void chooseJobCategory() {
+
+			for(int i=0;i<MainConsole.jobCategories.size();i++)
+			{
+				
+					System.out.println(MainConsole.jobCategories+ "\n");
+
+			
+			}
+		boolean exists = false;
+		do
+		{
+		System.out.println("Choose desired job category");
+		String jobcat = scan.nextLine();
 		
-		// show then the list from the pre defined List
 		
-		//
-		
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			
+			exists = jobCatego(jobcat);
+		} catch (InvalidInputException e)
+		{
+			
+			e.printStackTrace();
+		}
+		if(!exists)
+			System.out.print("Q to quit or try again");
+		String resp = scan.nextLine();
+		if(resp.equalsIgnoreCase("q"))
+		{
+			exists=true;
+		}	
+		}while(true);
+	}
+
+	private boolean jobCatego(String jobcat) throws InvalidInputException
+	{
+		int i;
+		for(i=0;i<MainConsole.jobCategories.size();i++)
+		{
+			if(jobcat.equalsIgnoreCase(MainConsole.jobCategories.get(i)))
+			{
+				std.addJobCategory(jobcat);
+				break;	
+			}
+				
+		}
+		if(i==MainConsole.jobCategories.size())
+		{
+			throw new InvalidInputException("Invorrenct blah blah");
+		}
+		return true;
 	}
 
 	private void changePassword() {
@@ -140,34 +188,40 @@ public class StudentConsole {
 		
 		//Student std = (Student)MainConsole.userList.get(MainConsole.user);
 		
-		((Student)MainConsole.userList.get(MainConsole.user)).addComplaint(complaint);
+		std.addComplaint(complaint);
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void uploadCV() {
-		// TODO Auto-generated method stub
 		
+		
+		System.out.println("Please enter previous experience, qualifactions and certifications");
+		String cv = scan.nextLine();
+		std.setLocationCV(cv);
 	}
 
 	private void addReference() {
-		// TODO Auto-generated method stub
+		System.out.println("Please enter your reference information");
+		String reference = scan.nextLine();
+		std.setReferences(reference);
 		
 	}
 
 	private void updateRecords() {
 		
-		/*
-		 * Student abc= (Student)MainConsole.userList.get(MainConsole.user);
-		 * 
-		 * String employmentRecord = null; abc.setEmploymentRecords(employmentRecord);
-		 */
-		// TODO Auto-generated method stub
+		System.out.println(std.getEmploymentRecords());
+		
+		
+		
+		
+		
 	}
 
 	private void addRecord() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Please enter previous experience, qualifactions and certifications");
+		String cv = scan.nextLine();
+		std.setEmploymentRecords(cv);
 	}
 
 	private void updateStatus() {
