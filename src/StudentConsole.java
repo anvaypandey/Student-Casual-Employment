@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StudentConsole {
@@ -7,6 +8,9 @@ public class StudentConsole {
 	Scanner scan = new Scanner(System.in);
 	
 	Student std = (Student)MainConsole.userList.get(MainConsole.user);
+	
+	static ArrayList<String> CV = new ArrayList<String>();
+	static ArrayList<String> Reference = new ArrayList<String>();
 
 	public void run()
 	{
@@ -95,14 +99,60 @@ public class StudentConsole {
 	}
 
 
-	private void chooseJobCategory() {
+	public void chooseJobCategory() {
+
+			for(int i=0;i<MainConsole.jobCategories.size();i++)
+			{
+				
+					System.out.println(MainConsole.jobCategories+ "\n");
+
+			
+			}
+		boolean exists = false;
+		do
+		{
+		System.out.println("Choose desired job category");
+		String jobcat = scan.nextLine();
 		
-		// show then the list from the pre defined List
 		
-		//
-		
-		// TODO Auto-generated method stub
-		
+		try
+		{
+			
+			exists = jobCatego(jobcat);
+		} catch (InvalidInputException e)
+		{
+			
+			e.printStackTrace();
+		}
+		if(!exists)
+			System.out.print("Q to quit or try again");
+		String resp = scan.nextLine();
+		if(resp.equalsIgnoreCase("q"))
+		{
+			exists=true;
+		}	
+		}while(true);
+	}
+
+	public boolean jobCatego(String jobcat) throws InvalidInputException
+	{
+//		jobcat = "cafe";
+		int i;
+		for(i=0;i<MainConsole.jobCategories.size();i++)
+		{
+			if(jobcat.equalsIgnoreCase(MainConsole.jobCategories.get(i)))
+			{
+			MainConsole.jobCategories.add(jobcat);
+				//std.addJobCategory(jobcat);
+				break;	
+			}
+				
+		}
+		if(i==MainConsole.jobCategories.size())
+		{
+			throw new InvalidInputException("Invorrenct blah blah");
+		}
+		return true;
 	}
 
 	private void changePassword() {
@@ -123,8 +173,8 @@ public class StudentConsole {
 		User a1 = new Student ((Student)MainConsole.userList.get(MainConsole.user));
 		
 		MainConsole.userList.put(newUsername, a1);
-		
 		MainConsole.userList.remove(MainConsole.user);
+		
 		
 		//MainConsole.user = newUsername; // If we want to continue from here
 		
@@ -140,34 +190,42 @@ public class StudentConsole {
 		
 		//Student std = (Student)MainConsole.userList.get(MainConsole.user);
 		
-		((Student)MainConsole.userList.get(MainConsole.user)).addComplaint(complaint);
+		std.addComplaint(complaint);
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void uploadCV() {
-		// TODO Auto-generated method stub
 		
+		
+		System.out.println("Please enter previous experience, qualifactions and certifications");
+		String cv = scan.nextLine();
+		std.setLocationCV(cv);
 	}
 
-	private void addReference() {
-		// TODO Auto-generated method stub
-		
+	public void addReference() {
+//		System.out.println("Please enter your reference information");
+//		String reference = scan.nextLine();
+		String reference ="Michael Smith";
+		std.setReferences(reference);
+		System.out.println(reference);
+;		
 	}
 
 	private void updateRecords() {
 		
-		/*
-		 * Student abc= (Student)MainConsole.userList.get(MainConsole.user);
-		 * 
-		 * String employmentRecord = null; abc.setEmploymentRecords(employmentRecord);
-		 */
-		// TODO Auto-generated method stub
+		System.out.println(std.getEmploymentRecords());
+		
+		
+		
+		
+		
 	}
 
 	private void addRecord() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Please enter previous experience, qualifactions and certifications");
+		String cv = scan.nextLine();
+		std.setEmploymentRecords(cv);
 	}
 
 	private void updateStatus() {
@@ -177,7 +235,7 @@ public class StudentConsole {
 
 	}
 
-	private void updateAvailability() {
+	public void updateAvailability() {
 		
 		// check if the student is intntl or not
 		//give options of type of availability
