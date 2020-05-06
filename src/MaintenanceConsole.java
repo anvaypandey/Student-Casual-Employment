@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class MaintenanceConsole {
 
 	boolean depart = false;
-	Scanner scan = new Scanner(System.in);
+	static Scanner scan = new Scanner(System.in);
+	
 
 	public void run() {
 
@@ -64,7 +65,7 @@ public class MaintenanceConsole {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	private void addJobCategory() throws InvalidInputException{
 		// TODO Auto-generated method stub
 		ArrayList<String> JobCategories = MainConsole.jobCategories;
@@ -124,7 +125,7 @@ public class MaintenanceConsole {
 
 	}
 
-	private void blackListUser() throws InvalidInputException, AuthorizationException {
+	public static void blackListUser() throws InvalidInputException, AuthorizationException {
 		
 		accessRecords(4);
 		System.out.println("Enter user ID ");
@@ -140,10 +141,10 @@ public class MaintenanceConsole {
 			throw new AuthorizationException (userID + " is already on the Blacklist" );
 		}
 		else {
-			System.out.println(" are you sure you want to blacklist" + userID + "? 'Y' for yes 'N' for no");
-			char input = scan.nextLine().charAt(0);
+			System.out.println(" are you sure you want to blacklist " + userID + "? 'Y' for yes 'N' for no");
+			 char input = scan.nextLine().charAt(0);
 			
-			if (input == 0) {
+			if (input == 'Y') {
 				MainConsole.userList.get(userID).setBlacklistStatus(BlacklistStatus.FULL);
 				System.out.println( userID + " has been blacklisted");
 			}
@@ -153,7 +154,7 @@ public class MaintenanceConsole {
 
 	}
 
-	private void accessRecords(int i) {
+	private static void accessRecords(int i) {
 		
 		for(Map.Entry<String,User> me : MainConsole.userList.entrySet()) 
 		{
@@ -170,16 +171,19 @@ public class MaintenanceConsole {
 		}
 
 	}
+
+
 	
 	//check if are authorized to move someone to a blacklist 
 	
-	private boolean method(String userId) throws AuthorizationException
+	public boolean method(String userId) throws AuthorizationException
 	{
 		if(MainConsole.userList.get(userId).getBlacklistStatus() == BlacklistStatus.PROVISIONAL)
 			return true;
 		else
 			throw new AuthorizationException("You are not authori...");
 	}
+
 	
 	// check
 
