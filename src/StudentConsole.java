@@ -99,7 +99,7 @@ public class StudentConsole {
 	}
 
 
-	private void chooseJobCategory() {
+	public void chooseJobCategory() {
 
 			for(int i=0;i<MainConsole.jobCategories.size();i++)
 			{
@@ -134,8 +134,9 @@ public class StudentConsole {
 		}while(true);
 	}
 
-	private boolean jobCatego(String jobcat) throws InvalidInputException
+	public boolean jobCatego(String jobcat) throws InvalidInputException
 	{
+		jobcat = "cafe";
 		int i;
 		for(i=0;i<MainConsole.jobCategories.size();i++)
 		{
@@ -171,8 +172,8 @@ public class StudentConsole {
 		User a1 = new Student ((Student)MainConsole.userList.get(MainConsole.user));
 		
 		MainConsole.userList.put(newUsername, a1);
-		
 		MainConsole.userList.remove(MainConsole.user);
+		
 		
 		//MainConsole.user = newUsername; // If we want to continue from here
 		
@@ -201,11 +202,13 @@ public class StudentConsole {
 		std.setLocationCV(cv);
 	}
 
-	private void addReference() {
-		System.out.println("Please enter your reference information");
-		String reference = scan.nextLine();
+	public void addReference() {
+//		System.out.println("Please enter your reference information");
+//		String reference = scan.nextLine();
+		String reference ="Michael Smith";
 		std.setReferences(reference);
-		
+		System.out.println(reference);
+;		
 	}
 
 	private void updateRecords() {
@@ -231,7 +234,7 @@ public class StudentConsole {
 
 	}
 
-	private void updateAvailability() {
+	public void updateAvailability() {
 		
 		// check if the student is intntl or not
 		//give options of type of availability
