@@ -20,30 +20,22 @@ public class TestStudentJobCat {
 		Student std = (Student)MainConsole.userList.get("s123");
 		std.setReferences("Michael Smith");
 		std.getReferences();
-		
+	
+	
 			
 	}
-	@Before
-	public ArrayList<String> getExpected() {
-		return expected;
-	}
-	@Before
-	public void setExpected(String expect) {
-		expect = "Michael Smith";
-		expected.add(expect);
-	}
-	
+
+
 	
 	@Test
 	public void getDetails() {
 		Student std = (Student)MainConsole.userList.get("s123");
-		
-		
+		String expect = "Michael Smith";
 		result = std.getReferences();
 			System.out.println(result);
-			expected = getExpected();
+//			expected = getExpected();
+//			
 			
-			
-		Assert.assertEquals(expected, result);
-	}
-}
+		Assert.assertEquals(expect, result);
+	
+}}
