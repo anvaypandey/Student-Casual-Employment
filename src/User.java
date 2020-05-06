@@ -4,6 +4,7 @@ public abstract class User {
 	private String username;
 	private String password;
 	private String emailAddress;
+	private DateTime blacklistTime;
 	
 	private BlacklistStatus blacklistStatus;
 	
@@ -55,6 +56,11 @@ public abstract class User {
 
 	public void setBlacklistStatus(BlacklistStatus blacklistStatus) {
 		this.blacklistStatus = blacklistStatus;
+		blacklistTime = new DateTime();
+	}
+
+	public DateTime getBlacklistTime() {
+		return blacklistTime;
 	}
 
 	public abstract String getDetails();
