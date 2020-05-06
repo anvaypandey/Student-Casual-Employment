@@ -9,33 +9,30 @@ import org.junit.Test;
 
 
 public class TestStudentJobCat {
-	ArrayList<String> result;
-	ArrayList<String> expected;
-	StudentConsole stnd;
+
+	StudentConsole std;
+	String jobcat;
 	@Before
 	public void setUp() {
-		
-		stnd = new StudentConsole();
-		MainConsole.userList.put("s123", new Student("s123", "password", "s123@gmail.com", Availability.FullTime));
-		Student std = (Student)MainConsole.userList.get("s123");
-		std.setReferences("Michael Smith");
-		std.getReferences();
-	
-	
-			
+		std = new StudentConsole();
+		MainConsole.userList.put("123", new Employer("e123", "password", "s123@gmail.com"));
+		MainConsole.jobCategories.add("cafe");
+		jobcat = "cafe";
 	}
 
 
 	
 	@Test
-	public void getDetails() {
-		Student std = (Student)MainConsole.userList.get("s123");
-		String expect = "Michael Smith";
-		result = std.getReferences();
-			System.out.println(result);
-//			expected = getExpected();
-//			
+	public void testJobCat() throws InvalidInputException
+	{
+		
+		assertEquals(true, std.jobCatego("cafe"));
+	}
+	@Test(expected = InvalidInputException.class)
+	public void testInvalidInputException() throws InvalidInputException, AuthorizationException {
 			
-		Assert.assertEquals(expect, result);
-	
-}}
+		std.jobCatego("clean");
+			
+	}
+
+}

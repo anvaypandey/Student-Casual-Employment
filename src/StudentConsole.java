@@ -136,13 +136,14 @@ public class StudentConsole {
 
 	public boolean jobCatego(String jobcat) throws InvalidInputException
 	{
-		jobcat = "cafe";
+//		jobcat = "cafe";
 		int i;
 		for(i=0;i<MainConsole.jobCategories.size();i++)
 		{
 			if(jobcat.equalsIgnoreCase(MainConsole.jobCategories.get(i)))
 			{
-				std.addJobCategory(jobcat);
+			MainConsole.jobCategories.add(jobcat);
+				//std.addJobCategory(jobcat);
 				break;	
 			}
 				
