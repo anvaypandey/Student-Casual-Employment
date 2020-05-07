@@ -12,16 +12,24 @@ public class LoginTest {
 	
 	@Before
 	public void setUp() {
-		userList.put("s123", new Student("s123", "password", "s123@gmail.com", Availability.FullTime));
+		
+		populateValues();
+	}
+	public void populateValues()
+	{
+		userList.put("admin", new Maintainence("admin","admin","admin@gmail.com"));
+		userList.put("s1", new Student("s1","qwerty", "s1@gmail.com",Availability.PartTime));
+		userList.put("e1",new Employer ("e1","qwerty","e1@gmail.com"));
+		
 		
 	}
 //	
 	//throwing an InvalidCredentials exception
 	@Test (expected = InvalidCredentialsException.class)
 	public void testInvalidCredentialsException() throws InvalidCredentialsException {
-		String tst ="pasord";
+		String tst ="qwer";
 		
-		userList.get("s123").validatePassword(tst);
+		userList.get("s1").validatePassword(tst);
 		
 	}
 	
