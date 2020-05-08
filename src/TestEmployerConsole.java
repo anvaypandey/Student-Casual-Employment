@@ -22,6 +22,8 @@ public class TestEmployerConsole extends EmployerConsole {
 	@Before
 	public void setUp() throws Exception {
 
+		
+
 		MainConsole.userList.put("student1", new Student("student1","123","student1@email.com",Availability.FullTime));
 		MainConsole.userList.put("student2", new Student("student2","123","student2@email.com",Availability.PartTime));
 		//MainConsole.userList.put("student3", new Student("student3","123","student3",Availability.PartTime));
