@@ -12,8 +12,14 @@ public class EmployerConsole {
 		System.out.println(" Welcome Employer " + MainConsole.user);
 		do {
 			managemenu();
+<<<<<<< HEAD
 		} while (!depart);
 
+=======
+		}while(!depart);
+
+		
+>>>>>>> 57428155a278d85fab5fdcddd451973760abe767
 	}
 
 	private void managemenu() throws Exception
