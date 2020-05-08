@@ -180,68 +180,88 @@ public class StudentConsole {
 		
 		depart =true; //to login again
 		
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	private void lodgeComplaint() {
 		
-		String complaint = null;
-		
-		//Student std = (Student)MainConsole.userList.get(MainConsole.user);
-		
+		System.out.println("Please enter complaint");
+		String complaint = scan.nextLine();
 		std.addComplaint(complaint);
-		// TODO Auto-generated method stub
+		System.out.println("Your complaint has been recorded");
 		
 	}
 
 	private void uploadCV() {
 		
+		//UPLOAD CV FILE
 		
-		System.out.println("Please enter previous experience, qualifactions and certifications");
-		String cv = scan.nextLine();
-		std.setLocationCV(cv);
 	}
 
 	public void addReference() {
-//		System.out.println("Please enter your reference information");
-//		String reference = scan.nextLine();
-		String reference ="Michael Smith";
+		System.out.println("Please enter your reference information");
+		String reference = scan.nextLine();
 		std.setReferences(reference);
-		System.out.println(reference);
+		System.out.println("Reference added!");
 ;		
 	}
 
 	private void updateRecords() {
 		
 		System.out.println(std.getEmploymentRecords());
-		
-		
-		
-		
-		
+	
 	}
 
 	private void addRecord() {
+		
 		System.out.println("Please enter previous experience, qualifactions and certifications");
 		String cv = scan.nextLine();
-		std.setEmploymentRecords(cv);
+		std.setLocationCV(cv);
+		System.out.println("CV added!");
 	}
 
 	private void updateStatus() {
 		
-		//update the lastUpdateDate
-		// TODO Auto-generated method stub
-
+		System.out.println("Please enter desired status update Available(A)/Pending(P)/Unknown(U)/Employed(E)");
+		String response = scan.nextLine();
+		if(response == "A")
+		{
+			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Available);
+			System.out.println("Status successfully updated");
+		}
+		else if(response == "P")
+		{
+			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Pending);
+			System.out.println("Status successfully updated");
+		}
+		else if(response == "U")
+		{
+			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Unknown);
+			System.out.println("Status successfully updated");
+		}
+		else if(response == "E")
+		{
+			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Employed);
+			System.out.println("Status successfully updated");
+		}
 	}
 
 	public void updateAvailability() {
 		
-		// check if the student is intntl or not
-		//give options of type of availability
-		Availability availability = Availability.PartTime;
-		((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability);
-		// TODO Auto-generated method stub
+		
+		if(((Student)MainConsole.userList.get(MainConsole.user)).getAvailability()==Availability.PartTime)
+		{
+			Availability availability = Availability.FullTime;
+			((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability);
+		}
+		else if((((Student)MainConsole.userList.get(MainConsole.user)).getAvailability()==Availability.FullTime))
+		{
+		Availability availability2 = Availability.PartTime;
+		((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability2);
+		}
+		else
+			System.out.println("Process could not be completed");
 
 	}
 
