@@ -7,58 +7,54 @@ public class EmployerConsole {
 	boolean depart = false;
 	Scanner scan = new Scanner(System.in);
 
-	public void run() throws Exception {
+	public void run() {
 
 		System.out.println(" Welcome Employer " + MainConsole.user);
 		do {
 			managemenu();
-<<<<<<< HEAD
 		} while (!depart);
-
-=======
-		}while(!depart);
-
-		
->>>>>>> 57428155a278d85fab5fdcddd451973760abe767
 	}
 
-	private void managemenu() throws Exception
+	private void managemenu()
 	{
-		String menu ="1. Create a new Job Listing\n "
-				+"2. Search candidates based on Availability\n"
-				+"3. Search candidates based on Availability\n"
-				+"4. Change Password\n"
-				+"5. Change Username\n"
-				+ "Enter your choice: ";
-		System.out.println(menu);
+		try {
+			String menu ="1. Create a new Job Listing\n "
+					+"2. Search candidates based on Availability\n"
+					+"3. Search candidates based on Availability\n"
+					+"4. Change Password\n"
+					+"5. Change Username\n"
+					+ "Enter your choice: ";
+			System.out.println(menu);
 
-		System.out.println(menu);
+				int userChoice = Integer.parseInt(scan.nextLine());
 
-			int userChoice = Integer.parseInt(scan.nextLine());
-
-			switch(userChoice)
-			{
-			case 1: 
-				addNewJob(); 
-				break;
-			case 2:
-				userEntry();
-				break;
-			case 3:
-				jobPrefEntry();
-				break;
-			case 4:
-				changePassword();
-				break;
-			case 5:
-				changeUsername();
-				break;
-			case 6:
-				System.out.println("You have successfully logged out!\n");
-				return;
-			default:
-				System.out.println("Invalid Choice. Please try again");
-			}	
+				switch(userChoice)
+				{
+				case 1: 
+					addNewJob(); 
+					break;
+				case 2:
+					userEntry();
+					break;
+				case 3:
+					jobPrefEntry();
+					break;
+				case 4:
+					changePassword();
+					break;
+				case 5:
+					changeUsername();
+					break;
+				case 6:
+					System.out.println("You have successfully logged out!\n");
+					return;
+				default:
+					System.out.println("Invalid Choice. Please try again");
+				}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 
 		
 	}
@@ -115,7 +111,12 @@ public class EmployerConsole {
 							+"Enter your choice: ");
 		
 		String prefChoice= scan.nextLine();
-		searchApplicantsbyJobPreference(prefChoice);
+		try {
+			searchApplicantsbyJobPreference(prefChoice);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 
