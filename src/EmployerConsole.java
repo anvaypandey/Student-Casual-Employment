@@ -1,66 +1,181 @@
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class EmployerConsole {
-	
+
 	boolean depart = false;
-	Scanner  scan = new Scanner(System.in);
+	Scanner scan = new Scanner(System.in);
 
 	public void run() {
 
-		System.out.println(" Welcome Employer "+ MainConsole.user);
-		do
-		{
+		System.out.println(" Welcome Employer " + MainConsole.user);
+		do {
 			managemenu();
-		}while(!depart);
-		
+		} while (!depart);
 	}
 
 	private void managemenu()
 	{
-		String menu ="1. Create a new Job Listing\n "
-				+"2. Search candidates based on Availability\n"
-				+ "Enter your choice: ";
-		System.out.println(menu);
-		// TODO Auto-generated method stub
+		try {
+			String menu ="1. Create a new Job Listing\n "
+					+"2. Search candidates based on Availability\n"
+					+"3. Search candidates based on Availability\n"
+					+"4. Change Password\n"
+					+"5. Change Username\n"
+					+ "Enter your choice: ";
+			System.out.println(menu);
+
+				int userChoice = Integer.parseInt(scan.nextLine());
+
+				switch(userChoice)
+				{
+				case 1: 
+					addNewJob(); 
+					break;
+				case 2:
+					userEntry();
+					break;
+				case 3:
+					jobPrefEntry();
+					break;
+				case 4:
+					changePassword();
+					break;
+				case 5:
+					changeUsername();
+					break;
+				case 6:
+					System.out.println("You have successfully logged out!\n");
+					return;
+				default:
+					System.out.println("Invalid Choice. Please try again");
+				}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+
 		
 	}
-	
+
 	private void changePassword() {
-		
+
 		System.out.println("New Password");
-		
+
 		String newPassword = scan.nextLine();
-		
+
 		MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void changeUsername() {
 
 		System.out.println(" Enter the new Username");
 		String newUsername = scan.nextLine();
-		
-		User a1 = new Employer((Employer)MainConsole.userList.get(MainConsole.user));
-		
+
+		User a1 = new Employer((Employer) MainConsole.userList.get(MainConsole.user));
+
 		MainConsole.userList.put(newUsername, a1);
-		
+
 		MainConsole.userList.remove(MainConsole.user);
-		
-		//MainConsole.user = newUsername; // If we want to continue from here
-		
-		depart =true; //to login again
-		
+
+		// MainConsole.user = newUsername; // If we want to continue from here
+
+		depart = true; // to login again
+
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	private void searchApplicants() 
+	private void userEntry() {
+		System.out.println("Enter 1 for Fulltime\n" + "Enter 2 for Part time\n" + "Enter 3 for Internship\n"
+				+ "Enter your choice: ");
+
+		int userChoice = Integer.parseInt(scan.nextLine());
+		if (userChoice >= 1 && userChoice <= 3)
+			try {
+				searchApplicantsbyAvailability(userChoice);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		else
+		// throw invalid input
+			System.out.println("Invalid input.");
+	}
+
+	private void jobPrefEntry() throws Exception
 	{
-
-
-		// TODO Auto-generated method stub
+		System.out.println("Enter Job Preference\n"
+							+"Enter your choice: ");
 		
+		String prefChoice= scan.nextLine();
+		try {
+			searchApplicantsbyJobPreference(prefChoice);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+	public boolean searchApplicantsbyAvailability(int i) throws Exception
+	{
+		boolean exists = false;
+		for(Map.Entry<String,User> me : MainConsole.userList.entrySet()) 
+		{
+			if(me.getValue() instanceof Student)
+			{
+				if (i==1 && ((Student) me.getValue()).getAvailability() == Availability.FullTime)
+				{
+					me.getValue().getDetails();
+					exists = true;
+				}
+					
+				else if (i==2 && ((Student) me.getValue()).getAvailability() == Availability.PartTime)
+				{
+					me.getValue().getDetails();
+					exists = true;
+				}
+					
+				else if (i==3 && ((Student) me.getValue()).getAvailability() == Availability.Internship)
+				{
+					me.getValue().getDetails();
+					exists = true;
+				}
+			}
+		}
+		if(!exists)
+		throw new Exception("No student exists in this search criteria");
+
+		return exists;
+	}
+
+	public boolean searchApplicantsbyJobPreference(String str) throws Exception
+	{
+		boolean exists = false;
+		for(Map.Entry<String,User> me : MainConsole.userList.entrySet()) 
+		{
+			if(me.getValue() instanceof Student)
+			{
+				ArrayList<String> jobCat = new ArrayList<String>();
+				jobCat = ((Student) me.getValue()).getJobCategories();
+				
+
+				for(int i=0;i<jobCat.size();i++)
+
+					if (jobCat.get(i).equalsIgnoreCase(str))
+					{
+						me.getValue().getDetails();
+						exists = true;
+					}	
+			}
+		}
+		if (!exists)
+		throw new Exception("No student exists in this search criteria");
+
+		return exists;
 	}
 
 	private void shortlistApplicants() 
@@ -101,7 +216,11 @@ public class EmployerConsole {
 
 	private void addNewJob()
 	{
+		String id = createJobId();
+		String desc = "Sample";
 
+		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+		MainConsole.jobListings.add(job);
 	}
 
 	private int jobInput()
@@ -136,6 +255,19 @@ public class EmployerConsole {
 
 		return validJobId(jobId);
 
+	}
+
+	private String createJobId()
+	{
+		int typeID = 0;
+		int count = 0;
+		int i;
+		for (i=0;i<MainConsole.jobListings.size();i++) {
+			count++;
+		}
+		typeID = count + 1;
+		String jobID = "JOB" + String.format("%03d", typeID);
+		return jobID;
 	}
 
 	private int validJobId(String jobListing)

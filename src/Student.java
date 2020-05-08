@@ -16,8 +16,7 @@ public class Student extends User{
 	
 	ArrayList<String> complaints;
 	
-//	ArrayList<String> jobCategories = new ArrayList<String>();
-//NECESSARY?	
+	ArrayList<String> jobCategories = new ArrayList<String>();
 	
 
 	protected Student(String username, String password, String email, Availability availability) {
@@ -55,7 +54,6 @@ public class Student extends User{
 		this.availability = availability;
 	}
 	
-
 	public Date getLastStatusUpdateDate() {
 		return lastStatusUpdateDate;
 	}
@@ -88,13 +86,13 @@ public class Student extends User{
 		this.locationCV = locationCV;
 	}
 	
-//	public ArrayList<String> getJobCategories() {
-//		return jobCategories;
-//	}
-//
-//	public void addJobCategory(String jobCategory) {
-//		this.jobCategories.add(jobCategory);
-//	}
+	public ArrayList<String> getJobCategories() {
+		return jobCategories;
+	}
+
+	public void addJobCategory(String jobCategory) {
+		this.jobCategories.add(jobCategory);
+	}
 
 	public ArrayList<String> getComplaints() {
 		return complaints;

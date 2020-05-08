@@ -13,6 +13,7 @@ public class Job {
 		this.jobDescription = jobDescription;
 		shortlist = new ArrayList<>();
 	}
+	
 
 
 	public String getJobId() {
@@ -27,8 +28,19 @@ public class Job {
 		return shortlist;
 	}
 
-	public void setShortlist(ArrayList<Student> shortlist) {
-		this.shortlist = shortlist;
+	public boolean addtoShortlist(Student student) throws Exception {
+		int i;
+		for(i = 0;i<shortlist.size();i++)
+		{
+			if(shortlist.get(i) == student)
+			break;
+		}
+		if(i<shortlist.size())
+			throw new Exception("Already Exists");
+		else
+			shortlist.add(student);
+		
+		return true;
 	}
 
 	public Employer getJobCreator() {

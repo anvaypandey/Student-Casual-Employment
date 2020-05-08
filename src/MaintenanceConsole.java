@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class MaintenanceConsole {
 
 	boolean depart = false;
-	static Scanner scan = new Scanner(System.in);
 	
 
 	public void run() {
@@ -20,7 +19,7 @@ public class MaintenanceConsole {
 	}
 
 	private void manageMenu() {
-
+		Scanner scan = new Scanner(System.in);
 		try
 		{
 			String menu = "1. Access Student Records\n"
@@ -69,7 +68,8 @@ public class MaintenanceConsole {
 	private void addJobCategory() throws InvalidInputException{
 		// TODO Auto-generated method stub
 		ArrayList<String> JobCategories = MainConsole.jobCategories;
-		
+		Scanner scan = new Scanner(System.in);
+
 		System.out.println("Enter job category");
 		String input = scan.nextLine();
 		
@@ -92,8 +92,8 @@ public class MaintenanceConsole {
 
 	}
 
-	private void removeFromBlacklist() throws InvalidInputException, AuthorizationException {
-		
+	public void removeFromBlacklist() throws InvalidInputException, AuthorizationException {
+		Scanner scan = new Scanner(System.in);
 		accessRecords(3);
 		System.out.println("Enter user ID");
 		String input = scan.nextLine();
@@ -105,7 +105,7 @@ public class MaintenanceConsole {
 		
 			if ( MainConsole.userList.get(input).getBlacklistStatus() == BlacklistStatus.PROVISIONAL) {
 				MainConsole.userList.get(input).setBlacklistStatus(BlacklistStatus.NONE);
-				System.out.println(input + " has been removed from Blacklist");
+				System.out.println(input + " has been removed from  provisional Blacklist");
 			}
 			else if (MainConsole.userList.get(input).getBlacklistStatus() == BlacklistStatus.FULL) {
 				DateTime d2 = new DateTime();
@@ -125,8 +125,8 @@ public class MaintenanceConsole {
 
 	}
 
-	public static void blackListUser() throws InvalidInputException, AuthorizationException {
-		
+	public void blackListUser() throws InvalidInputException, AuthorizationException {
+		Scanner scan = new Scanner(System.in);
 		accessRecords(4);
 		System.out.println("Enter user ID ");
 		String userID = scan.nextLine();
