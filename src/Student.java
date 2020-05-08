@@ -55,7 +55,6 @@ public class Student extends User{
 		this.availability = availability;
 	}
 	
-
 	public Date getLastStatusUpdateDate() {
 		return lastStatusUpdateDate;
 	}
