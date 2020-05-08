@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class MainConsole {
 	
 	static HashMap<String, User> userList = new HashMap<>();
+	
 	static BlacklistStatus userBlacklistStatus;
 	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
@@ -199,6 +200,7 @@ public class MainConsole {
 			}
 			
 		}while(!flag);
+		
 		
 	}
 	

@@ -16,7 +16,7 @@ public class Student extends User{
 	
 	ArrayList<String> complaints;
 	
-	ArrayList<String> jobCategories = new ArrayList<String>();
+//	ArrayList<String> jobCategories = new ArrayList<String>();
 	
 	
 
@@ -42,7 +42,7 @@ public class Student extends User{
 		references.addAll(that.getReferences());
 		employmentRecords.addAll(that.getEmploymentRecords());
 		complaints.addAll(that.getComplaints());
-		jobCategories.addAll(that.getJobCategories());
+		//jobCategories.addAll(that.getJobCategories());
 		setBlacklistStatus(that.getBlacklistStatus());
 		// TODO Auto-generated constructor stub
 	}
@@ -87,13 +87,13 @@ public class Student extends User{
 		this.locationCV = locationCV;
 	}
 	
-	public ArrayList<String> getJobCategories() {
-		return jobCategories;
-	}
-
-	public void addJobCategory(String jobCategory) {
-		this.jobCategories.add(jobCategory);
-	}
+//	public ArrayList<String> getJobCategories() {
+//		return jobCategories;
+//	}
+//
+//	public void addJobCategory(String jobCategory) {
+//		this.jobCategories.add(jobCategory);
+//	}
 
 	public ArrayList<String> getComplaints() {
 		return complaints;
