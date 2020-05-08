@@ -12,6 +12,7 @@ public class EmployerConsole {
 		{
 			managemenu();
 		}while(!depart);
+
 		
 	}
 
