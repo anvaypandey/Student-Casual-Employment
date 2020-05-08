@@ -13,6 +13,7 @@ public class Job {
 		this.jobDescription = jobDescription;
 		shortlist = new ArrayList<>();
 	}
+	
 
 
 	public String getJobId() {

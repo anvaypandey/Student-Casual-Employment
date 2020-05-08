@@ -17,7 +17,7 @@ public class Student extends User{
 	ArrayList<String> complaints;
 	
 //	ArrayList<String> jobCategories = new ArrayList<String>();
-	
+//NECESSARY?	
 	
 
 	protected Student(String username, String password, String email, Availability availability) {
