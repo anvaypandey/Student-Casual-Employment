@@ -1,22 +1,23 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class Student extends User{
 	
-	Availability availability;
-	ApplicantStatus status;
+	private Availability availability;
+	private ApplicantStatus status;
 	
-	Date lastStatusUpdateDate;
+	private DateTime lastStatusUpdateDate;
 	
-	ArrayList<String> references;
+	private ArrayList<String> references;
 	
-	ArrayList<String> employmentRecords;
+	private ArrayList<String> employmentRecords;
 	
-	String locationCV;
+	private String locationCV;
 	
-	ArrayList<String> complaints;
+	private ArrayList<String> complaints;
 	
-	ArrayList<String> jobCategories = new ArrayList<String>();
+	private ArrayList<String> jobCategories;
 	
 
 	protected Student(String username, String password, String email, Availability availability) {
@@ -27,6 +28,7 @@ public class Student extends User{
 		references = new ArrayList<String>();
 		employmentRecords = new ArrayList<String>();
 		complaints = new ArrayList<String>();
+		jobCategories = new ArrayList<String>();
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -37,13 +39,26 @@ public class Student extends User{
 		status = that.getStatus();
 		this.availability = that.getAvailability();
 
-		//collections will throw null pointer exception
-		references.addAll(that.getReferences());
-		employmentRecords.addAll(that.getEmploymentRecords());
-		complaints.addAll(that.getComplaints());
-		//jobCategories.addAll(that.getJobCategories());
+		if(that.getReferences().iterator().hasNext())
+			Collections.copy(references,that.getReferences());
+		else
+			references = new ArrayList<>();
+
+		if(that.getComplaints().iterator().hasNext())
+			Collections.copy(complaints,that.getComplaints());
+		else
+			complaints = new ArrayList<>();
+
+		if(that.getEmploymentRecords().iterator().hasNext())
+			Collections.copy(employmentRecords,that.getEmploymentRecords());
+		else
+			employmentRecords = new ArrayList<>();
+
+		if(that.getJobCategories().iterator().hasNext())
+			Collections.copy(jobCategories,that.getJobCategories());
+		else
+			jobCategories = new ArrayList<>();
 		setBlacklistStatus(that.getBlacklistStatus());
-		// TODO Auto-generated constructor stub
 	}
 
 	public Availability getAvailability() {
@@ -53,12 +68,12 @@ public class Student extends User{
 	public void setAvailability(Availability availability) {
 		this.availability = availability;
 	}
-	
-	public Date getLastStatusUpdateDate() {
+	//need to look into this date time
+	public DateTime getLastStatusUpdateDate() {
 		return lastStatusUpdateDate;
 	}
 
-	public void setLastStatusUpdateDate(Date lastStatusUpdateDate) {
+	public void setLastStatusUpdateDate(DateTime lastStatusUpdateDate) {
 		this.lastStatusUpdateDate = lastStatusUpdateDate;
 	}
 

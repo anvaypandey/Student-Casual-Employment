@@ -155,15 +155,18 @@ public class StudentConsole {
 		return true;
 	}
 
-	private void changePassword() {
+	private void changePassword()  {
 		
 		System.out.println("New Password");
 		
 		String newPassword = scan.nextLine();
-		
-		MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
-		// TODO Auto-generated method stub
-		
+
+		try {
+			MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void changeUsername() {
