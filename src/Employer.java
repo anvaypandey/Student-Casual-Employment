@@ -1,14 +1,18 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 public class Employer extends User {
 	
-	String phNo;
-	ArrayList<String> complaints;
+	private String phNo;
+	private ArrayList<String> complaints;
+	//private ArrayList<Job> jobsCreated;
 	
 	
 	public Employer(String username, String password, String email) {
 		super(username, password,email);
 		complaints = new ArrayList<String>();
+		//jobsCreated = new ArrayList<>();
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -17,9 +21,14 @@ public class Employer extends User {
 	{
 		super(that.getUsername(),that.getPassword(),that.getEmailAddress());
 		setBlacklistStatus(that.getBlacklistStatus());
-		complaints.addAll(that.getComplaints());//will throw null pointer exception
-		
-		
+		if(that.getComplaints().iterator().hasNext())
+			Collections.copy(complaints,that.getComplaints());
+		else
+			complaints = new ArrayList<>();
+		/*if(that.getJobsCreated().iterator().hasNext())
+			Collections.copy(jobsCreated,that.getJobsCreated());
+		else
+			jobsCreated = new ArrayList<>();*/
 	}
 
 	public ArrayList<String> getComplaints() {
@@ -32,6 +41,14 @@ public class Employer extends User {
 			setBlacklistStatus(BlacklistStatus.PROVISIONAL);
 	}
 
+	/*public ArrayList<Job> getJobsCreated() {
+		return jobsCreated;
+	}
+
+	public void setJobsCreated(ArrayList<Job> jobsCreated) {
+		this.jobsCreated = jobsCreated;
+	}
+*/
 	@Override
 	public String getDetails() {
 		// TODO Auto-generated method stub

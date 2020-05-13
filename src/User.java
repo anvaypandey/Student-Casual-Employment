@@ -24,8 +24,12 @@ public abstract class User {
 		this.username = username;
 	}
 
-	public void setPassword(String password) {
+	public boolean setPassword(String password) throws InvalidInputException{
+
+		if(password.equalsIgnoreCase(this.password))
+			throw new InvalidInputException("Your new password cannot be same as the new password");
 		this.password = password;
+		return true;
 	}
 	
 	public String getPassword()
