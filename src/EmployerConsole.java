@@ -272,7 +272,7 @@ public class EmployerConsole {
 		
 	}
 
-	private void addNewJob()
+	public void addNewJob(Job job)
 	{
 		String id ="JOB";
 		String index = String.valueOf(MainConsole.jobListings.size());
@@ -282,7 +282,7 @@ public class EmployerConsole {
 		id += index;
 		String desc = "Sample";
 
-		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+		job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
 		MainConsole.jobListings.add(job);
 	}
 
