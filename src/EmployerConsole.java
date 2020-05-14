@@ -241,12 +241,6 @@ public class EmployerConsole {
 		}*/
 		System.out.println("Enter the username of the student you want to shortlist");
 
-
-
-
-
-
-		
 	}
 
 	private void rankCandidates()

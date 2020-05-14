@@ -42,10 +42,7 @@ public class MainConsole {
 				maintainConsole.run();
 			}
 		}
-		
-		//if student show student menu, 
-		
-		//student 
+
 		
 	}
 	
