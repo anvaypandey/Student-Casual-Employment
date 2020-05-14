@@ -107,7 +107,7 @@ public class EmployerConsole {
 
 	}
 
-	private void changePassword() {
+	public void changePassword() {
 
 		System.out.println("New Password");
 
@@ -266,7 +266,7 @@ public class EmployerConsole {
 		
 	}
 
-	private void addNewJob()
+	public void addNewJob(Job job)
 	{
 		String id ="JOB";
 		String index = String.valueOf(MainConsole.jobListings.size());
@@ -276,11 +276,11 @@ public class EmployerConsole {
 		id += index;
 		String desc = "Sample";
 
-		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+		job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
 		MainConsole.jobListings.add(job);
 	}
 
-	private int jobInput()
+	/*private int jobInput()
 	{
 		String jobId =null;
 		String input = null;
@@ -312,7 +312,7 @@ public class EmployerConsole {
 
 		return validJobId(jobId);
 
-	}
+	}*/
 
 	/*private String createJobId()
 	{
@@ -327,7 +327,7 @@ public class EmployerConsole {
 		return jobID;
 	}*/
 
-	private int validJobId(String jobListing)
+	/*private int validJobId(String jobListing)
 	{
 		int i;
 		for(i=0;i<MainConsole.jobListings.size();i++)
@@ -339,9 +339,9 @@ public class EmployerConsole {
 			return i;
 		else
 			return -1;
-	}
+	}*/
 
-	private boolean showTheirJobListings()
+	/*private boolean showTheirJobListings()
 	{
 		boolean exists = false;
 		for(int i=0;i<MainConsole.jobListings.size();i++)
@@ -358,6 +358,6 @@ public class EmployerConsole {
 			System.out.println("You have zero Job Listings");
 
 		return exists;
-	}
+	}*/
 
 }

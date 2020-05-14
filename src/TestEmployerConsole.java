@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,6 +38,10 @@ public class TestEmployerConsole extends EmployerConsole {
 		
 		((Student)MainConsole.userList.get("student1")).addJobCategory("Engineering");
 		((Student)MainConsole.userList.get("student2")).addJobCategory("Accounting");
+
+		MainConsole.userList.put("emp123", new Employer("emp123","123","student1@email.com"));
+
+		
 	}
 
 	@After
@@ -61,5 +67,23 @@ public class TestEmployerConsole extends EmployerConsole {
 	public void testSearchApplicantsbyJobPreference1() throws Exception{
 		assertTrue(searchApplicantsbyJobPreference("Engineering"));
 	}
+
+	@Test
+	public void testAddNewJob() {
+		Job job1 = new Job("JOB001", ((Employer) MainConsole.userList.get("emp123")), "Sample Job1");
+		Job job2 = new Job("JOB002", ((Employer) MainConsole.userList.get("emp123")), "Sample Job2");
+		Job job3 = new Job("JOB003", ((Employer) MainConsole.userList.get("emp123")), "Sample Job3");
+
+		MainConsole.jobListings.add(job1);
+		MainConsole.jobListings.add(job2);
+		MainConsole.jobListings.add(job3);
+
+		Job job = new Job("JOB000", ((Employer) MainConsole.userList.get("emp123")), "Sample Job");
+		addNewJob(job);
+		
+		assertEquals(4, MainConsole.jobListings.size());
+	}
+
+
 
 }
