@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 public class Student extends User{
 	
@@ -9,15 +8,15 @@ public class Student extends User{
 	
 	private DateTime lastStatusUpdateDate;
 	
-	private ArrayList<String> references;
+	private ArrayList<Reference> references;
 	
-	private ArrayList<String> employmentRecords;
+	private ArrayList<EmploymentRecord> employmentRecords;
 	
 	private String locationCV;
 	
-	private ArrayList<String> complaints;
+	private ArrayList<Complaint> complaints;
 	
-	private ArrayList<String> jobCategories;
+	private ArrayList<JobCategory> jobCategories;
 	
 
 	protected Student(String username, String password, String email, Availability availability) {
@@ -25,10 +24,10 @@ public class Student extends User{
 		
 		status = ApplicantStatus.Unknown;
 		this.availability = availability;
-		references = new ArrayList<String>();
-		employmentRecords = new ArrayList<String>();
-		complaints = new ArrayList<String>();
-		jobCategories = new ArrayList<String>();
+		references = new ArrayList<Reference>();
+		employmentRecords = new ArrayList<EmploymentRecord>();
+		complaints = new ArrayList<Complaint>();
+		jobCategories = new ArrayList<JobCategory>();
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -77,19 +76,19 @@ public class Student extends User{
 		this.lastStatusUpdateDate = lastStatusUpdateDate;
 	}
 
-	public ArrayList<String> getReferences() {
+	public ArrayList<Reference> getReferences() {
 		return references;
 	}
 
-	public void setReferences(String reference) {
+	public void setReferences(Reference reference) {
 		references.add(reference);
 	}
 
-	public ArrayList<String> getEmploymentRecords() {
+	public ArrayList<EmploymentRecord> getEmploymentRecords() {
 		return employmentRecords;
 	}
 
-	public void setEmploymentRecords(String employmentRecord) {
+	public void setEmploymentRecords(EmploymentRecord employmentRecord) {
 		employmentRecords.add(employmentRecord);
 	}
 
@@ -101,21 +100,22 @@ public class Student extends User{
 		this.locationCV = locationCV;
 	}
 	
-	public ArrayList<String> getJobCategories() {
+	public ArrayList<JobCategory> getJobCategories() {
 		return jobCategories;
 	}
 
-	public void addJobCategory(String jobCategory) {
+	public void addJobCategory(JobCategory jobCategory) {
 		this.jobCategories.add(jobCategory);
 	}
 
-	public ArrayList<String> getComplaints() {
+	public ArrayList<Complaint> getComplaints() {
 		return complaints;
 	}
 
-	public void addComplaint(String complaint) {
+	public void addComplaint(Complaint complaint) {
 		this.complaints.add(complaint);
-		//if complaints are 3 then blacklisted
+		if(complaints.size()==3)
+			setBlacklistStatus(BlacklistStatus.PROVISIONAL);
 	}
 
 	public ApplicantStatus getStatus() {

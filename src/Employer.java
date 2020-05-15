@@ -5,13 +5,13 @@ import java.util.Iterator;
 public class Employer extends User {
 	
 	private String phNo;
-	private ArrayList<String> complaints;
+	private ArrayList<Complaint> complaints;
 	//private ArrayList<Job> jobsCreated;
 	
 	
 	public Employer(String username, String password, String email) {
 		super(username, password,email);
-		complaints = new ArrayList<String>();
+		complaints = new ArrayList<Complaint>();
 		//jobsCreated = new ArrayList<>();
 		
 		// TODO Auto-generated constructor stub
@@ -31,11 +31,11 @@ public class Employer extends User {
 			jobsCreated = new ArrayList<>();*/
 	}
 
-	public ArrayList<String> getComplaints() {
+	public ArrayList<Complaint> getComplaints() {
 		return complaints;
 	}
 
-	public void addComplaint(String complaint) {
+	public void addComplaint(Complaint complaint) {
 		this.complaints.add(complaint);
 		if(complaints.size()==3)
 			setBlacklistStatus(BlacklistStatus.PROVISIONAL);
