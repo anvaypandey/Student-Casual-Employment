@@ -8,9 +8,8 @@ public class StudentConsole {
 	Scanner scan = new Scanner(System.in);
 	
 	Student std = (Student)MainConsole.userList.get(MainConsole.user);
-	
-	static ArrayList<String> CV = new ArrayList<String>();
-	static ArrayList<String> Reference = new ArrayList<String>();
+
+
 
 	public void run()
 	{
@@ -188,13 +187,43 @@ public class StudentConsole {
 	}
 
 	private void lodgeComplaint() {
-		
-		System.out.println("Please enter complaint");
+
+		System.out.println("Enter the username of the User you want to complain about");
+
+		String complaintUser = scan.nextLine();
+
+		System.out.println("Enter your complaint");
+
 		String complaint = scan.nextLine();
-		std.addComplaint(complaint);
-		System.out.println("Your complaint has been recorded");
-		
+
+		try {
+			if(MainConsole.userList.containsKey(complaintUser))
+			{
+				Complaint complaint1 = new Complaint(MainConsole.userList.get(MainConsole.user),complaint);
+				if(MainConsole.userList.get(complaintUser) instanceof Student)
+					((Student) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
+				else if(MainConsole.userList.get(complaintUser) instanceof Employer)
+					((Employer) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
+				else
+					throw new AuthorizationException("You are not authorised to complain against the Maintenance");
+			}
+			else
+				throw new InvalidInputException("Such user does not exist");
+
+		}
+		catch (AuthorizationException e) {
+			e.printStackTrace();
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+		}
+
+
 	}
+
+
+
+		
+
 
 	private void uploadCV() {
 		
@@ -203,12 +232,23 @@ public class StudentConsole {
 	}
 
 	public void addReference() {
-		System.out.println("Please enter your reference information");
-		String reference = scan.nextLine();
-		std.setReferences(reference);
-		System.out.println("Reference added!");
-;		
-	}
+		System.out.println("Enter the name of your reference");
+
+		String nameRef = scan.nextLine();
+
+		System.out.println("Enter the email of your reference");
+
+		String emailRef = scan.nextLine();
+		System.out.println("Enter the phone of your reference");
+
+		String phoneRef = scan.nextLine();
+
+
+				Reference ref1 = new Reference(nameRef,emailRef, phoneRef);
+				std.setReferences(ref1);
+
+		}
+
 
 	private void updateRecords() {
 		
