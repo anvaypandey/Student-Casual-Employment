@@ -14,7 +14,7 @@ public class MaintenanceConsole {
 			manageMenu();
 		}while(!depart);
 
-		return;// TODO Auto-generated method stub
+		return;
 
 	}
 
@@ -38,11 +38,15 @@ public class MaintenanceConsole {
 			switch(userChoice)
 			{
 			case 1:
-				case 2:
-				case 3:
-					accessRecords(userChoice); 
+				accessRecords(1);
 				break;
-				case 4:
+			case 2:
+				accessRecords(2);
+				break;
+			case 3:
+				accessRecords(3); 
+				break;
+			case 4:
 				blackListUser();
 				break;
 			case 5:
@@ -53,20 +57,21 @@ public class MaintenanceConsole {
 				break;
 			case 7:
 				break;
+			case 8:
+				break;
 			}
 
-			//switch case
 		}
 		catch( Exception e)
 		{
 			System.err.println(e.getMessage());
 		}
-		// TODO Auto-generated method stub
+	
 
 	}
 	
 	private void addJobCategory() throws InvalidInputException{
-		// TODO Auto-generated method stub
+	
 		ArrayList<String> JobCategories = MainConsole.jobCategories;
 		Scanner scan = new Scanner(System.in);
 
@@ -95,9 +100,12 @@ public class MaintenanceConsole {
 	public void removeFromBlacklist() throws InvalidInputException, AuthorizationException {
 		Scanner scan = new Scanner(System.in);
 		accessRecords(3);
-		System.out.println("Enter user ID");
+		System.out.println("Enter user ID or 'Y' to exit");
 		String input = scan.nextLine();
 		
+		if(input.compareToIgnoreCase("Y") == 0 ) {
+			return;
+		}
 		if( !MainConsole.userList.containsKey(input)) {
 			throw new InvalidInputException (input + " does not exist");
 		}
@@ -173,18 +181,5 @@ public class MaintenanceConsole {
 	}
 
 
-	
-	//check if are authorized to move someone to a blacklist 
-	
-	public boolean method(String userId) throws AuthorizationException
-	{
-		if(MainConsole.userList.get(userId).getBlacklistStatus() == BlacklistStatus.PROVISIONAL)
-			return true;
-		else
-			throw new AuthorizationException("You are not authori...");
-	}
-
-	
-	// check
 
 }
