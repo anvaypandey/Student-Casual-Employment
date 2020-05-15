@@ -1,22 +1,22 @@
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 
 public class Student extends User{
 	
-	Availability availability;
-	ApplicantStatus status;
+	private Availability availability;
+	private ApplicantStatus status;
 	
-	Date lastStatusUpdateDate;
+	private DateTime lastStatusUpdateDate;
 	
-	ArrayList<String> references;
+	private ArrayList<Reference> references;
 	
-	ArrayList<String> employmentRecords;
+	private ArrayList<EmploymentRecord> employmentRecords;
 	
-	String locationCV;
+	private String locationCV;
 	
-	ArrayList<String> complaints;
+	private ArrayList<Complaint> complaints;
 	
-	ArrayList<String> jobCategories = new ArrayList<String>();
+	private ArrayList<JobCategory> jobCategories;
 	
 
 	protected Student(String username, String password, String email, Availability availability) {
@@ -24,9 +24,10 @@ public class Student extends User{
 		
 		status = ApplicantStatus.Unknown;
 		this.availability = availability;
-		references = new ArrayList<String>();
-		employmentRecords = new ArrayList<String>();
-		complaints = new ArrayList<String>();
+		references = new ArrayList<Reference>();
+		employmentRecords = new ArrayList<EmploymentRecord>();
+		complaints = new ArrayList<Complaint>();
+		jobCategories = new ArrayList<JobCategory>();
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -37,13 +38,26 @@ public class Student extends User{
 		status = that.getStatus();
 		this.availability = that.getAvailability();
 
-		//collections will throw null pointer exception
-		references.addAll(that.getReferences());
-		employmentRecords.addAll(that.getEmploymentRecords());
-		complaints.addAll(that.getComplaints());
-		//jobCategories.addAll(that.getJobCategories());
+		if(that.getReferences().iterator().hasNext())
+			Collections.copy(references,that.getReferences());
+		else
+			references = new ArrayList<>();
+
+		if(that.getComplaints().iterator().hasNext())
+			Collections.copy(complaints,that.getComplaints());
+		else
+			complaints = new ArrayList<>();
+
+		if(that.getEmploymentRecords().iterator().hasNext())
+			Collections.copy(employmentRecords,that.getEmploymentRecords());
+		else
+			employmentRecords = new ArrayList<>();
+
+		if(that.getJobCategories().iterator().hasNext())
+			Collections.copy(jobCategories,that.getJobCategories());
+		else
+			jobCategories = new ArrayList<>();
 		setBlacklistStatus(that.getBlacklistStatus());
-		// TODO Auto-generated constructor stub
 	}
 
 	public Availability getAvailability() {
@@ -53,28 +67,28 @@ public class Student extends User{
 	public void setAvailability(Availability availability) {
 		this.availability = availability;
 	}
-	
-	public Date getLastStatusUpdateDate() {
+	//need to look into this date time
+	public DateTime getLastStatusUpdateDate() {
 		return lastStatusUpdateDate;
 	}
 
-	public void setLastStatusUpdateDate(Date lastStatusUpdateDate) {
+	public void setLastStatusUpdateDate(DateTime lastStatusUpdateDate) {
 		this.lastStatusUpdateDate = lastStatusUpdateDate;
 	}
 
-	public ArrayList<String> getReferences() {
+	public ArrayList<Reference> getReferences() {
 		return references;
 	}
 
-	public void setReferences(String reference) {
+	public void setReferences(Reference reference) {
 		references.add(reference);
 	}
 
-	public ArrayList<String> getEmploymentRecords() {
+	public ArrayList<EmploymentRecord> getEmploymentRecords() {
 		return employmentRecords;
 	}
 
-	public void setEmploymentRecords(String employmentRecord) {
+	public void setEmploymentRecords(EmploymentRecord employmentRecord) {
 		employmentRecords.add(employmentRecord);
 	}
 
@@ -86,21 +100,22 @@ public class Student extends User{
 		this.locationCV = locationCV;
 	}
 	
-	public ArrayList<String> getJobCategories() {
+	public ArrayList<JobCategory> getJobCategories() {
 		return jobCategories;
 	}
 
-	public void addJobCategory(String jobCategory) {
+	public void addJobCategory(JobCategory jobCategory) {
 		this.jobCategories.add(jobCategory);
 	}
 
-	public ArrayList<String> getComplaints() {
+	public ArrayList<Complaint> getComplaints() {
 		return complaints;
 	}
 
-	public void addComplaint(String complaint) {
+	public void addComplaint(Complaint complaint) {
 		this.complaints.add(complaint);
-		//if complaints are 3 then blacklisted
+		if(complaints.size()==3)
+			setBlacklistStatus(BlacklistStatus.PROVISIONAL);
 	}
 
 	public ApplicantStatus getStatus() {

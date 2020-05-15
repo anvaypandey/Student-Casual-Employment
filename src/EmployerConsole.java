@@ -18,11 +18,17 @@ public class EmployerConsole {
 	private void managemenu()
 	{
 		try {
-			String menu ="1. Create a new Job Listing\n "
+			//reference checks, interview result
+			String menu ="1. Create a new Job Listing\n"
 					+"2. Search candidates based on Availability\n"
-					+"3. Search candidates based on Availability\n"
-					+"4. Change Password\n"
-					+"5. Change Username\n"
+					+"3. Search candidates based on Job Preference\n"
+					+"4. ShortList Candidate\n"
+					+"5. Rank Candidates\n"
+					+""
+					+"6. Lodge Complaint\n"
+					+"7. Change Username\n"
+					+"8. Change Password\n"
+					+"9. Logout\n"
 					+ "Enter your choice: ";
 			System.out.println(menu);
 
@@ -40,13 +46,22 @@ public class EmployerConsole {
 					jobPrefEntry();
 					break;
 				case 4:
-					changePassword();
+					shortlistCandidate();
 					break;
 				case 5:
-					changeUsername();
+					lodgeComplaint();
 					break;
 				case 6:
+					System.out.println(" Enter the new Username");
+					String newUsername = scan.nextLine();
+					changeUsername(newUsername);
+					break;
+				case 7:
+					changePassword();
+					break;
+				case 8:
 					System.out.println("You have successfully logged out!\n");
+					depart = true;
 					return;
 				default:
 					System.out.println("Invalid Choice. Please try again");
@@ -59,20 +74,60 @@ public class EmployerConsole {
 		
 	}
 
-	private void changePassword() {
+	private void lodgeComplaint() {
+
+		System.out.println("Enter the username of the User you want to complain about");
+
+		String complaintUser = scan.nextLine();
+
+		System.out.println("Enter your complaint");
+
+		String complaint = scan.nextLine();
+
+		try {
+			if(MainConsole.userList.containsKey(complaintUser))
+			{
+				Complaint complaint1 = new Complaint(MainConsole.userList.get(MainConsole.user),complaint);
+				if(MainConsole.userList.get(complaintUser) instanceof Student)
+					((Student) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
+				else if(MainConsole.userList.get(complaintUser) instanceof Employer)
+					((Employer) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
+				else
+					throw new AuthorizationException("You are not authorised to complain against the Maintenance");
+			}
+			else
+				throw new InvalidInputException("Such user does not exist");
+
+		}
+		catch (AuthorizationException e) {
+			e.printStackTrace();
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+		}
+
+
+	}
+
+	public void changePassword() {
 
 		System.out.println("New Password");
 
 		String newPassword = scan.nextLine();
 
-		MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
+		try {
+			MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
+		} catch (InvalidInputException e) {
+			System.err.println(e.getMessage());
+		}
 
 	}
 
-	private void changeUsername() {
+	public boolean changeUsername(String newUsername) throws InvalidInputException{
 
-		System.out.println(" Enter the new Username");
-		String newUsername = scan.nextLine();
+		if (newUsername.equalsIgnoreCase(MainConsole.user))
+			throw new InvalidInputException(" Your new username is the same as the old one");
+		if(MainConsole.userList.containsKey(newUsername))
+			throw new InvalidInputException(" This username is already taken");
 
 		User a1 = new Employer((Employer) MainConsole.userList.get(MainConsole.user));
 
@@ -82,10 +137,8 @@ public class EmployerConsole {
 
 		// MainConsole.user = newUsername; // If we want to continue from here
 
-		depart = true; // to login again
-
-		// TODO Auto-generated method stub
-
+		depart = true;// to login again
+		return true;
 	}
 
 	private void userEntry() {
@@ -97,7 +150,6 @@ public class EmployerConsole {
 			try {
 				searchApplicantsbyAvailability(userChoice);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		else
@@ -178,26 +230,33 @@ public class EmployerConsole {
 		return exists;
 	}
 
-	private void shortlistApplicants() 
+	private void shortlistCandidate()
 	{
-		int jobIndex = jobInput();
+		/*int jobIndex = jobInput();
 		if(jobIndex == -2)
 			System.out.println(" You are not authorised to utilise these privileges");
 		else if(jobIndex == -1)
 			return;
 		else
 		{
+		}*/
+		System.out.println("Enter the username of the student you want to shortlist");
 
 
 
-		}
 
-		// TODO Auto-generated method stub
+
+
 		
 	}
 
-	private void rankApplicants() 
+	private void rankCandidates()
 	{
+		// show the list of candidates
+		// ask then go give the ranking of the list Eg : 34215
+		// check the length of the number, whic hshould be equal to the length of string
+		// sort the list according the the ranking
+		//if arrayindex out of bounds then invalid input
 			// TODO Auto-generated method stub
 		
 	}
@@ -214,16 +273,21 @@ public class EmployerConsole {
 		
 	}
 
-	private void addNewJob()
+	public void addNewJob(Job job)
 	{
-		String id = createJobId();
+		String id ="JOB";
+		String index = String.valueOf(MainConsole.jobListings.size());
+
+		for(int j=3;j>index.length();j--) // to add 0s in front of the idNumber
+			index+="0";
+		id += index;
 		String desc = "Sample";
 
-		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+		job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
 		MainConsole.jobListings.add(job);
 	}
 
-	private int jobInput()
+	/*private int jobInput()
 	{
 		String jobId =null;
 		String input = null;
@@ -255,22 +319,22 @@ public class EmployerConsole {
 
 		return validJobId(jobId);
 
-	}
+	}*/
 
-	private String createJobId()
+	/*private String createJobId()
 	{
 		int typeID = 0;
 		int count = 0;
 		int i;
-		for (i=0;i<MainConsole.jobListings.size();i++) {
+		for (i=MainConsole.jobListings.size()-1;i>=0;i--) {
 			count++;
 		}
 		typeID = count + 1;
 		String jobID = "JOB" + String.format("%03d", typeID);
 		return jobID;
-	}
+	}*/
 
-	private int validJobId(String jobListing)
+	/*private int validJobId(String jobListing)
 	{
 		int i;
 		for(i=0;i<MainConsole.jobListings.size();i++)
@@ -282,9 +346,9 @@ public class EmployerConsole {
 			return i;
 		else
 			return -1;
-	}
+	}*/
 
-	private boolean showTheirJobListings()
+	/*private boolean showTheirJobListings()
 	{
 		boolean exists = false;
 		for(int i=0;i<MainConsole.jobListings.size();i++)
@@ -301,6 +365,6 @@ public class EmployerConsole {
 			System.out.println("You have zero Job Listings");
 
 		return exists;
-	}
+	}*/
 
 }

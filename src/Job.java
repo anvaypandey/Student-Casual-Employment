@@ -7,7 +7,7 @@ public class Job {
 	private Employer jobCreator;
 	private String jobDescription;
 
-	public Job(String jobId, Employer jobCreator, String jobDescription) {
+	public Job(String jobId,Employer jobCreator, String jobDescription) {
 		JobId = jobId;
 		this.jobCreator = jobCreator;
 		this.jobDescription = jobDescription;
@@ -50,7 +50,6 @@ public class Job {
 	public void setJobCreator(Employer jobCreator) {
 		this.jobCreator = jobCreator;
 	}
-
 	public String getJobDescription() {
 		return jobDescription;
 	}
