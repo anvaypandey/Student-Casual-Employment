@@ -20,9 +20,9 @@ public class TestChangeUsername {
 	
 	@Test
 	public void test() {
-		//std.changeUsername();
-		MainConsole.userList.get("s123").setUsername("abc");
-		System.out.println(MainConsole.userList.get("s123").getUsername());
+		std.changeUsername();
+//		MainConsole.userList.get("s123").setUsername("abc");
+//		System.out.println(MainConsole.userList.get("s123").getUsername());
 		assertEquals("abc", MainConsole.userList.get("s123").getUsername());
 	}
 
