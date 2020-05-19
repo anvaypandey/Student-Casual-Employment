@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LoginTest {
+public class TestLogin {
 	
 	HashMap<String, User> userList = new HashMap<>();
 	

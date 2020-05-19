@@ -25,13 +25,13 @@ public class TestChangeUsername {
 		emp.changeUsername("qwe");
 		assertFalse(MainConsole.userList.containsKey("s123"));
 		assertTrue(MainConsole.userList.containsKey("qwe"));
+	}
 
-	@Test (expected = InvalidInputException.class)
-	public void test2 ()throws InvalidInputException
+	@Test(expected = InvalidInputException.class)
+	public void test2() throws InvalidInputException
 	{
 		emp.changeUsername("s123");
 	}
-
 
 
 }

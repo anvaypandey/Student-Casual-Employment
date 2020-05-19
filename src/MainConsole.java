@@ -6,16 +6,13 @@ public class MainConsole {
 	
 	static HashMap<String, User> userList = new HashMap<>();
 	
-	static BlacklistStatus userBlacklistStatus;
-	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
 	static ArrayList<String> jobCategories = new ArrayList<String>();
 	
 	
 	static String user;
-	
-	Scanner scan = new Scanner(System.in);
+
 	
 	public void run() 
 	{
@@ -24,7 +21,7 @@ public class MainConsole {
 		while (true)
 		{
 			login();
-			userBlacklistStatus = userList.get(user).getBlacklistStatus();
+
 			if(userList.get(user) instanceof Student)
 			{
 				StudentConsole stdConsole = new StudentConsole();
@@ -61,7 +58,7 @@ public class MainConsole {
 						+ "2. Register\n"
 						+ "3. Quit");// ask if they want to register, login or quit
 				
-				int choice = Integer.parseInt(scan.nextLine());
+				int choice = Integer.parseInt(Utilities.getScanner().nextLine());
 				
 				switch(choice)
 				{
@@ -71,10 +68,10 @@ public class MainConsole {
 					do
 					{
 						System.out.println("\nUsername:");
-						user = scan.nextLine();
+						user = Utilities.getScanner().nextLine();
 						
 						System.out.println("Password:");
-						String password = scan.nextLine();
+						String password = Utilities.getScanner().nextLine();
 						
 						/*
 						 * Console c = System.console(); char[] passwordArray =
@@ -93,7 +90,7 @@ public class MainConsole {
 							{
 								System.err.println("Such User doesn't exist.");
 								System.out.println("\nEnter Q to quit or anything else to try again");
-								String input = scan.nextLine();
+								String input = Utilities.getScanner().nextLine();
 								if(input.equalsIgnoreCase("Q"))
 									validUser = true;
 							}
@@ -144,7 +141,7 @@ public class MainConsole {
 				System.out.println("Which type of user are you?\n"
 						+ "1. Student\n"
 						+ "2. Employee");
-				int choice = Integer.parseInt(scan.nextLine());
+				int choice = Integer.parseInt(Utilities.getScanner().nextLine());
 				
 				if(choice != 1 && choice != 2)
 				{
@@ -153,20 +150,20 @@ public class MainConsole {
 				else
 				{
 					System.out.println("Enter Username: ");
-					String username = scan.nextLine();
+					String username = Utilities.getScanner().nextLine();
 					
 					if(!userList.containsKey(username))
 					{
 						System.out.println("Enter Password: ");
-						String password = scan.nextLine();
+						String password = Utilities.getScanner().nextLine();
 						
 						System.out.println("Enter email address");
-						String email = scan.nextLine();
+						String email = Utilities.getScanner().nextLine();
 						
 						if(choice ==1)
 						{
 							System.out.println("Enter \'I\' if you are an International Student, anything else if you are a local student ");
-							String option = scan.nextLine();
+							String option = Utilities.getScanner().nextLine();
 							if(option.equalsIgnoreCase("I"))
 								userList.put(username, new Student(username,password,email,Availability.PartTime));
 							else
@@ -183,7 +180,7 @@ public class MainConsole {
 					{
 						System.err.println("This username already exists! Please try another username");
 						System.out.println("\nEnter Q to quit or anything else to try again");
-						String input = scan.nextLine();
+						String input = Utilities.getScanner().nextLine();
 						if(input.equalsIgnoreCase("Q"))
 							flag = true;
 					}
