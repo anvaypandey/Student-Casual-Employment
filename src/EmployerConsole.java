@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class EmployerConsole {
 
 	boolean depart = false;
-	Scanner scan = new Scanner(System.in);
 
 	public void run() {
 
@@ -32,7 +31,7 @@ public class EmployerConsole {
 					+ "Enter your choice: ";
 			System.out.println(menu);
 
-				int userChoice = Integer.parseInt(scan.nextLine());
+				int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 
 				switch(userChoice)
 				{
@@ -53,7 +52,7 @@ public class EmployerConsole {
 					break;
 				case 6:
 					System.out.println(" Enter the new Username");
-					String newUsername = scan.nextLine();
+					String newUsername = Utilities.getScanner().nextLine();
 					changeUsername(newUsername);
 					break;
 				case 7:
@@ -78,11 +77,11 @@ public class EmployerConsole {
 
 		System.out.println("Enter the username of the User you want to complain about");
 
-		String complaintUser = scan.nextLine();
+		String complaintUser = Utilities.getScanner().nextLine();
 
 		System.out.println("Enter your complaint");
 
-		String complaint = scan.nextLine();
+		String complaint = Utilities.getScanner().nextLine();
 
 		try {
 			if(MainConsole.userList.containsKey(complaintUser))
@@ -112,7 +111,7 @@ public class EmployerConsole {
 
 		System.out.println("New Password");
 
-		String newPassword = scan.nextLine();
+		String newPassword = Utilities.getScanner().nextLine();
 
 		try {
 			MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
@@ -145,7 +144,7 @@ public class EmployerConsole {
 		System.out.println("Enter 1 for Fulltime\n" + "Enter 2 for Part time\n" + "Enter 3 for Internship\n"
 				+ "Enter your choice: ");
 
-		int userChoice = Integer.parseInt(scan.nextLine());
+		int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 		if (userChoice >= 1 && userChoice <= 3)
 			try {
 				searchApplicantsbyAvailability(userChoice);
@@ -162,7 +161,7 @@ public class EmployerConsole {
 		System.out.println("Enter Job Preference\n"
 							+"Enter your choice: ");
 		
-		String prefChoice= scan.nextLine();
+		String prefChoice= Utilities.getScanner().nextLine();
 		try {
 			searchApplicantsbyJobPreference(prefChoice);
 		} catch (Exception e) {
@@ -242,12 +241,6 @@ public class EmployerConsole {
 		}*/
 		System.out.println("Enter the username of the student you want to shortlist");
 
-
-
-
-
-
-		
 	}
 
 	private void rankCandidates()

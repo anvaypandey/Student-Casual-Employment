@@ -5,7 +5,6 @@ public class StudentConsole {
 
 	boolean depart = false;
 
-	Scanner scan = new Scanner(System.in);
 	
 	Student std = (Student)MainConsole.userList.get(MainConsole.user);
 
@@ -43,7 +42,7 @@ public class StudentConsole {
 					+ "Enter your choice: ";
 			System.out.println(menu);
 
-			int userChoice = Integer.parseInt(scan.nextLine());
+			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 
 			switch(userChoice)
 			{
@@ -111,7 +110,7 @@ public class StudentConsole {
 		do
 		{
 		System.out.println("Choose desired job category");
-		String jobcat = scan.nextLine();
+		String jobcat = Utilities.getScanner().nextLine();
 		
 		
 		try
@@ -125,7 +124,7 @@ public class StudentConsole {
 		}
 		if(!exists)
 			System.out.print("Q to quit or try again");
-		String resp = scan.nextLine();
+		String resp = Utilities.getScanner().nextLine();
 		if(resp.equalsIgnoreCase("q"))
 		{
 			exists=true;
@@ -158,7 +157,7 @@ public class StudentConsole {
 		
 		System.out.println("New Password");
 		
-		String newPassword = scan.nextLine();
+		String newPassword = Utilities.getScanner().nextLine();
 
 		try {
 			MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
@@ -190,11 +189,11 @@ public class StudentConsole {
 
 		System.out.println("Enter the username of the User you want to complain about");
 
-		String complaintUser = scan.nextLine();
+		String complaintUser = Utilities.getScanner().nextLine();
 
 		System.out.println("Enter your complaint");
 
-		String complaint = scan.nextLine();
+		String complaint = Utilities.getScanner().nextLine();
 
 		try {
 			if(MainConsole.userList.containsKey(complaintUser))
@@ -234,14 +233,14 @@ public class StudentConsole {
 	public void addReference() {
 		System.out.println("Enter the name of your reference");
 
-		String nameRef = scan.nextLine();
+		String nameRef = Utilities.getScanner().nextLine();
 
 		System.out.println("Enter the email of your reference");
 
-		String emailRef = scan.nextLine();
+		String emailRef = Utilities.getScanner().nextLine();
 		System.out.println("Enter the phone of your reference");
 
-		String phoneRef = scan.nextLine();
+		String phoneRef = Utilities.getScanner().nextLine();
 
 
 				Reference ref1 = new Reference(nameRef,emailRef, phoneRef);
@@ -259,7 +258,7 @@ public class StudentConsole {
 	private void addRecord() {
 		
 		System.out.println("Please enter previous experience, qualifactions and certifications");
-		String cv = scan.nextLine();
+		String cv = Utilities.getScanner().nextLine();
 		std.setLocationCV(cv);
 		System.out.println("CV added!");
 	}
@@ -267,7 +266,7 @@ public class StudentConsole {
 	private void updateStatus() {
 		
 		System.out.println("Please enter desired status update Available(A)/Pending(P)/Unknown(U)/Employed(E)");
-		String response = scan.nextLine();
+		String response = Utilities.getScanner().nextLine();
 		if(response == "A")
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Available);

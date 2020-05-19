@@ -19,7 +19,6 @@ public class MaintenanceConsole {
 	}
 
 	private void manageMenu() {
-		Scanner scan = new Scanner(System.in);
 		try
 		{
 			String menu = "1. Access Student Records\n"
@@ -33,7 +32,7 @@ public class MaintenanceConsole {
 
 			System.out.println(menu);
 
-			int userChoice = Integer.parseInt(scan.nextLine());
+			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 
 			switch(userChoice)
 			{
@@ -73,10 +72,9 @@ public class MaintenanceConsole {
 	private void addJobCategory() throws InvalidInputException{
 	
 		ArrayList<String> JobCategories = MainConsole.jobCategories;
-		Scanner scan = new Scanner(System.in);
 
 		System.out.println("Enter job category");
-		String input = scan.nextLine();
+		String input = Utilities.getScanner().nextLine();
 		
 		for(int i=0; i < JobCategories.size(); i++) {
 			
@@ -98,10 +96,10 @@ public class MaintenanceConsole {
 	}
 
 	public void removeFromBlacklist() throws InvalidInputException, AuthorizationException {
-		Scanner scan = new Scanner(System.in);
+
 		accessRecords(3);
 		System.out.println("Enter user ID or 'Y' to exit");
-		String input = scan.nextLine();
+		String input = Utilities.getScanner().nextLine();
 		
 		if(input.compareToIgnoreCase("Y") == 0 ) {
 			return;
@@ -134,10 +132,9 @@ public class MaintenanceConsole {
 	}
 
 	public void blackListUser() throws InvalidInputException, AuthorizationException {
-		Scanner scan = new Scanner(System.in);
 		accessRecords(4);
 		System.out.println("Enter user ID ");
-		String userID = scan.nextLine();
+		String userID = Utilities.getScanner().nextLine();
 		
 		if( !MainConsole.userList.containsKey(userID)) {
 			throw new InvalidInputException (userID + " does not exist");
@@ -150,7 +147,7 @@ public class MaintenanceConsole {
 		}
 		else {
 			System.out.println(" are you sure you want to blacklist " + userID + "? 'Y' for yes 'N' for no");
-			 char input = scan.nextLine().charAt(0);
+			 char input = Utilities.getScanner().nextLine().charAt(0);
 			
 			if (input == 'Y') {
 				MainConsole.userList.get(userID).setBlacklistStatus(BlacklistStatus.FULL);
