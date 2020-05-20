@@ -5,18 +5,14 @@ public class Student extends User{
 	
 	private Availability availability;
 	private ApplicantStatus status;
-	
 	private DateTime lastStatusUpdateDate;
-	
 	private ArrayList<Reference> references;
-	
 	private ArrayList<EmploymentRecord> employmentRecords;
-	
 	private String locationCV;
-	
 	private ArrayList<Complaint> complaints;
-	
 	private ArrayList<JobCategory> jobCategories;
+	private BlacklistStatus blacklistStatus;
+	private DateTime blacklistTime;
 	
 
 	protected Student(String username, String password, String email, Availability availability) {
@@ -28,8 +24,7 @@ public class Student extends User{
 		employmentRecords = new ArrayList<EmploymentRecord>();
 		complaints = new ArrayList<Complaint>();
 		jobCategories = new ArrayList<JobCategory>();
-		
-		// TODO Auto-generated constructor stub
+		blacklistStatus = BlacklistStatus.NONE;
 	}
 
 	public Student(Student that) {
@@ -126,9 +121,21 @@ public class Student extends User{
 		this.status = status;
 	}
 
+	public BlacklistStatus getBlacklistStatus() {
+		return blacklistStatus;
+	}
+
+	public void setBlacklistStatus(BlacklistStatus blacklistStatus) {
+		this.blacklistStatus = blacklistStatus;
+		blacklistTime = new DateTime();
+	}
+
+	public DateTime getBlacklistTime() {
+		return blacklistTime;
+	}
+
 	@Override
 	public String getDetails() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

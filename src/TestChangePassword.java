@@ -21,7 +21,6 @@ public class TestChangePassword {
     @Test
     public void setPassword1() throws InvalidInputException {
         String newPassword = "qwerty";
-
         assertTrue(MainConsole.userList.get("s123").setPassword(newPassword));
         assertEquals("qwerty",MainConsole.userList.get("s123").getPassword());
     }
