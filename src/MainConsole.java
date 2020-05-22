@@ -10,7 +10,7 @@ public class MainConsole {
 	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
-	static ArrayList<String> jobCategories = new ArrayList<String>();
+	static ArrayList<JobCategory> jobCategories = new ArrayList<JobCategory>();
 	
 	
 	static String user;
