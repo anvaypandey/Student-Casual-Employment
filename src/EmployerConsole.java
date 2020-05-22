@@ -1,4 +1,3 @@
-import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -164,8 +163,12 @@ public class EmployerConsole {
 
 	private void jobPrefEntry() throws Exception
 	{
-		System.out.println("Enter Job Preference\n"
-							+"Enter your choice: ");
+		System.out.println("Select from below list:\n");
+		ArrayList<JobCategory> jobCat = new ArrayList<>();
+		for (int i = 0; i < jobCat.size(); i++){
+			System.out.println("/n"+i);
+		}
+		System.out.println("Enter Job Preference of your choice: ");
 		
 		String prefChoice= Utilities.getScanner().nextLine();
 		try {
@@ -301,17 +304,34 @@ public class EmployerConsole {
 		
 	}
 
-	public void addNewJob(Job job)
+
+//FOR TESTING
+	// public void addNewJob(Job job)
+	// {
+	// 	String id ="JOB";
+	// 	String index = String.valueOf(MainConsole.jobListings.size());
+
+	// 	for(int j=3;j>index.length();j--) // to add 0s in front of the idNumber
+	// 		index+="0";
+	// 	id += index;
+	// 	String desc = "Sample";
+
+	// 	job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+	// 	MainConsole.jobListings.add(job);
+	// }
+
+	public void addNewJob()
 	{
+		System.out.println("Enter job description: ");
+		String desc = Utilities.getScanner().nextLine();
 		String id ="JOB";
 		String index = String.valueOf(MainConsole.jobListings.size());
 
 		for(int j=3;j>index.length();j--) // to add 0s in front of the idNumber
 			index+="0";
 		id += index;
-		String desc = "Sample";
 
-		job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
 		MainConsole.jobListings.add(job);
 	}
 
