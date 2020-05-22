@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Job {
 
@@ -61,6 +62,41 @@ public class Job {
 	public String getDetails()
 	{
 		return null;
+	}
+
+	public void rankCandidates(String ranks)throws InvalidInputException
+	{
+		if(ranks.length()!= shortlist.size())// check the length of the number, which should be equal to the length of string
+			throw new InvalidInputException("Incorrect Input!");
+
+		String [] rankArray = ranks.split(" ");
+
+		try{
+			int i=0;
+			while (i<ranks.length()) {
+				if(Integer.parseInt(rankArray[i]) >= shortlist.size() || Integer.parseInt(rankArray[i])<= 0)
+					throw new InvalidInputException("Invalid Input");
+				for(int j=i+1;j<rankArray.length;j++) {
+					if(Integer.parseInt(rankArray[i]) == Integer.parseInt(rankArray[j]))
+						throw new InvalidInputException("Invalid Input");
+				}
+				i++;
+			}
+		}
+		catch (NumberFormatException e)
+		{
+			throw new InvalidInputException("Invalid Input");
+		}
+
+		// sort the list according the the ranking
+		ArrayList<Student> temp = new ArrayList<>();
+
+		for(int i=0;i<rankArray.length;i++)
+			temp.add(shortlist.get(Integer.parseInt(rankArray[i])-1));
+
+		shortlist.clear();
+		shortlist.addAll(temp);
+
 	}
 	
 	
