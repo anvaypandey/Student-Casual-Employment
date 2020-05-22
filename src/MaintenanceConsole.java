@@ -19,7 +19,6 @@ public class MaintenanceConsole {
 	}
 
 	private void manageMenu() {
-		Scanner scan = new Scanner(System.in);
 		try
 		{
 			String menu = "1. Access Student Records\n"
@@ -33,7 +32,7 @@ public class MaintenanceConsole {
 
 			System.out.println(menu);
 
-			int userChoice = Integer.parseInt(scan.nextLine());
+			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 
 			switch(userChoice)
 			{
@@ -73,10 +72,9 @@ public class MaintenanceConsole {
 	private void addJobCategory() throws InvalidInputException{
 	
 		ArrayList<String> JobCategories = MainConsole.jobCategories;
-		Scanner scan = new Scanner(System.in);
 
 		System.out.println("Enter job category");
-		String input = scan.nextLine();
+		String input = Utilities.getScanner().nextLine();
 		
 		for(int i=0; i < JobCategories.size(); i++) {
 			
@@ -98,10 +96,10 @@ public class MaintenanceConsole {
 	}
 
 	public void removeFromBlacklist() throws InvalidInputException, AuthorizationException {
-		Scanner scan = new Scanner(System.in);
+
 		accessRecords(3);
 		System.out.println("Enter user ID or 'Y' to exit");
-		String input = scan.nextLine();
+		String input = Utilities.getScanner().nextLine();
 		
 		if(input.compareToIgnoreCase("Y") == 0 ) {
 			return;
@@ -109,56 +107,104 @@ public class MaintenanceConsole {
 		if( !MainConsole.userList.containsKey(input)) {
 			throw new InvalidInputException (input + " does not exist");
 		}
-		else if (MainConsole.userList.containsKey(input)) {
-		
-			if ( MainConsole.userList.get(input).getBlacklistStatus() == BlacklistStatus.PROVISIONAL) {
-				MainConsole.userList.get(input).setBlacklistStatus(BlacklistStatus.NONE);
-				System.out.println(input + " has been removed from  provisional Blacklist");
-			}
-			else if (MainConsole.userList.get(input).getBlacklistStatus() == BlacklistStatus.FULL) {
-				DateTime d2 = new DateTime();
-				DateTime d1 = MainConsole.userList.get(input).getBlacklistTime();
-				int dateDiff = DateTime.diffDays(d2,d1);
+		else if(MainConsole.userList.get(input) instanceof Student ) {
+				
+				if (((Student) MainConsole.userList.get(input)).getBlacklistStatus() == BlacklistStatus.PROVISIONAL) {
+					
+					((Student)MainConsole.userList.get(input)).setBlacklistStatus(BlacklistStatus.NONE);
+					System.out.println(input + " has been removed from  provisional Blacklist");
+				}
+				else if (((Student) MainConsole.userList.get(input)).getBlacklistStatus() == BlacklistStatus.FULL) {
+					
+					DateTime d2 = new DateTime();
+					DateTime d1 = ((Student) MainConsole.userList.get(input)).getBlacklistTime();
+					int dateDiff = DateTime.diffDays(d2,d1);
 				
 				if(dateDiff >= 90) {
-					MainConsole.userList.get(input).setBlacklistStatus(BlacklistStatus.NONE);
+					((Student) MainConsole.userList.get(input)).setBlacklistStatus(BlacklistStatus.NONE);
 					System.out.println(input + " has been removed from Blacklist");
 				}
 				else 
 					throw new AuthorizationException ("Action denied. User has been on the Blacklist for less than 3 months");
 				}
-			else 
-				throw new InvalidInputException( input + " is not on blacklist");	
 		}
-
+		else if(MainConsole.userList.get(input) instanceof Employer ) {
+			
+			if (((Employer) MainConsole.userList.get(input)).getBlacklistStatus() == BlacklistStatus.PROVISIONAL) {
+				
+				((Employer)MainConsole.userList.get(input)).setBlacklistStatus(BlacklistStatus.NONE);
+				System.out.println(input + " has been removed from  provisional Blacklist");
+			}
+			else if (((Employer) MainConsole.userList.get(input)).getBlacklistStatus() == BlacklistStatus.FULL) {
+				
+				DateTime d2 = new DateTime();
+				DateTime d1 = ((Employer) MainConsole.userList.get(input)).getBlacklistTime();
+				int dateDiff = DateTime.diffDays(d2,d1);
+			
+			if(dateDiff >= 90) {
+				((Employer) MainConsole.userList.get(input)).setBlacklistStatus(BlacklistStatus.NONE);
+				System.out.println(input + " has been removed from Blacklist");
+			}
+			else 
+				throw new AuthorizationException ("Action denied. User has been on the Blacklist for less than 3 months");
+			}
+		}
+		else 
+			throw new InvalidInputException( input + " is not on blacklist");	
+		
 	}
 
+	
+
 	public void blackListUser() throws InvalidInputException, AuthorizationException {
-		Scanner scan = new Scanner(System.in);
 		accessRecords(4);
 		System.out.println("Enter user ID ");
-		String userID = scan.nextLine();
+		String userID = Utilities.getScanner().nextLine();
 		
 		if( !MainConsole.userList.containsKey(userID)) {
 			throw new InvalidInputException (userID + " does not exist");
 		}
-		else if (MainConsole.userList.get(userID).getBlacklistStatus() != BlacklistStatus.PROVISIONAL) {
-			throw new InvalidInputException( "only user ID on the provisional blacklist can be added to the full blacklist" );
-		}
-		else if (MainConsole.userList.get(userID).getBlacklistStatus() == BlacklistStatus.FULL) {
-			throw new AuthorizationException (userID + " is already on the Blacklist" );
-		}
-		else {
-			System.out.println(" are you sure you want to blacklist " + userID + "? 'Y' for yes 'N' for no");
-			 char input = scan.nextLine().charAt(0);
-			
-			if (input == 'Y') {
-				MainConsole.userList.get(userID).setBlacklistStatus(BlacklistStatus.FULL);
-				System.out.println( userID + " has been blacklisted");
+		else if (MainConsole.userList.get(userID) instanceof Student) {
+			if (((Student) MainConsole.userList.get(userID)).getBlacklistStatus() != BlacklistStatus.PROVISIONAL) {
+				throw new InvalidInputException( "only user ID on the provisional blacklist can be added to the full blacklist" );
 			}
-			else 
-				return;
+			else if (((Student) MainConsole.userList.get(userID)).getBlacklistStatus() == BlacklistStatus.FULL) {
+				throw new AuthorizationException (userID + " is already on the Blacklist" );
+			}
+			else {
+				System.out.println(" are you sure you want to blacklist " + userID + "? 'Y' for yes 'N' for no");
+				 char input = Utilities.getScanner().nextLine().charAt(0);
+				
+				if (input == 'Y') {
+					((Student) MainConsole.userList.get(userID)).setBlacklistStatus(BlacklistStatus.FULL);
+					System.out.println( userID + " has been blacklisted");
+				}
+				else 
+					return;
+			}
+	
 		}
+		else if (MainConsole.userList.get(userID) instanceof Employer) {
+			if (((Employer) MainConsole.userList.get(userID)).getBlacklistStatus() != BlacklistStatus.PROVISIONAL) {
+				throw new InvalidInputException( "only user ID on the provisional blacklist can be added to the full blacklist" );
+			}
+			else if (((Employer) MainConsole.userList.get(userID)).getBlacklistStatus() == BlacklistStatus.FULL) {
+				throw new AuthorizationException (userID + " is already on the Blacklist" );
+			}
+			else {
+				System.out.println(" are you sure you want to blacklist " + userID + "? 'Y' for yes 'N' for no");
+				 char input = Utilities.getScanner().nextLine().charAt(0);
+				
+				if (input == 'Y') {
+					((Employer) MainConsole.userList.get(userID)).setBlacklistStatus(BlacklistStatus.FULL);
+					System.out.println( userID + " has been blacklisted");
+				}
+				else 
+					return;
+			}
+	
+		}
+		
 
 	}
 
@@ -170,11 +216,22 @@ public class MaintenanceConsole {
 				me.getValue().getDetails();
 			else if(i==2 && me.getValue() instanceof Employer)
 				me.getValue().getDetails();
-			else if(i == 3 && me.getValue().getBlacklistStatus() != BlacklistStatus.NONE)
-				me.getValue().getDetails();
-			else if (i ==4 && me.getValue().getBlacklistStatus() == BlacklistStatus.PROVISIONAL) 
-				me.getValue().getDetails();
-			
+			else if(i == 3) {
+				if ( me.getValue() instanceof Student && (((Student) me.getValue()).getBlacklistStatus()) != BlacklistStatus.NONE) {
+					me.getValue().getDetails();
+				}
+				if (me.getValue() instanceof Employer &&  (((Employer) me.getValue()).getBlacklistStatus()) != BlacklistStatus.NONE) {
+					me.getValue().getDetails();				
+				}
+			}	
+			else if (i ==4) {
+				if (me.getValue() instanceof Student && (((Student) me.getValue()).getBlacklistStatus()) == BlacklistStatus.PROVISIONAL) {
+					me.getValue().getDetails();
+				}
+				if(me.getValue() instanceof Employer && (((Employer) me.getValue()).getBlacklistStatus()) == BlacklistStatus.PROVISIONAL) {
+					me.getValue().getDetails();
+				}
+			}
 
 		}
 

@@ -6,15 +6,16 @@ public class Employer extends User {
 	
 	private String phNo;
 	private ArrayList<Complaint> complaints;
+	private BlacklistStatus blacklistStatus;
+	private DateTime blacklistTime;
 	//private ArrayList<Job> jobsCreated;
 	
 	
 	public Employer(String username, String password, String email) {
 		super(username, password,email);
 		complaints = new ArrayList<Complaint>();
+		blacklistStatus = BlacklistStatus.NONE;
 		//jobsCreated = new ArrayList<>();
-		
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Employer(Employer that)
@@ -49,6 +50,20 @@ public class Employer extends User {
 		this.jobsCreated = jobsCreated;
 	}
 */
+
+	public BlacklistStatus getBlacklistStatus() {
+		return blacklistStatus;
+	}
+
+	public void setBlacklistStatus(BlacklistStatus blacklistStatus) {
+		this.blacklistStatus = blacklistStatus;
+		blacklistTime = new DateTime();
+	}
+
+	public DateTime getBlacklistTime() {
+		return blacklistTime;
+	}
+
 	@Override
 	public String getDetails() {
 		// TODO Auto-generated method stub

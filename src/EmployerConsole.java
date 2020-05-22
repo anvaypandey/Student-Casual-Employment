@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class EmployerConsole {
 
 	boolean depart = false;
-	Scanner scan = new Scanner(System.in);
 
 	public void run() {
 
@@ -32,7 +31,7 @@ public class EmployerConsole {
 					+ "Enter your choice: ";
 			System.out.println(menu);
 
-				int userChoice = Integer.parseInt(scan.nextLine());
+				int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 
 				switch(userChoice)
 				{
@@ -46,20 +45,25 @@ public class EmployerConsole {
 					jobPrefEntry();
 					break;
 				case 4:
-					shortlistCandidate();
+					System.out.println("Enter the username of the student you want to shortlist");
+					String studentId = Utilities.getScanner().nextLine();
+					shortlistCandidate(studentId);
 					break;
 				case 5:
-					lodgeComplaint();
+					rankCandidates();
 					break;
 				case 6:
-					System.out.println(" Enter the new Username");
-					String newUsername = scan.nextLine();
-					changeUsername(newUsername);
+					lodgeComplaint();
 					break;
 				case 7:
-					changePassword();
+					System.out.println(" Enter the new Username");
+					String newUsername = Utilities.getScanner().nextLine();
+					changeUsername(newUsername);
 					break;
 				case 8:
+					changePassword();
+					break;
+				case 9:
 					System.out.println("You have successfully logged out!\n");
 					depart = true;
 					return;
@@ -78,11 +82,11 @@ public class EmployerConsole {
 
 		System.out.println("Enter the username of the User you want to complain about");
 
-		String complaintUser = scan.nextLine();
+		String complaintUser = Utilities.getScanner().nextLine();
 
 		System.out.println("Enter your complaint");
 
-		String complaint = scan.nextLine();
+		String complaint = Utilities.getScanner().nextLine();
 
 		try {
 			if(MainConsole.userList.containsKey(complaintUser))
@@ -112,7 +116,7 @@ public class EmployerConsole {
 
 		System.out.println("New Password");
 
-		String newPassword = scan.nextLine();
+		String newPassword = Utilities.getScanner().nextLine();
 
 		try {
 			MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
@@ -145,7 +149,7 @@ public class EmployerConsole {
 		System.out.println("Enter 1 for Fulltime\n" + "Enter 2 for Part time\n" + "Enter 3 for Internship\n"
 				+ "Enter your choice: ");
 
-		int userChoice = Integer.parseInt(scan.nextLine());
+		int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 		if (userChoice >= 1 && userChoice <= 3)
 			try {
 				searchApplicantsbyAvailability(userChoice);
@@ -159,10 +163,14 @@ public class EmployerConsole {
 
 	private void jobPrefEntry() throws Exception
 	{
-		System.out.println("Enter Job Preference\n"
-							+"Enter your choice: ");
+		System.out.println("Select from below list:\n");
+		ArrayList<JobCategory> jobCat = new ArrayList<>();
+		for (int i = 0; i < jobCat.size(); i++){
+			System.out.println("/n"+i);
+		}
+		System.out.println("Enter Job Preference of your choice: ");
 		
-		String prefChoice= scan.nextLine();
+		String prefChoice= Utilities.getScanner().nextLine();
 		try {
 			searchApplicantsbyJobPreference(prefChoice);
 		} catch (Exception e) {
@@ -211,13 +219,12 @@ public class EmployerConsole {
 		{
 			if(me.getValue() instanceof Student)
 			{
-				ArrayList<String> jobCat = new ArrayList<String>();
-				jobCat = ((Student) me.getValue()).getJobCategories();
+				ArrayList<JobCategory> jobCat = ((Student) me.getValue()).getJobCategories();
 				
 
 				for(int i=0;i<jobCat.size();i++)
 
-					if (jobCat.get(i).equalsIgnoreCase(str))
+					if (jobCat.get(i).getName().equalsIgnoreCase(str))
 					{
 						me.getValue().getDetails();
 						exists = true;
@@ -230,35 +237,59 @@ public class EmployerConsole {
 		return exists;
 	}
 
-	private void shortlistCandidate()
+	private void shortlistCandidate(String studentId) throws InvalidInputException
 	{
-		/*int jobIndex = jobInput();
-		if(jobIndex == -2)
-			System.out.println(" You are not authorised to utilise these privileges");
-		else if(jobIndex == -1)
-			return;
+		if(MainConsole.userList.containsKey(studentId) && MainConsole.userList.get(studentId) instanceof Student)
+		{
+			int i;
+			for(i=0;i<MainConsole.jobListings.size();i++)
+			{
+				if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
+				{
+					try {
+						MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId));
+					} catch (Exception e) {
+						System.err.println(e.getMessage());
+					}
+					break;
+				}
+			}
+		}
 		else
 		{
-		}*/
-		System.out.println("Enter the username of the student you want to shortlist");
+			throw new InvalidInputException("No student with this username exists!");
+		}
 
 
-
-
-
-
-		
 	}
 
 	private void rankCandidates()
 	{
-		// show the list of candidates
-		// ask then go give the ranking of the list Eg : 34215
-		// check the length of the number, whic hshould be equal to the length of string
-		// sort the list according the the ranking
-		//if arrayindex out of bounds then invalid input
-			// TODO Auto-generated method stub
-		
+		//assumption one employer just has one jobListing
+
+		System.out.println(" The current Ranking is : \n");
+
+		for (Job job: MainConsole.jobListings) {
+			if(job.getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
+			{
+				ArrayList<Student> students = job.getShortlist();
+				for (int i=0;i<students.size();i++) {
+					System.out.println((i+1)+". "+students.get(i).getDetails());// show the list of candidates
+				}
+
+				// ask them to give the ranking of the list Eg : 3 4 2 1 5
+				System.out.println("Enter the way they have to be ranked. With spaces between ranks");
+				String ranking = Utilities.getScanner().nextLine();
+				try {
+					job.rankCandidates(ranking);
+				} catch (InvalidInputException e) {
+					System.err.println(e.getMessage());
+				}
+				break;
+			}
+
+		}
+
 	}
 
 	private void setInterview() 
@@ -273,17 +304,34 @@ public class EmployerConsole {
 		
 	}
 
-	public void addNewJob(Job job)
+
+//FOR TESTING
+	// public void addNewJob(Job job)
+	// {
+	// 	String id ="JOB";
+	// 	String index = String.valueOf(MainConsole.jobListings.size());
+
+	// 	for(int j=3;j>index.length();j--) // to add 0s in front of the idNumber
+	// 		index+="0";
+	// 	id += index;
+	// 	String desc = "Sample";
+
+	// 	job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+	// 	MainConsole.jobListings.add(job);
+	// }
+
+	public void addNewJob()
 	{
+		System.out.println("Enter job description: ");
+		String desc = Utilities.getScanner().nextLine();
 		String id ="JOB";
 		String index = String.valueOf(MainConsole.jobListings.size());
 
 		for(int j=3;j>index.length();j--) // to add 0s in front of the idNumber
 			index+="0";
 		id += index;
-		String desc = "Sample";
 
-		job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
 		MainConsole.jobListings.add(job);
 	}
 

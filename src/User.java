@@ -4,16 +4,12 @@ public abstract class User {
 	private String username;
 	private String password;
 	private String emailAddress;
-	private DateTime blacklistTime;
-	
-	private BlacklistStatus blacklistStatus;
 	
 
 	protected User(String username, String password, String emailAddress) {
 		this.username = username;
 		this.password = password;
 		this.setEmailAddress(emailAddress);
-		blacklistStatus=BlacklistStatus.NONE;
 	}
 
 	public String getUsername() {
@@ -53,19 +49,7 @@ public abstract class User {
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
-	
-	public BlacklistStatus getBlacklistStatus() {
-		return blacklistStatus;
-	}
 
-	public void setBlacklistStatus(BlacklistStatus blacklistStatus) {
-		this.blacklistStatus = blacklistStatus;
-		blacklistTime = new DateTime();
-	}
-
-	public DateTime getBlacklistTime() {
-		return blacklistTime;
-	}
 
 	public abstract String getDetails();
 	
