@@ -1,7 +1,6 @@
 import com.sun.tools.javac.Main;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class StudentConsole {
 
@@ -10,7 +9,7 @@ public class StudentConsole {
 	
 	Student std = (Student)MainConsole.userList.get(MainConsole.user);
 
-		Scanner scan = new Scanner(System.in);
+
 
 	public void run()
 	{
@@ -29,64 +28,67 @@ public class StudentConsole {
 		try
 		{
 
-			String menu = "1. Update your Availability\n"
-					+ "2. Update your Status\n"
-					+ "3. Add Records\n"
-					+ "4. Update Records\n"
-					+ "5. Add Refernce\n"
-					+ "6. Update Reference\n"
-					+ "7. Upload CV\n"
-					+ "8. Add new Job Category to your list\n"
-					+ "9.Accept/Reject an offer \n"
-					+ "10. Lodge Complaint\n"
-					+ "11. Change Username\n"
-					+ "12. Change Password\n"
-					+ "13. Logout\n"
+			String menu = "1. See Notifications\n"
+					+ "2. Check Offer\n"
+					+ "3. Update your Availability\n"
+					+ "4. Update your Status\n"
+					+ "5. Add Records\n"
+					+ "6. Update Records\n"
+					+ "7. Add Reference\n"
+					+ "8. Update Reference\n"
+					+ "9. Upload CV\n" // for later
+					+ "10. Add new Job Category to your list\n"
+					+ "11. Lodge Complaint\n"
+					+ "12. Change Username\n" //Let this be for now
+					+ "13. Change Password\n"
+					+ "14. Logout\n"
 					+ "Enter your choice: ";
+
 			System.out.println(menu);
 
 			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 
 			switch(userChoice)
 			{
-			case 1: 
-				updateAvailability(); 
+			case 1:
+				showNotifications(); // all notifications, one at a time
 				break;
-
 			case 2:
-				updateStatus();
+				checkOffer();
 				break;
 			case 3:
-				addRecord();
+				updateAvailability();
 				break;
+
 			case 4:
-				updateRecords();
+				updateStatus();
 				break;
 			case 5:
-				addReference();
+				addRecord();
 				break;
 			case 6:
-				addReference();
+				updateRecords();
 				break;
 			case 7:
+				case 8:
+					addReference();
+				break;
+				case 9:
 				uploadCV();
 				break;
-			case 8:
+			case 10:
 				chooseJobCategory();
 				break;
-				case 8:
-					reviewOffer();
-					break;
-				case 10:
+			case 11:
 				lodgeComplaint();
 				break;
-			case 11:
+			case 12:
 				changeUsername();
 				break;
-			case 12:
+			case 13:
 				changePassword();
 				break;
-			case 13:
+			case 14:
 				System.out.println("You have successfully logged out!\n");
 				depart = true;
 				return;
@@ -100,6 +102,50 @@ public class StudentConsole {
 		}
 
 		//switch case
+	}
+
+	private void checkOffer() {
+
+		ArrayList<Offer> offers = std.getOffers();
+
+		if(offers.size() ==0)
+			System.out.println("You have zero Job Offers");
+
+		for(int i =0; i<offers.size();i++)
+		{
+			offers.get(i).getJob().getDetails();
+		}
+
+		if(std.getStatus() == ApplicantStatus.Employed)
+		{
+			System.out.println("You cant accept offers now.You're Employed!");
+			return;
+		}
+
+		System.out.println("Enter Job Id");
+		String jobID = Utilities.getScanner().nextLine();
+
+		for(int i =0; i<offers.size();i++)
+		{
+			if(offers.get(i).getJob().getJobId().equalsIgnoreCase(jobID))
+			{
+				offers.get(i).getJob().getDetails();
+
+				System.out.println("Accept or Reject? Input Y to accept, anything else to reject");
+				String input = Utilities.getScanner().nextLine();
+
+				if(input.equalsIgnoreCase("Y"))
+				{
+					offers.get(i).setAcceptedOrRejected(true);
+					std.setStatus(ApplicantStatus.Employed);
+				}
+
+				else
+					offers.get(i).setAcceptedOrRejected(true);
+
+			}
+		}
+
 	}
 
 
@@ -186,8 +232,8 @@ public class StudentConsole {
 //
 //		MainConsole.userList.put(newUsername, a1);
 //		MainConsole.userList.remove(MainConsole.user);
-		
-		
+
+
 		//MainConsole.user = newUsername; // If we want to continue from here
 		
 		depart = true; //to login again
@@ -323,22 +369,38 @@ public class StudentConsole {
 		}
 		else
 			System.out.println("Process could not be completed");
-//add internship
-	}
-	public void reviewOffer(){
-		//
-		// accept/reject offers
-		//display all offers
-		//chose offer to respond
-		// Accept a reject r
-		//System.out.println("Offer Accepted");
 
 	}
 
+	private void showNotifications() {
 
+		ArrayList<InterviewNotification> abc = std.getNotifications();
 
+		if(abc.size() == 0)
+			System.out.println("No new notifications");
 
-	// auto update to unknown after 2 weeks
-	//
+		for(int j=0;j<abc.size();j++)
+		{
+			abc.get(j).toString();
+
+			System.out.println("Y to accept, anything else to reject");
+
+			String input = Utilities.getScanner().nextLine();
+			if(input.equalsIgnoreCase("Y"))
+			{
+				for(int i=0; i<MainConsole.jobListings.size();i++)
+				{
+					if(MainConsole.jobListings.get(i).getJobId().equalsIgnoreCase(abc.get(j).getJob().getJobId()))
+					{
+						Interview interview = new Interview(std,abc.get(j).getInterviewTime());
+						MainConsole.jobListings.get(i).setInterview(interview);
+						break;
+					}
+				}
+
+			}
+		}
+		abc.clear();
+	}
 
 }

@@ -22,11 +22,11 @@ public class EmployerConsole {
 					+"3. Search candidates based on Job Preference\n"
 					+"4. ShortList Candidate\n"
 					+"5. Rank Candidates\n"
-					+""
-					+"6. Lodge Complaint\n"
-					+"7. Change Username\n"
-					+"8. Change Password\n"
-					+"9. Logout\n"
+					+"6. Address the result of the interviews"
+					+"7. Lodge Complaint\n"
+					+"8. Change Username\n"
+					+"9. Change Password\n"
+					+"10. Logout\n"
 					+ "Enter your choice: ";
 			System.out.println(menu);
 
@@ -52,17 +52,20 @@ public class EmployerConsole {
 					rankCandidates();
 					break;
 				case 6:
-					lodgeComplaint();
+					inputResultforInterviews();
 					break;
 				case 7:
+					lodgeComplaint();
+					break;
+				case 8:
 					System.out.println(" Enter the new Username");
 					String newUsername = Utilities.getScanner().nextLine();
 					changeUsername(newUsername);
 					break;
-				case 8:
+				case 9:
 					changePassword();
 					break;
-				case 9:
+				case 10:
 					System.out.println("You have successfully logged out!\n");
 					depart = true;
 					return;
@@ -75,6 +78,53 @@ public class EmployerConsole {
 		}	
 
 		
+	}
+
+	private void inputResultforInterviews() {
+		for(int i=0;i<MainConsole.jobListings.size();i++)
+		{
+			if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
+			{
+				Job job = MainConsole.jobListings.get(i);
+				ArrayList<Interview> interviewArrayList = job.getInterviews();
+				for(int j=0;j<interviewArrayList.size();i++)
+				{
+					System.out.println(interviewArrayList.get(i).getStudent().getDetails());
+				}
+				System.out.println("Enter Student Username");
+				String studentUsername = Utilities.getScanner().nextLine();
+				//check if he exists
+				//then!
+				for(int j=0;j<interviewArrayList.size();i++)
+				{
+					if(interviewArrayList.get(j).getStudent().getUsername().equalsIgnoreCase(studentUsername))
+					{
+						System.out.println("Enter interview result for the student");
+						String result = Utilities.getScanner().nextLine();
+						interviewArrayList.get(j).setInterviewResult(result);
+
+						System.out.println("Valid references? Y for YES, anything else for NO");
+						String input = Utilities.getScanner().nextLine();
+						if(input.equalsIgnoreCase("y"))
+							interviewArrayList.get(j).setReferenceCheck(true);
+						else
+							interviewArrayList.get(j).setReferenceCheck(false);
+
+						System.out.println("Sent the student an offer? Y for yes, anything else for no");
+						input = Utilities.getScanner().nextLine();
+
+						if(input.equalsIgnoreCase("y"))
+						{
+							Offer offer = new Offer(job);
+							interviewArrayList.get(j).getStudent().addOffer(offer);
+							interviewArrayList.get(j).getStudent().setStatus(ApplicantStatus.Pending);
+
+						}
+					}
+				}
+				break;
+			}
+		}
 	}
 
 	private void lodgeComplaint() {
@@ -246,7 +296,9 @@ public class EmployerConsole {
 				if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
 				{
 					try {
-						MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId));
+						//set time and add to notification
+						MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId), new DateTime());
+						((Student) MainConsole.userList.get(studentId)).addNotification(new InterviewNotification(MainConsole.jobListings.get(i),new DateTime()));
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}

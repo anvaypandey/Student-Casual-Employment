@@ -12,6 +12,8 @@ public class TestChangeUsername {
 	public void setUp() {
 		
 		MainConsole.userList.put("s123", new Employer("s123", "password", "s123@gmail.com"));
+
+		MainConsole.userList.put("s123", new Employer("s123", "password", "s123@gmail.com"));
 		MainConsole.user = "s123";
 
 		emp = new EmployerConsole();
