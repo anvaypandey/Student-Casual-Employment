@@ -26,9 +26,9 @@ public class MaintenanceConsole {
 					+ "3. View BlackList\n"
 					+ "4. Blacklist User\n" // provisional or full
 					+ "5. Remove User from Blacklist\n" 
-					+ "6. Add new job Category\n";
-			//+ "7. Change Username\n"
-			//+ "8. Change Password\n";
+					+ "6. Add new job Category\n"
+					+ "7. Change Username\n"
+					+ "8. Change Password\n";
 
 			System.out.println(menu);
 
@@ -55,15 +55,24 @@ public class MaintenanceConsole {
 				addJobCategory();
 				break;
 			case 7:
+				System.out.println(" Enter the new Username");
+				String newUsername = Utilities.getScanner().nextLine();
+				changeUsername(newUsername);
 				break;
 			case 8:
+				changePassword();
 				break;
+			case 9:
+				System.out.println("You have successfully logged out!\n");
+				depart = true;
+				return;
+			default:
+				System.out.println("Invalid Choice. Please try again");
 			}
-
 		}
 		catch( Exception e)
 		{
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 		}
 	
 
@@ -71,14 +80,14 @@ public class MaintenanceConsole {
 	
 	private void addJobCategory() throws InvalidInputException{
 	
-		ArrayList<String> JobCategories = MainConsole.jobCategories;
+		ArrayList<JobCategory> JobCategories = MainConsole.jobCategories;
 
 		System.out.println("Enter job category");
 		String input = Utilities.getScanner().nextLine();
 		
 		for(int i=0; i < JobCategories.size(); i++) {
 			
-			if( JobCategories.get(i).compareTo(input) == 0) {
+			if( JobCategories.get(i).getName().compareTo(input) == 0 ) {
 				throw new InvalidInputException ( input + "already exisits");
 			}
 			else if ( input.contentEquals(" ") || input.contentEquals("\n")) {
@@ -236,6 +245,38 @@ public class MaintenanceConsole {
 		}
 
 	}
+	
+	public boolean changeUsername(String newUsername) throws InvalidInputException{
+		if (newUsername.equalsIgnoreCase(MainConsole.user))
+			throw new InvalidInputException(" Your new username is the same as the old one");
+		if(MainConsole.userList.containsKey(newUsername))
+			throw new InvalidInputException(" This username is already taken");
+
+		User a1 = new Maintenance((Maintenance) MainConsole.userList.get(MainConsole.user));
+
+		MainConsole.userList.put(newUsername, a1);
+
+		MainConsole.userList.remove(MainConsole.user);
+
+		// MainConsole.user = newUsername; // If we want to continue from here
+
+		depart = true;// to login again
+		return true;
+	}
+	
+	public void changePassword() {
+		
+		System.out.println("New Password");
+
+		String newPassword = Utilities.getScanner().nextLine();
+
+		try {
+			MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
+		} catch (InvalidInputException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
 
 
 
