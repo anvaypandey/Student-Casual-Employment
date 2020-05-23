@@ -1,6 +1,5 @@
 import com.sun.tools.javac.Main;
 
-import java.rmi.MarshalledObject;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,7 +10,7 @@ public class StudentConsole {
 	
 	Student std = (Student)MainConsole.userList.get(MainConsole.user);
 
-
+		Scanner scan = new Scanner(System.in);
 
 	public void run()
 	{
@@ -36,12 +35,13 @@ public class StudentConsole {
 					+ "4. Update Records\n"
 					+ "5. Add Refernce\n"
 					+ "6. Update Reference\n"
-					+ "7. Upload CV\n" // for later
+					+ "7. Upload CV\n"
 					+ "8. Add new Job Category to your list\n"
-					+ "9. Lodge Complaint\n"
-					+ "10. Change Username\n" //Let this be for now
-					+ "11. Change Password\n"
-					+ "12. Logout\n"
+					+ "9.Accept/Reject an offer \n"
+					+ "10. Lodge Complaint\n"
+					+ "11. Change Username\n"
+					+ "12. Change Password\n"
+					+ "13. Logout\n"
 					+ "Enter your choice: ";
 			System.out.println(menu);
 
@@ -74,16 +74,19 @@ public class StudentConsole {
 			case 8:
 				chooseJobCategory();
 				break;
-			case 9:
+				case 8:
+					reviewOffer();
+					break;
+				case 10:
 				lodgeComplaint();
 				break;
-			case 10:
+			case 11:
 				changeUsername();
 				break;
-			case 11:
+			case 12:
 				changePassword();
 				break;
-			case 12:
+			case 13:
 				System.out.println("You have successfully logged out!\n");
 				depart = true;
 				return;
@@ -100,61 +103,62 @@ public class StudentConsole {
 	}
 
 
-//	public void chooseJobCategory() {
-//
-//			for(int i=0;i<MainConsole.jobCategories.size();i++)
-//			{
-//					System.out.println(MainConsole.jobCategories+ "\n");
-//			}
-//		boolean exists = false;
-//		do
-//		{
-//		System.out.println("Choose desired job category");
-//
-//		String jobcat = Utilities.getScanner().nextLine();
-//		JobCategory jobcat1 = new JobCategory(jobcat);
-//				std.addJobCategory(jobcat1);
-//
-//
-//
-//		try
-//		{
-//			exists = jobCatego(jobcat1);
-//		} catch (InvalidInputException e)
-//		{
-//
-//			e.printStackTrace();
-//		}
-//		if(!exists)
-//			System.out.print("Q to quit or try again");
-//		String resp = Utilities.getScanner().nextLine();
-//		if(resp.equalsIgnoreCase("q"))
-//		{
-//			exists=true;
-//		}
-//		}while(true);
-//	}
-//
-//	public boolean jobCatego(JobCategory jobcat1) throws InvalidInputException {
-//
-//		int i;
-//		for (i = 0; i < MainConsole.jobCategories.size(); i++) {
-//			if (std.getJobCategories().equals(MainConsole.jobCategories.get(i))) {
-//				MainConsole.jobCategories.add(jobcat1);
-//				return true;
-//				break;
-//			}
-//
-//
-////		if(i==MainConsole.jobCategories.size())
-////		{
-////			throw new InvalidInputException("Incorrect input");
-////		}
-////		return true;
-//
-//
-//		} return false;
-//	}
+	public void chooseJobCategory() {
+
+			for(int i=0;i<MainConsole.jobCategories.size();i++)
+			{
+					System.out.println(MainConsole.jobCategories.get(i).getName()+ "\n");
+			}
+		boolean exists = false;
+		do
+		{
+		System.out.println("Choose desired job category");
+		String jobcat = Utilities.getScanner().nextLine();
+
+		try
+		{
+			exists = jobCatego(jobcat);
+			if(exists) {
+				JobCategory jobcat1 = new JobCategory(jobcat);
+				std.addJobCategory(jobcat1);
+				System.out.print("Category has been added to your list");
+			}
+
+		} catch (InvalidInputException e)
+		{
+
+			e.printStackTrace();
+		}
+		if(!exists)
+			System.out.print("Q to quit or try again");
+		String resp = Utilities.getScanner().nextLine();
+		if(resp.equalsIgnoreCase("q"))
+		{
+			exists=true;
+		}
+		}while(!exists);
+	}
+
+	public boolean jobCatego(String jobcat) throws InvalidInputException {
+
+		int i;
+		for (i = 0; i < MainConsole.jobCategories.size(); i++) {
+			if (jobcat.equalsIgnoreCase(MainConsole.jobCategories.get(i).getName())) {
+				break;
+			}
+		}
+		if(i== MainConsole.jobCategories.size()){
+			throw new InvalidInputException("Category does not exist");
+		}
+		ArrayList<JobCategory> jobCat = std.getSelectedJobCategories();
+		for (i = 0; i < jobCat.size(); i++) {
+			if (jobcat.equalsIgnoreCase(jobCat.get(i).getName())) {
+				throw new InvalidInputException("Category already exists in your list");
+			}
+		}
+
+		return true;
+	}
 
 
 	private void changePassword()  {
@@ -226,11 +230,6 @@ public class StudentConsole {
 
 	}
 
-
-
-		
-
-
 	private void uploadCV() {
 		
 		//UPLOAD CV FILE
@@ -285,22 +284,22 @@ public class StudentConsole {
 		
 		System.out.println("Please enter desired status update Available(A)/Pending(P)/Unknown(U)/Employed(E)");
 		String response = Utilities.getScanner().nextLine();
-		if(response == "A")
+		if(response.equalsIgnoreCase( "A"))
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Available);
 			System.out.println("Status successfully updated");
 		}
-		else if(response == "P")
+		else if(response.equalsIgnoreCase("P"))
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Pending);
 			System.out.println("Status successfully updated");
 		}
-		else if(response == "U")
+		else if(response.equalsIgnoreCase("U"))
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Unknown);
 			System.out.println("Status successfully updated");
 		}
-		else if(response == "E")
+		else if(response.equalsIgnoreCase("E"))
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Employed);
 			System.out.println("Status successfully updated");
@@ -314,18 +313,29 @@ public class StudentConsole {
 		{
 			Availability availability = Availability.FullTime;
 			((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability);
-			System.out.println("Availability set to Fulltime");
+			System.out.println("Availability set to FullTime");
 		}
 		else if((((Student)MainConsole.userList.get(MainConsole.user)).getAvailability()==Availability.FullTime))
 		{
 		Availability availability2 = Availability.PartTime;
 		((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability2);
-			System.out.println("Availability set to Parttime");
+			System.out.println("Availability set to PartTime");
 		}
 		else
 			System.out.println("Process could not be completed");
+//add internship
+	}
+	public void reviewOffer(){
+		//
+		// accept/reject offers
+		//display all offers
+		//chose offer to respond
+		// Accept a reject r
+		//System.out.println("Offer Accepted");
 
 	}
+
+
 
 
 	// auto update to unknown after 2 weeks
