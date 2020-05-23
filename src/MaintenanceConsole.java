@@ -70,14 +70,14 @@ public class MaintenanceConsole {
 	}
 	
 	private void addJobCategory() throws InvalidInputException{
-	
+
 		ArrayList<String> JobCategories = MainConsole.jobCategories;
 
 		System.out.println("Enter job category");
 		String input = Utilities.getScanner().nextLine();
-		
+
 		for(int i=0; i < JobCategories.size(); i++) {
-			
+
 			if( JobCategories.get(i).compareTo(input) == 0) {
 				throw new InvalidInputException ( input + "already exisits");
 			}
@@ -87,11 +87,11 @@ public class MaintenanceConsole {
 			else if ( input.matches("\\d+")) {
 				throw new InvalidInputException ("Job category cannot be a number");
 			}
-			else 
+			else
 				System.out.println("Success ! Job category" + input + "has been added");
-			
+
 		}
-		
+
 
 	}
 

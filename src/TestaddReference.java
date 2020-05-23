@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class TestaddReference
 {
-	ArrayList<String> result;
+	ArrayList<Reference> result;
 	
 	StudentConsole stnd;
 	@Before
@@ -17,7 +17,9 @@ public class TestaddReference
 		stnd = new StudentConsole();
 		MainConsole.userList.put("s123", new Student("s123", "password", "s123@gmail.com", Availability.FullTime));
 	 	Student std = (Student)MainConsole.userList.get("s123");
-		std.setReferences("Michael Smith");
+
+		Reference ref = new Reference("Michael Smith", "michsmith@yahoo.com","044315423" );
+	 	std.setReferences(ref);
 		std.getReferences();
 		
 	
@@ -34,7 +36,7 @@ public class TestaddReference
 //			
 			
 		//Assert.assertEquals(expect, result);
-		assertEquals("Michael Smith", result.get(0));
+		assertEquals(std.getReferences(), result.get(0));
 }
 
 	
