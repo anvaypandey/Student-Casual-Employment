@@ -137,7 +137,7 @@ public class Student extends User{
 	@Override
 	public String getDetails() {
 		Student std = (Student)MainConsole.userList.get(MainConsole.user);
-		return std + "\n" + std.getReferences().toString() + "\n" + std.getEmploymentRecords().toString() + "\n" + std.getAvailability().toString()
+		return std.getUsername().toString() + std.getEmailAddress().toString() + "\n" + std.getReferences().toString() + "\n" + std.getEmploymentRecords().toString() + "\n" + std.getAvailability().toString()
 				+ "\n" + std.getStatus().toString();
 	}
 	
