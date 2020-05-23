@@ -77,17 +77,17 @@ public class MaintenanceConsole {
 	
 
 	}
-	
-	private void addJobCategory() throws InvalidInputException {
 
-		ArrayList<String> JobCategories = MainConsole.jobCategories;
+	private void addJobCategory() throws InvalidInputException{
+
+		ArrayList<JobCategory> JobCategories = MainConsole.jobCategories;
 
 		System.out.println("Enter job category");
 		String input = Utilities.getScanner().nextLine();
 
 		for(int i=0; i < JobCategories.size(); i++) {
 
-			if( JobCategories.get(i).compareTo(input) == 0) {
+			if( JobCategories.get(i).getName().compareTo(input) == 0 ) {
 				throw new InvalidInputException ( input + "already exisits");
 			}
 			else if ( input.contentEquals(" ") || input.contentEquals("\n")) {
