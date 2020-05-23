@@ -1,3 +1,6 @@
+import com.sun.tools.javac.Main;
+
+import java.rmi.MarshalledObject;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -97,71 +100,66 @@ public class StudentConsole {
 	}
 
 
-	public void chooseJobCategory() {
+//	public void chooseJobCategory() {
+//
+//			for(int i=0;i<MainConsole.jobCategories.size();i++)
+//			{
+//					System.out.println(MainConsole.jobCategories+ "\n");
+//			}
+//		boolean exists = false;
+//		do
+//		{
+//		System.out.println("Choose desired job category");
+//
+//		String jobcat = Utilities.getScanner().nextLine();
+//		JobCategory jobcat1 = new JobCategory(jobcat);
+//				std.addJobCategory(jobcat1);
+//
+//
+//
+//		try
+//		{
+//			exists = jobCatego(jobcat1);
+//		} catch (InvalidInputException e)
+//		{
+//
+//			e.printStackTrace();
+//		}
+//		if(!exists)
+//			System.out.print("Q to quit or try again");
+//		String resp = Utilities.getScanner().nextLine();
+//		if(resp.equalsIgnoreCase("q"))
+//		{
+//			exists=true;
+//		}
+//		}while(true);
+//	}
+//
+//	public boolean jobCatego(JobCategory jobcat1) throws InvalidInputException {
+//
+//		int i;
+//		for (i = 0; i < MainConsole.jobCategories.size(); i++) {
+//			if (std.getJobCategories().equals(MainConsole.jobCategories.get(i))) {
+//				MainConsole.jobCategories.add(jobcat1);
+//				return true;
+//				break;
+//			}
+//
+//
+////		if(i==MainConsole.jobCategories.size())
+////		{
+////			throw new InvalidInputException("Incorrect input");
+////		}
+////		return true;
+//
+//
+//		} return false;
+//	}
 
-			for(int i=0;i<MainConsole.jobCategories.size();i++)
-			{
-				
-					System.out.println(MainConsole.jobCategories+ "\n");
-
-			
-			}
-		boolean exists = false;
-		do
-		{
-		System.out.println("Choose desired job category");
-<<<<<<< HEAD
-		String jobcat = scan.nextLine();
-		JobCategory jobcat1 = new JobCategory(jobcat);
-				std.addJobCategory(jobcat1);
-=======
-		String jobcat = Utilities.getScanner().nextLine();
->>>>>>> f6f74dbcd75b9c10bf841ae8aad71e3b9bbbc8c6
-		
-		
-		try
-		{
-			
-			exists = jobCatego(jobcat);
-		} catch (InvalidInputException e)
-		{
-			
-			e.printStackTrace();
-		}
-		if(!exists)
-			System.out.print("Q to quit or try again");
-		String resp = Utilities.getScanner().nextLine();
-		if(resp.equalsIgnoreCase("q"))
-		{
-			exists=true;
-		}	
-		}while(true);
-	}
-
-	public boolean jobCatego(JobCategory jobcat1) throws InvalidInputException
-	{
-//		jobcat = "cafe";
-		int i;
-		for(i=0;i<MainConsole.jobCategories.size();i++)
-		{
-			if(std.jobcat1.equals(MainConsole.jobCategories.get(i)))
-			{
-			MainConsole.jobCategories.add(jobcat1);
-
-				break;	
-			}
-				
-		}
-		if(i==MainConsole.jobCategories.size())
-		{
-			throw new InvalidInputException("Incorrenct input");
-		}
-		return true;
-	}
 
 	private void changePassword()  {
 		
-		System.out.println("New Password");
+		System.out.println("Please enter new password");
 		
 		String newPassword = Utilities.getScanner().nextLine();
 
@@ -174,18 +172,21 @@ public class StudentConsole {
 	}
 
 	public void changeUsername() {
-		
-		String newUsername = "abc";
-		
-		User a1 = new Student ((Student)MainConsole.userList.get(MainConsole.user));
-		
-		MainConsole.userList.put(newUsername, a1);
-		MainConsole.userList.remove(MainConsole.user);
+
+		System.out.println("Please enter new username");
+		String newUsername = Utilities.getScanner().nextLine();
+		MainConsole.userList.get(MainConsole.user).setUsername(newUsername);
+		System.out.println("Username changed");
+
+//		User a1 = new Student ((Student)MainConsole.userList.get(MainConsole.user));
+//
+//		MainConsole.userList.put(newUsername, a1);
+//		MainConsole.userList.remove(MainConsole.user);
 		
 		
 		//MainConsole.user = newUsername; // If we want to continue from here
 		
-		depart =true; //to login again
+		depart = true; //to login again
 		
 		
 		
@@ -251,22 +252,33 @@ public class StudentConsole {
 
 				Reference ref1 = new Reference(nameRef,emailRef, phoneRef);
 				std.setReferences(ref1);
+		System.out.println("Reference successfully added!");
 
 		}
 
 
 	private void updateRecords() {
-		
-		System.out.println(std.getEmploymentRecords());
+		System.out.println("Please enter type of employment");
+		String type1 = Utilities.getScanner().nextLine();
+		std.getEmploymentRecords();
+		System.out.println("Please enter description of employment");
+		String description1 = Utilities.getScanner().nextLine();
+		EmploymentRecord empRec = new EmploymentRecord(type1, description1);
+		std.setEmploymentRecords(empRec);
+		System.out.println("Employment Record added!");
+		}
 	
-	}
+	//}
 
-	private void addRecord() {
+	private void addRecord(){
 		
-		System.out.println("Please enter previous experience, qualifactions and certifications");
-		String cv = Utilities.getScanner().nextLine();
-		std.setLocationCV(cv);
-		System.out.println("CV added!");
+		System.out.println("Please enter type of employment");
+		String type = Utilities.getScanner().nextLine();
+		System.out.println("Please enter description of employment");
+		String description = Utilities.getScanner().nextLine();
+		EmploymentRecord empRec = new EmploymentRecord(type, description);
+		std.setEmploymentRecords(empRec);
+		System.out.println("Employment Record added!");
 	}
 
 	private void updateStatus() {
@@ -297,16 +309,18 @@ public class StudentConsole {
 
 	public void updateAvailability() {
 		
-		
+
 		if(((Student)MainConsole.userList.get(MainConsole.user)).getAvailability()==Availability.PartTime)
 		{
 			Availability availability = Availability.FullTime;
 			((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability);
+			System.out.println("Availability set to Fulltime");
 		}
 		else if((((Student)MainConsole.userList.get(MainConsole.user)).getAvailability()==Availability.FullTime))
 		{
 		Availability availability2 = Availability.PartTime;
 		((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability2);
+			System.out.println("Availability set to Parttime");
 		}
 		else
 			System.out.println("Process could not be completed");
