@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TestBlackListUser {
-	
+
 	MaintenanceConsole main;
 
 	@Before
@@ -22,27 +22,27 @@ public class TestBlackListUser {
 
 		System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
 		main = new MaintenanceConsole();
-		
+
 	}
-	// positive test - test if user on provisional blacklist can be moved to full blacklist 
+	// positive test - test if user on provisional blacklist can be moved to full blacklist
 	@Test
 	public void blacklistUser() throws InvalidInputException, AuthorizationException {
 
 		main.blackListUser();
-		
+
 		assertEquals(BlacklistStatus.FULL, (MainConsole.userList.get("s1").getBlacklistStatus()));
-		
+
 	}
 
-	//Negative test - Test if exception would be thrown if user is not on provisional blacklist 
-	
+	//Negative test - Test if exception would be thrown if user is not on provisional blacklist
+
 	@Test(expected = InvalidInputException.class)
 	public void testInvalidInputException() throws InvalidInputException, AuthorizationException {
 		String simulatedUserInput = "s2" + System.getProperty("line.separator");
 		System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-		
+
 			main.blackListUser();
-			
+
 	}
 
 }

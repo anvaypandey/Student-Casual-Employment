@@ -24,7 +24,7 @@ public class TestEmployerConsole extends EmployerConsole {
 	@Before
 	public void setUp() throws Exception {
 
-		
+
 
 		MainConsole.userList.put("student1", new Student("student1","123","student1@email.com",Availability.FullTime));
 		MainConsole.userList.put("student2", new Student("student2","123","student2@email.com",Availability.PartTime));
@@ -32,16 +32,16 @@ public class TestEmployerConsole extends EmployerConsole {
 		//MainConsole.userList.put("student4", new Student("student4","123","student4",Availability.FullTime));
 		//MainConsole.userList.put("student5", new Student("student5","123","student5",Availability.Internship));
 		//MainConsole.userList.put("student6", new Student("student6","123","student6",null));
-		
+
 		MainConsole.jobCategories.add("Engineering");
 		MainConsole.jobCategories.add("Accounting");
-		
+
 		((Student)MainConsole.userList.get("student1")).addJobCategory("Engineering");
 		((Student)MainConsole.userList.get("student2")).addJobCategory("Accounting");
 
 		MainConsole.userList.put("emp123", new Employer("emp123","123","student1@email.com"));
 
-		
+
 	}
 
 	@After
@@ -80,7 +80,7 @@ public class TestEmployerConsole extends EmployerConsole {
 
 		Job job = new Job("JOB000", ((Employer) MainConsole.userList.get("emp123")), "Sample Job");
 		addNewJob(job);
-		
+
 		assertEquals(4, MainConsole.jobListings.size());
 	}
 

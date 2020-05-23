@@ -21,18 +21,18 @@ public class TestStudentJobCat {
 	}
 
 
-	
+
 	@Test
 	public void testJobCat() throws InvalidInputException
 	{
-		
+
 		assertEquals(true, std.jobCatego("cafe"));
 	}
 	@Test(expected = InvalidInputException.class)
 	public void testInvalidInputException() throws InvalidInputException, AuthorizationException {
-			
+
 		std.jobCatego("clean");
-			
+
 	}
 
 }
