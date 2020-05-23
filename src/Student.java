@@ -13,7 +13,9 @@ public class Student extends User{
 	private ArrayList<JobCategory> jobCategories;
 	private BlacklistStatus blacklistStatus;
 	private DateTime blacklistTime;
-	
+
+	private ArrayList<InterviewNotification> notifications;
+	private ArrayList<Offer> offers;
 
 	protected Student(String username, String password, String email, Availability availability) {
 		super(username, password,email);
@@ -132,6 +134,22 @@ public class Student extends User{
 
 	public DateTime getBlacklistTime() {
 		return blacklistTime;
+	}
+
+	public ArrayList<Offer> getOffers() {
+		return offers;
+	}
+
+	public void addOffer(Offer offer) {
+		this.offers.add(offer);
+	}
+
+	public ArrayList<InterviewNotification> getNotifications() {
+		return notifications;
+	}
+
+	public void addNotification(InterviewNotification notification) {
+		notifications.add(notification);
 	}
 
 	@Override

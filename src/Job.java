@@ -1,18 +1,29 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Job {
 
 	private String JobId;
-	private ArrayList<Student> shortlist;
 	private Employer jobCreator;
 	private String jobDescription;
+
+
+	private ArrayList<Interview> interviews;
+	private ArrayList<Offer> offers;
 
 	public Job(String jobId,Employer jobCreator, String jobDescription) {
 		JobId = jobId;
 		this.jobCreator = jobCreator;
 		this.jobDescription = jobDescription;
-		shortlist = new ArrayList<>();
+		interviews = new ArrayList<>();
+		offers = new ArrayList<>();
+	}
+
+	public ArrayList<Interview> getInterviews() {
+		return interviews;
+	}
+
+	public void setInterview(Interview interview) {
+		this.interviews.add(interview);
 	}
 	
 
@@ -26,20 +37,23 @@ public class Job {
 	}
 
 	public ArrayList<Student> getShortlist() {
-		return shortlist;
+		ArrayList<Student> students = new ArrayList<>();
+		for(int i=0;i<interviews.size();i++)
+		{
+			students.add(interviews.get(i).getStudent());
+		}
+		return students;
 	}
 
-	public boolean addtoShortlist(Student student) throws Exception {
+	public boolean addtoShortlist(Student student, DateTime dateTime) throws Exception {
 		int i;
-		for(i = 0;i<shortlist.size();i++)
+		for(i = 0;i<interviews.size();i++)
 		{
-			if(shortlist.get(i) == student)
+			if(interviews.get(i).getStudent().getUsername().equalsIgnoreCase(student.getUsername()))
 			break;
 		}
-		if(i<shortlist.size())
+		if(i<interviews.size())
 			throw new Exception("Already Exists");
-		else
-			shortlist.add(student);
 		
 		return true;
 	}
@@ -66,15 +80,16 @@ public class Job {
 
 	public void rankCandidates(String ranks)throws InvalidInputException
 	{
-		if(ranks.length()!= shortlist.size())// check the length of the number, which should be equal to the length of string
-			throw new InvalidInputException("Incorrect Input!");
 
 		String [] rankArray = ranks.split(" ");
+
+		if(rankArray.length!= interviews.size())// check the length of the string array, which should be equal to the length of string
+			throw new InvalidInputException("Incorrect Input!");
 
 		try{
 			int i=0;
 			while (i<ranks.length()) {
-				if(Integer.parseInt(rankArray[i]) >= shortlist.size() || Integer.parseInt(rankArray[i])<= 0)
+				if(Integer.parseInt(rankArray[i]) >= interviews.size() || Integer.parseInt(rankArray[i])<= 0)
 					throw new InvalidInputException("Invalid Input");
 				for(int j=i+1;j<rankArray.length;j++) {
 					if(Integer.parseInt(rankArray[i]) == Integer.parseInt(rankArray[j]))
@@ -89,13 +104,13 @@ public class Job {
 		}
 
 		// sort the list according the the ranking
-		ArrayList<Student> temp = new ArrayList<>();
+		ArrayList<Interview> temp = new ArrayList<>();
 
 		for(int i=0;i<rankArray.length;i++)
-			temp.add(shortlist.get(Integer.parseInt(rankArray[i])-1));
+			temp.add(interviews.get(Integer.parseInt(rankArray[i])-1));
 
-		shortlist.clear();
-		shortlist.addAll(temp);
+		interviews.clear();
+		interviews.addAll(temp);
 
 	}
 	
