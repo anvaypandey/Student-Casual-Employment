@@ -16,7 +16,7 @@ public class MainConsole {
 	
 	public void run() 
 	{
-		userList.put("admin", new Maintainence("admin","admin","admin@gmail.com"));
+		userList.put("admin", new Maintenance("admin","admin","admin@gmail.com"));
 		
 		while (true)
 		{
