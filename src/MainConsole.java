@@ -17,6 +17,9 @@ public class MainConsole {
 	public void run() 
 	{
 		userList.put("admin", new Maintenance("admin","admin","admin@gmail.com"));
+		userList.put("s123", new Student("s123","s123","s123@gmail.com",Availability.FullTime));
+		jobCategories.add(new JobCategory("waiter"));
+		jobCategories.add( new JobCategory("maid"));
 		
 		while (true)
 		{

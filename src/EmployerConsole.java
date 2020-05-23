@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Scanner;
 
 public class EmployerConsole {
 
@@ -219,7 +218,7 @@ public class EmployerConsole {
 		{
 			if(me.getValue() instanceof Student)
 			{
-				ArrayList<JobCategory> jobCat = ((Student) me.getValue()).getJobCategories();
+				ArrayList<JobCategory> jobCat = ((Student) me.getValue()).getSelectedJobCategories();
 				
 
 				for(int i=0;i<jobCat.size();i++)
