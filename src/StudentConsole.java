@@ -110,7 +110,13 @@ public class StudentConsole {
 		do
 		{
 		System.out.println("Choose desired job category");
+<<<<<<< HEAD
+		String jobcat = scan.nextLine();
+		JobCategory jobcat1 = new JobCategory(jobcat);
+				std.addJobCategory(jobcat1);
+=======
 		String jobcat = Utilities.getScanner().nextLine();
+>>>>>>> f6f74dbcd75b9c10bf841ae8aad71e3b9bbbc8c6
 		
 		
 		try
@@ -132,23 +138,23 @@ public class StudentConsole {
 		}while(true);
 	}
 
-	public boolean jobCatego(String jobcat) throws InvalidInputException
+	public boolean jobCatego(JobCategory jobcat1) throws InvalidInputException
 	{
 //		jobcat = "cafe";
 		int i;
 		for(i=0;i<MainConsole.jobCategories.size();i++)
 		{
-			if(jobcat.equalsIgnoreCase(MainConsole.jobCategories.get(i)))
+			if(std.jobcat1.equals(MainConsole.jobCategories.get(i)))
 			{
-			MainConsole.jobCategories.add(jobcat);
-				//std.addJobCategory(jobcat);
+			MainConsole.jobCategories.add(jobcat1);
+
 				break;	
 			}
 				
 		}
 		if(i==MainConsole.jobCategories.size())
 		{
-			throw new InvalidInputException("Invorrenct blah blah");
+			throw new InvalidInputException("Incorrenct input");
 		}
 		return true;
 	}
