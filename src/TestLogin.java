@@ -17,7 +17,7 @@ public class TestLogin {
 	}
 	public void populateValues()
 	{
-		userList.put("admin", new Maintainence("admin","admin","admin@gmail.com"));
+		userList.put("admin", new Maintenance("admin","admin","admin@gmail.com"));
 		userList.put("s1", new Student("s1","qwerty", "s1@gmail.com",Availability.PartTime));
 		userList.put("e1",new Employer ("e1","qwerty","e1@gmail.com"));
 		

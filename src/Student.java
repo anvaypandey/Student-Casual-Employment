@@ -10,7 +10,7 @@ public class Student extends User{
 	private ArrayList<EmploymentRecord> employmentRecords;
 	private String locationCV;
 	private ArrayList<Complaint> complaints;
-	private ArrayList<JobCategory> jobCategories;
+	private ArrayList<JobCategory> selectedJobCategories;
 	private BlacklistStatus blacklistStatus;
 	private DateTime blacklistTime;
 
@@ -25,7 +25,7 @@ public class Student extends User{
 		references = new ArrayList<Reference>();
 		employmentRecords = new ArrayList<EmploymentRecord>();
 		complaints = new ArrayList<Complaint>();
-		jobCategories = new ArrayList<JobCategory>();
+		selectedJobCategories = new ArrayList<JobCategory>();
 		blacklistStatus = BlacklistStatus.NONE;
 	}
 
@@ -50,10 +50,10 @@ public class Student extends User{
 		else
 			employmentRecords = new ArrayList<>();
 
-		if(that.getJobCategories().iterator().hasNext())
-			Collections.copy(jobCategories,that.getJobCategories());
+		if(that.getSelectedJobCategories().iterator().hasNext())
+			Collections.copy(selectedJobCategories,that.getSelectedJobCategories());
 		else
-			jobCategories = new ArrayList<>();
+			selectedJobCategories = new ArrayList<>();
 		setBlacklistStatus(that.getBlacklistStatus());
 	}
 
@@ -97,12 +97,12 @@ public class Student extends User{
 		this.locationCV = locationCV;
 	}
 	
-	public ArrayList<JobCategory> getJobCategories() {
-		return jobCategories;
+	public ArrayList<JobCategory> getSelectedJobCategories() {
+		return selectedJobCategories;
 	}
 
 	public void addJobCategory(JobCategory jobCategory) {
-		this.jobCategories.add(jobCategory);
+		this.selectedJobCategories.add(jobCategory);
 	}
 
 	public ArrayList<Complaint> getComplaints() {
@@ -154,7 +154,9 @@ public class Student extends User{
 
 	@Override
 	public String getDetails() {
-		return null;
+		Student std = (Student)MainConsole.userList.get(MainConsole.user);
+		return std.getUsername().toString() + std.getEmailAddress().toString() + "\n" + std.getReferences().toString() + "\n" + std.getEmploymentRecords().toString() + "\n" + std.getAvailability().toString()
+				+ "\n" + std.getStatus().toString();
 	}
 	
 	

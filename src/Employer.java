@@ -66,8 +66,8 @@ public class Employer extends User {
 
 	@Override
 	public String getDetails() {
-		// TODO Auto-generated method stub
-		return null;
+		Employer emp = (Employer)MainConsole.userList.get(MainConsole.user);
+		return  emp.getUsername().toString() + "\n" + emp.getEmailAddress().toString();
 	}
 	
 	

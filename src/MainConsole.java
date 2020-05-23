@@ -8,7 +8,7 @@ public class MainConsole {
 	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
-	static ArrayList<String> jobCategories = new ArrayList<String>();
+	static ArrayList<JobCategory> jobCategories = new ArrayList<JobCategory>();
 	
 	
 	static String user;
@@ -16,7 +16,10 @@ public class MainConsole {
 	
 	public void run() 
 	{
-		userList.put("admin", new Maintainence("admin","admin","admin@gmail.com"));
+		userList.put("admin", new Maintenance("admin","admin","admin@gmail.com"));
+		userList.put("s123", new Student("s123","s123","s123@gmail.com",Availability.FullTime));
+		jobCategories.add(new JobCategory("waiter"));
+		jobCategories.add( new JobCategory("maid"));
 		
 		while (true)
 		{
