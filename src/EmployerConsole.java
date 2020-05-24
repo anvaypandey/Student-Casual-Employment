@@ -22,7 +22,7 @@ public class EmployerConsole {
 					+"3. Search candidates based on Job Preference\n"
 					+"4. ShortList Candidate\n"
 					+"5. Rank Candidates\n"
-					+"6. Address the result of the interviews"
+					+"6. Address the result of the interviews\n"
 					+"7. Lodge Complaint\n"
 					+"8. Change Username\n"
 					+"9. Change Password\n"
@@ -223,7 +223,6 @@ public class EmployerConsole {
 		try {
 			searchApplicantsbyJobPreference(prefChoice);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -238,19 +237,19 @@ public class EmployerConsole {
 			{
 				if (i==1 && ((Student) me.getValue()).getAvailability() == Availability.FullTime)
 				{
-					me.getValue().getDetails();
+					System.out.println(me.getValue().getDetails()+"\n\n");
 					exists = true;
 				}
 					
 				else if (i==2 && ((Student) me.getValue()).getAvailability() == Availability.PartTime)
 				{
-					me.getValue().getDetails();
+					System.out.println(me.getValue().getDetails()+"\n\n");
 					exists = true;
 				}
 					
 				else if (i==3 && ((Student) me.getValue()).getAvailability() == Availability.Internship)
 				{
-					me.getValue().getDetails();
+					System.out.println(me.getValue().getDetails()+"\n\n");
 					exists = true;
 				}
 			}
@@ -275,7 +274,7 @@ public class EmployerConsole {
 
 					if (jobCat.get(i).getName().equalsIgnoreCase(str))
 					{
-						me.getValue().getDetails();
+						System.out.println(me.getValue().getDetails()+"\n\n");
 						exists = true;
 					}	
 			}
@@ -378,12 +377,14 @@ public class EmployerConsole {
 		String id ="JOB";
 		String index = String.valueOf(MainConsole.jobListings.size());
 
-		for(int j=3;j>index.length();j--) // to add 0s in front of the idNumber
-			index+="0";
+		for(int j=3;j>=index.length();j--) // to add 0s in front of the idNumber
+			index="0"+index;
 		id += index;
 
 		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
 		MainConsole.jobListings.add(job);
+
+		System.out.println("Job "+id+" has been created");
 	}
 
 	/*private int jobInput()

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class MainConsole {
 	
-	static HashMap<String, User> userList = new HashMap<>();
+	 static HashMap<String, User> userList = new HashMap<>();
 	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
@@ -16,10 +16,7 @@ public class MainConsole {
 	
 	public void run() 
 	{
-		userList.put("admin", new Maintenance("admin","admin","admin@gmail.com"));
-		userList.put("s123", new Student("s123","s123","s123@gmail.com",Availability.FullTime));
-		jobCategories.add(new JobCategory("waiter"));
-		jobCategories.add( new JobCategory("maid"));
+		populate();
 		
 		while (true)
 		{
@@ -45,7 +42,30 @@ public class MainConsole {
 
 		
 	}
-	
+
+	private void populate() {
+
+		userList.put("admin", new Maintenance("admin","admin","admin@email.com"));
+		userList.put("s123", new Student("s123","s123","s123@email.com",Availability.FullTime));
+		userList.put("student1", new Student("student1","123","student1@email.com",Availability.FullTime));
+		userList.put("student2", new Student("student2","123","student2@email.com",Availability.PartTime));
+		userList.put("student3", new Student("student3","123","student3@email.com",Availability.PartTime));
+		userList.put("emp123", new Employer("emp123","123","emp1@email.com"));
+		userList.put("e123", new Employer("e123", "password", "e123@email.com"));
+		userList.put("e001", new Employer("e001", "qwerty", "e001@email.com"));
+
+		((Student)userList.get("student3")).setBlacklistStatus(BlacklistStatus.PROVISIONAL);
+
+		jobCategories.add(new JobCategory("waiter"));
+		jobCategories.add( new JobCategory("maid"));
+		jobCategories.add(new JobCategory("Engineering"));
+		jobCategories.add(new JobCategory("Accounting"));
+
+		jobListings.add(new Job("JOB001", (Employer)userList.get("emp123"), "Job Description"));
+		jobListings.add(new Job("JOB002", (Employer)userList.get("e123"), "Job Description"));
+		jobListings.add(new Job("JOB003", (Employer)userList.get("e001"), "Job Description"));
+	}
+
 	public void login()
 	{
 		boolean flag = false;

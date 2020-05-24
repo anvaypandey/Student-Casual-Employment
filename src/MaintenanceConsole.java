@@ -28,7 +28,8 @@ public class MaintenanceConsole {
 					+ "5. Remove User from Blacklist\n" 
 					+ "6. Add new job Category\n"
 					+ "7. Change Username\n"
-					+ "8. Change Password\n";
+					+ "8. Change Password\n"
+					+ "9: Logout\n";
 
 			System.out.println(menu);
 
@@ -72,7 +73,8 @@ public class MaintenanceConsole {
 		}
 		catch( Exception e)
 		{
-			System.err.println(e.getMessage());
+			e.printStackTrace();
+			//System.err.println(e.getMessage());
 		}
 	
 
@@ -85,10 +87,11 @@ public class MaintenanceConsole {
 		System.out.println("Enter job category");
 		String input = Utilities.getScanner().nextLine();
 
-		for(int i=0; i < JobCategories.size(); i++) {
+		int i;
+		for(i=0; i < JobCategories.size(); i++) {
 
 			if( JobCategories.get(i).getName().compareTo(input) == 0 ) {
-				throw new InvalidInputException ( input + "already exisits");
+				throw new InvalidInputException ( input + "already exists");
 			}
 			else if ( input.contentEquals(" ") || input.contentEquals("\n")) {
 				throw new InvalidInputException ("There's no input");
@@ -96,10 +99,8 @@ public class MaintenanceConsole {
 			else if ( input.matches("\\d+")) {
 				throw new InvalidInputException ("Job category cannot be a number");
 			}
-			else
-				System.out.println("Success ! Job category" + input + "has been added");
-
 		}
+		System.out.println("Success! Job category " + input + " has been added");
 
 
 	}
@@ -222,23 +223,23 @@ public class MaintenanceConsole {
 		for(Map.Entry<String,User> me : MainConsole.userList.entrySet()) 
 		{
 			if(i ==1 && me.getValue() instanceof Student)
-				me.getValue().getDetails();
+				System.out.println(me.getValue().getDetails()+"\n\n");
 			else if(i==2 && me.getValue() instanceof Employer)
-				me.getValue().getDetails();
+				System.out.println(me.getValue().getDetails()+"\n\n");
 			else if(i == 3) {
 				if ( me.getValue() instanceof Student && (((Student) me.getValue()).getBlacklistStatus()) != BlacklistStatus.NONE) {
-					me.getValue().getDetails();
+					System.out.println(me.getValue().getDetails()+"\n"+((Student)me.getValue()).getBlacklistStatus()+"\n\n");
 				}
 				if (me.getValue() instanceof Employer &&  (((Employer) me.getValue()).getBlacklistStatus()) != BlacklistStatus.NONE) {
-					me.getValue().getDetails();				
+					System.out.println(me.getValue().getDetails()+"\n"+((Employer)me.getValue()).getBlacklistStatus()+"\n\n");
 				}
 			}	
 			else if (i ==4) {
 				if (me.getValue() instanceof Student && (((Student) me.getValue()).getBlacklistStatus()) == BlacklistStatus.PROVISIONAL) {
-					me.getValue().getDetails();
+					System.out.println(me.getValue().getDetails()+"\n"+((Student)me.getValue()).getBlacklistStatus()+"\n\n");
 				}
 				if(me.getValue() instanceof Employer && (((Employer) me.getValue()).getBlacklistStatus()) == BlacklistStatus.PROVISIONAL) {
-					me.getValue().getDetails();
+					System.out.println(me.getValue().getDetails()+"\n"+((Employer)me.getValue()).getBlacklistStatus()+"\n\n");
 				}
 			}
 

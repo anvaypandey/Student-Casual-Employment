@@ -43,13 +43,5 @@ public class Interview {
         this.referenceCheck = referenceCheck;
     }
 
-    public boolean isFinalOutcome() {
-        return finalOutcome;
-    }
-
-    public void setFinalOutcome(boolean finalOutcome) {
-        this.finalOutcome = finalOutcome;
-    }
-
 
 }

@@ -20,7 +20,7 @@ public class Student extends User{
 	protected Student(String username, String password, String email, Availability availability) {
 		super(username, password,email);
 		
-		status = ApplicantStatus.Unknown;
+		status = ApplicantStatus.Available;
 		this.availability = availability;
 		references = new ArrayList<Reference>();
 		employmentRecords = new ArrayList<EmploymentRecord>();
@@ -154,9 +154,9 @@ public class Student extends User{
 
 	@Override
 	public String getDetails() {
-		Student std = (Student)MainConsole.userList.get(MainConsole.user);
-		return std.getUsername().toString() + std.getEmailAddress().toString() + "\n" + std.getReferences().toString() + "\n" + std.getEmploymentRecords().toString() + "\n" + std.getAvailability().toString()
-				+ "\n" + std.getStatus().toString();
+		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress()+"\nAvailability: "+ getAvailability()+
+				"\nStatus:"+getStatus();
+		return s;
 	}
 	
 	
