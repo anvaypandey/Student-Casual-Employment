@@ -66,8 +66,8 @@ public class Employer extends User {
 
 	@Override
 	public String getDetails() {
-		Employer emp = (Employer)MainConsole.userList.get(MainConsole.user);
-		return  emp.getUsername().toString() + "\n" + emp.getEmailAddress().toString();
+		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress();
+		return s;
 	}
 	
 	
