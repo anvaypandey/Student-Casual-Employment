@@ -1,21 +1,22 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Job {
+public class Job implements Serializable {
 
-	private String JobId;
+	private String jobId;
 	private Employer jobCreator;
 	private String jobDescription;
-
-
+	private JobCategory jobCategory;
 	private ArrayList<Interview> interviews;
 	private ArrayList<Offer> offers;
 
-	public Job(String jobId,Employer jobCreator, String jobDescription) {
-		JobId = jobId;
+	public Job(String jobId,Employer jobCreator, String jobDescription,JobCategory jobCategory) {
+		this.jobId = jobId;
 		this.jobCreator = jobCreator;
 		this.jobDescription = jobDescription;
 		interviews = new ArrayList<>();
 		offers = new ArrayList<>();
+		this.jobCategory = jobCategory;
 	}
 
 	public ArrayList<Interview> getInterviews() {
@@ -29,11 +30,11 @@ public class Job {
 
 
 	public String getJobId() {
-		return JobId;
+		return jobId;
 	}
 
 	public void setJobId(String jobId) {
-		JobId = jobId;
+		this.jobId = jobId;
 	}
 
 	public ArrayList<Student> getShortlist() {
@@ -54,8 +55,16 @@ public class Job {
 		}
 		if(i<interviews.size())
 			throw new Exception("Already Exists");
+
+		Interview interview = new Interview(this,student,dateTime);
+		interviews.add(interview);
+		student.addInterviewNotification(interview);
 		
 		return true;
+	}
+
+	public JobCategory getJobCategory() {
+		return jobCategory;
 	}
 
 	public Employer getJobCreator() {
@@ -75,7 +84,8 @@ public class Job {
 
 	public String getDetails()
 	{
-		return null;
+		String s = "ID: "+jobId+"\nJob Category: "+jobCategory.getName()+"\nDescription: "+jobDescription+"\n";
+		return s;
 	}
 
 	public void rankCandidates(String ranks)throws InvalidInputException
@@ -113,7 +123,9 @@ public class Job {
 		interviews.addAll(temp);
 
 	}
-	
-	
+
+	public ArrayList<Offer> getOffers() {
+		return offers;
+	}
 
 }

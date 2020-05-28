@@ -1,8 +1,8 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
-public class MainConsole {
+public class MainConsole implements Serializable {
 	
 	 static HashMap<String, User> userList = new HashMap<>();
 	
@@ -16,7 +16,8 @@ public class MainConsole {
 	
 	public void run() 
 	{
-		populate();
+		getFromFiles();
+		//populate();
 		
 		while (true)
 		{
@@ -61,9 +62,9 @@ public class MainConsole {
 		jobCategories.add(new JobCategory("Engineering"));
 		jobCategories.add(new JobCategory("Accounting"));
 
-		jobListings.add(new Job("JOB001", (Employer)userList.get("emp123"), "Job Description"));
-		jobListings.add(new Job("JOB002", (Employer)userList.get("e123"), "Job Description"));
-		jobListings.add(new Job("JOB003", (Employer)userList.get("e001"), "Job Description"));
+		jobListings.add(new Job("JOB001", (Employer)userList.get("emp123"), "Job Description", jobCategories.get(0)));
+		jobListings.add(new Job("JOB002", (Employer)userList.get("e123"), "Job Description",jobCategories.get(1)));
+		jobListings.add(new Job("JOB003", (Employer)userList.get("e001"), "Job Description",jobCategories.get(2)));
 	}
 
 	public void login()
@@ -95,13 +96,7 @@ public class MainConsole {
 						
 						System.out.println("Password:");
 						String password = Utilities.getScanner().nextLine();
-						
-						/*
-						 * Console c = System.console(); char[] passwordArray =
-						 * c.readPassword("Password: ");
-						 * 
-						 * String password = new String(passwordArray);
-						 */
+
 						try
 						{
 							if(userList.containsKey(user) && userList.get(user).validatePassword(password))//verify if the username exists, if yes use validatePassword() for password
@@ -125,8 +120,6 @@ public class MainConsole {
 						}
 						
 					}while(!validUser);
-					
-					
 					//if true then return or else show Invalid Credential Exception
 					break;
 				case 2:
@@ -134,6 +127,7 @@ public class MainConsole {
 					//if they want to register
 					break;
 				case 3:
+					putToFiles();
 					System.out.println("Thank you for using the Casual Employment System.");
 					System.exit(0);
 					break;
@@ -219,6 +213,71 @@ public class MainConsole {
 		}while(!flag);
 		
 		
+	}
+
+	private void getFromFiles()
+	{
+		ObjectInputStream oisUsers;
+		ObjectInputStream oisJobs;
+		ObjectInputStream oisJobCategories;
+		try
+		{
+			File fusers = new File("users.txt");
+			File fjobs = new File("jobs.txt");
+			File fjobcategories = new File("job_categories.txt");
+			if(fusers.exists() && !fusers.isDirectory())
+			{
+				oisUsers = new ObjectInputStream(new FileInputStream("users.txt"));
+
+				userList.putAll((HashMap<String,User>)oisUsers.readObject());
+
+				oisUsers.close();
+			}
+
+			if(fjobs.exists() && !fjobs.isDirectory())
+			{
+				oisJobs = new ObjectInputStream(new FileInputStream("jobs.txt"));
+				jobListings.addAll((ArrayList<Job>)oisJobs.readObject());
+				oisJobs.close();
+			}
+			if(fjobcategories.exists() && !fjobcategories.isDirectory())
+			{
+				oisJobCategories = new ObjectInputStream(new FileInputStream("job_categories.txt"));
+				jobCategories.addAll((ArrayList<JobCategory>)oisJobCategories.readObject());
+				oisJobCategories.close();
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	//update the files from the ArrayList
+	private void putToFiles()
+	{
+
+
+		try
+		{
+			ObjectOutputStream objUsers = new ObjectOutputStream(new FileOutputStream("users.txt"));
+			objUsers.writeObject(userList);
+			objUsers.close();
+
+			ObjectOutputStream objJobs = new ObjectOutputStream(new FileOutputStream("jobs.txt"));
+			objJobs.writeObject(jobListings);
+			objJobs.close();
+
+
+			ObjectOutputStream objCategories = new ObjectOutputStream(new FileOutputStream("job_categories.txt"));
+			objCategories.writeObject(jobCategories);
+			objCategories.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 	
 	

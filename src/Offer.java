@@ -1,10 +1,16 @@
-public class Offer {
+import java.io.Serializable;
+
+public class Offer implements Serializable {
 
     private Job job;
     private boolean acceptedOrRejected;
 
-    public Offer(Job job) {
+
+    private Student student;
+
+    public Offer(Job job,Student student) {
         this.job = job;
+        this.student = student;
     }
 
     public boolean isAcceptedOrRejected() {
@@ -17,6 +23,10 @@ public class Offer {
 
     public Job getJob() {
         return job;
+    }
+
+    public Student getStudent() {
+        return student;
     }
 
 

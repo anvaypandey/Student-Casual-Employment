@@ -1,4 +1,6 @@
-public class InterviewNotification {
+import java.io.Serializable;
+
+public class InterviewNotification implements Serializable {
 
     private DateTime interviewTime;
     private Job job;

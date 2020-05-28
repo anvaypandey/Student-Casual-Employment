@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Student extends User{
+public class Student extends User implements Serializable {
 	
 	private Availability availability;
 	private ApplicantStatus status;
@@ -14,7 +15,10 @@ public class Student extends User{
 	private BlacklistStatus blacklistStatus;
 	private DateTime blacklistTime;
 
-	private ArrayList<InterviewNotification> notifications;
+
+
+	private ArrayList<Interview> interviews;
+	//private ArrayList<InterviewNotification> notifications;
 	private ArrayList<Offer> offers;
 
 	protected Student(String username, String password, String email, Availability availability) {
@@ -144,12 +148,8 @@ public class Student extends User{
 		this.offers.add(offer);
 	}
 
-	public ArrayList<InterviewNotification> getNotifications() {
-		return notifications;
-	}
-
-	public void addNotification(InterviewNotification notification) {
-		notifications.add(notification);
+	public ArrayList<Interview> getInterviewNotifications() {
+		return interviews;
 	}
 
 	@Override
@@ -157,6 +157,10 @@ public class Student extends User{
 		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress()+"\nAvailability: "+ getAvailability()+
 				"\nStatus:"+getStatus();
 		return s;
+	}
+
+	public void addInterviewNotification(Interview interview) {
+		interviews.add(interview);
 	}
 	
 	
