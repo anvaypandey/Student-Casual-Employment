@@ -190,6 +190,7 @@ public class StudentConsole {
 		int i;
 		for (i = 0; i < MainConsole.jobCategories.size(); i++) {
 			if (jobcat.equalsIgnoreCase(MainConsole.jobCategories.get(i).getName())) {
+
 				break;
 			}
 		}
