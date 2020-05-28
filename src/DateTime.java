@@ -1,7 +1,8 @@
 
+import java.io.Serializable;
 import java.util.Date;
 
-class DateTime{ 
+class DateTime implements Serializable {
 	private static long advance; // keeps tracks of any time advance
 	private long time;
 	 

@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class EmployerConsole {
+public class EmployerConsole implements Serializable {
 
 	boolean depart = false;
 
@@ -80,7 +81,7 @@ public class EmployerConsole {
 		
 	}
 
-	private void inputResultforInterviews() {
+	private void inputResultforInterviews() throws Exception {
 		for(int i=0;i<MainConsole.jobListings.size();i++)
 		{
 			if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
@@ -89,37 +90,46 @@ public class EmployerConsole {
 				ArrayList<Interview> interviewArrayList = job.getInterviews();
 				for(int j=0;j<interviewArrayList.size();i++)
 				{
-					System.out.println(interviewArrayList.get(i).getStudent().getDetails());
+					System.out.println(interviewArrayList.get(i).giveEmployeeDetails());
 				}
 				System.out.println("Enter Student Username");
 				String studentUsername = Utilities.getScanner().nextLine();
+
+				//check if he accepted the interview
 				//check if he exists
 				//then!
 				for(int j=0;j<interviewArrayList.size();i++)
 				{
 					if(interviewArrayList.get(j).getStudent().getUsername().equalsIgnoreCase(studentUsername))
 					{
-						System.out.println("Enter interview result for the student");
-						String result = Utilities.getScanner().nextLine();
-						interviewArrayList.get(j).setInterviewResult(result);
-
-						System.out.println("Valid references? Y for YES, anything else for NO");
-						String input = Utilities.getScanner().nextLine();
-						if(input.equalsIgnoreCase("y"))
-							interviewArrayList.get(j).setReferenceCheck(true);
-						else
-							interviewArrayList.get(j).setReferenceCheck(false);
-
-						System.out.println("Sent the student an offer? Y for yes, anything else for no");
-						input = Utilities.getScanner().nextLine();
-
-						if(input.equalsIgnoreCase("y"))
+						if(interviewArrayList.get(j).isInterviewAccepted())
 						{
-							Offer offer = new Offer(job);
-							interviewArrayList.get(j).getStudent().addOffer(offer);
-							interviewArrayList.get(j).getStudent().setStatus(ApplicantStatus.Pending);
+							System.out.println("Enter interview result for the student");
+							String result = Utilities.getScanner().nextLine();
+							interviewArrayList.get(j).setInterviewResult(result);
+
+							System.out.println("Valid references? Y for YES, anything else for NO");
+							String input = Utilities.getScanner().nextLine();
+							if(input.equalsIgnoreCase("y"))
+								interviewArrayList.get(j).setReferenceCheck(true);
+							else
+								interviewArrayList.get(j).setReferenceCheck(false);
+
+							System.out.println("Sent the student an offer? Y for yes, anything else for no");
+							input = Utilities.getScanner().nextLine();
+
+							if(input.equalsIgnoreCase("y"))
+							{
+								Offer offer = new Offer(job,interviewArrayList.get(j).getStudent());
+								interviewArrayList.get(j).getStudent().addOffer(offer);
+								interviewArrayList.get(j).getStudent().setStatus(ApplicantStatus.Pending);
+
+							}
 
 						}
+						else
+							throw new Exception("The Student hasn't accepted the interview request");
+
 					}
 				}
 				break;
@@ -297,7 +307,6 @@ public class EmployerConsole {
 					try {
 						//set time and add to notification
 						MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId), new DateTime());
-						((Student) MainConsole.userList.get(studentId)).addNotification(new InterviewNotification(MainConsole.jobListings.get(i),new DateTime()));
 					} catch (Exception e) {
 						System.err.println(e.getMessage());
 					}
@@ -342,18 +351,6 @@ public class EmployerConsole {
 
 	}
 
-	private void setInterview() 
-	{
-			// TODO Auto-generated method stub
-		
-	}
-
-	private void offerJob() 
-	{
-			// TODO Auto-generated method stub
-		
-	}
-
 
 //FOR TESTING
 	// public void addNewJob(Job job)
@@ -370,18 +367,44 @@ public class EmployerConsole {
 	// 	MainConsole.jobListings.add(job);
 	// }
 
-	public void addNewJob()
-	{
+	public void addNewJob() throws InvalidInputException {
+
+		System.out.println("Enter Job Category for the new Job from the following list");
+
+		for (int i=0;i<MainConsole.jobCategories.size();i++)
+		{
+			System.out.println((i+1)+":"+MainConsole.jobCategories.get(i).getName());
+		}
+
+		System.out.println("Enter the Job Category:");
+
+		String jobcategory = Utilities.getScanner().nextLine();
+
+		int i;
+		for(i=0;i<MainConsole.jobCategories.size();i++)
+		{
+			if(MainConsole.jobCategories.get(i).getName().equalsIgnoreCase(jobcategory))
+				break;
+		}
+		if(i==MainConsole.jobCategories.size())
+			throw new InvalidInputException("Such Job Category Doesn't Exist");
+
+		JobCategory jobCat = new JobCategory(jobcategory);
+
 		System.out.println("Enter job description: ");
 		String desc = Utilities.getScanner().nextLine();
+
 		String id ="JOB";
 		String index = String.valueOf(MainConsole.jobListings.size());
+
+		//job category
 
 		for(int j=3;j>=index.length();j--) // to add 0s in front of the idNumber
 			index="0"+index;
 		id += index;
 
-		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
+
+		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc,jobCat);
 		MainConsole.jobListings.add(job);
 
 		System.out.println("Job "+id+" has been created");

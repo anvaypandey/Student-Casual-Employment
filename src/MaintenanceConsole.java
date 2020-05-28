@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-public class MaintenanceConsole {
+public class MaintenanceConsole implements Serializable {
 
 	boolean depart = false;
 	
@@ -24,12 +25,13 @@ public class MaintenanceConsole {
 			String menu = "1. Access Student Records\n"
 					+ "2. Access Employer Records\n"
 					+ "3. View BlackList\n"
-					+ "4. Blacklist User\n" // provisional or full
+					+ "4. Blacklist User\n" // full only
 					+ "5. Remove User from Blacklist\n" 
 					+ "6. Add new job Category\n"
 					+ "7. Change Username\n"
 					+ "8. Change Password\n"
-					+ "9: Logout\n";
+					+ "9. Get a report\n"
+					+ "10: Logout\n";
 
 			System.out.println(menu);
 
@@ -64,6 +66,10 @@ public class MaintenanceConsole {
 				changePassword();
 				break;
 			case 9:
+				Report report = new Report();
+				report.run();
+				break;
+			case 10:
 				System.out.println("You have successfully logged out!\n");
 				depart = true;
 				return;

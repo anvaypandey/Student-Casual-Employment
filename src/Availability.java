@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public enum Availability {
+public enum Availability implements Serializable {
 	
 	PartTime,FullTime,Internship
 

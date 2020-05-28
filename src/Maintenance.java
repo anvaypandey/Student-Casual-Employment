@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Maintenance extends User {
+public class Maintenance extends User implements Serializable {
 	
 
 	protected Maintenance(String username, String password,String email) {

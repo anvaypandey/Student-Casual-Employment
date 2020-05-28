@@ -1,8 +1,9 @@
 import com.sun.tools.javac.Main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StudentConsole {
+public class StudentConsole implements Serializable {
 
 	boolean depart = false;
 
@@ -374,33 +375,35 @@ public class StudentConsole {
 
 	private void showNotifications() {
 
-		ArrayList<InterviewNotification> abc = std.getNotifications();
 
-		if(abc.size() == 0)
+		ArrayList<Interview> interviews = std.getInterviewNotifications();
+
+		if(interviews.size() == 0)
 			System.out.println("No new notifications");
 
-		for(int j=0;j<abc.size();j++)
+		for(int j=0;j<interviews.size();j++)
 		{
-			abc.get(j).toString();
+			System.out.println(interviews.get(j).giveStudentDetails());
 
 			System.out.println("Y to accept, anything else to reject");
 
 			String input = Utilities.getScanner().nextLine();
 			if(input.equalsIgnoreCase("Y"))
 			{
-				for(int i=0; i<MainConsole.jobListings.size();i++)
+				interviews.get(j).setInterviewAccepted(true);
+				/*for(int i=0; i<MainConsole.jobListings.size();i++)
 				{
 					if(MainConsole.jobListings.get(i).getJobId().equalsIgnoreCase(abc.get(j).getJob().getJobId()))
 					{
-						Interview interview = new Interview(std,abc.get(j).getInterviewTime());
+						//Interview interview = new Interview(std,abc.get(j).getInterviewTime());
 						MainConsole.jobListings.get(i).setInterview(interview);
 						break;
 					}
-				}
+				}*/
 
 			}
 		}
-		abc.clear();
+		interviews.clear();
 	}
 
 }

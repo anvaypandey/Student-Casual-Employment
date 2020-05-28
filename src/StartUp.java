@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class StartUp {
+public class StartUp implements Serializable {
 
 	public static void main(String[] args) {
 
