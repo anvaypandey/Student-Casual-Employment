@@ -1,15 +1,14 @@
+import java.io.Serializable;
 
-public class StartUp {
+public class StartUp implements Serializable {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
 		
-		MainConsole abc = new MainConsole();
+		MainConsole mainConsole = new MainConsole();
 		
 		//read from files
-		//check if we have to change the status of the student to unknown
-		
-		abc.run();
+		mainConsole.run();
 	}
 
 }

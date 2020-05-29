@@ -1,4 +1,6 @@
-public class EmploymentRecord {
+import java.io.Serializable;
+
+public class EmploymentRecord implements Serializable {
     private String type;
     private String description;
 

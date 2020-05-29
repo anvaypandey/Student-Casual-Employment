@@ -1,4 +1,6 @@
-public class JobCategory {
+import java.io.Serializable;
+
+public class JobCategory implements Serializable {
     private String name;
 
     public JobCategory(String name)

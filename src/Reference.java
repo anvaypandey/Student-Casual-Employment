@@ -1,4 +1,6 @@
-public class Reference {
+import java.io.Serializable;
+
+public class Reference implements Serializable {
     private String name;
     private String email;
     private String phone;

@@ -1,7 +1,9 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import com.sun.tools.javac.Main;
 
-public class StudentConsole {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class StudentConsole implements Serializable {
 
 	boolean depart = false;
 
@@ -13,6 +15,9 @@ public class StudentConsole {
 	public void run()
 	{
 		System.out.println("Welcome "+ MainConsole.user);
+
+		if(std.getBlacklistStatus()== BlacklistStatus.FULL)
+			System.out.println("You have been fully BlackListed. You cannot access any feature");
 		do
 		{
 			manageMenu();
@@ -27,60 +32,67 @@ public class StudentConsole {
 		try
 		{
 
-			String menu = "1. Update your Availability\n"
-					+ "2. Update your Status\n"
-					+ "3. Add Records\n"
-					+ "4. Update Records\n"
-					+ "5. Add Refernce\n"
-					+ "6. Update Reference\n"
-					+ "7. Upload CV\n" // for later
-					+ "8. Add new Job Category to your list\n"
-					+ "9. Lodge Complaint\n"
-					+ "10. Change Username\n" //Let this be for now
-					+ "11. Change Password\n"
-					+ "12. Logout\n"
+			String menu = "1. See Notifications\n"
+					+ "2. Check Offer\n"
+					+ "3. Update your Availability\n"
+					+ "4. Update your Status\n"
+					+ "5. Add Records\n"
+					+ "6. Update Records\n"
+					+ "7. Add Reference\n"
+					+ "8. Update Reference\n"
+					+ "9. Upload CV\n" // for later
+					+ "10. Add new Job Category to your list\n"
+					+ "11. Lodge Complaint\n"
+					+ "12. Change Username\n" //Let this be for now
+					+ "13. Change Password\n"
+					+ "14. Logout\n"
 					+ "Enter your choice: ";
+
 			System.out.println(menu);
 
 			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 
 			switch(userChoice)
 			{
-			case 1: 
-				updateAvailability(); 
+			case 1:
+				showNotifications(); // all notifications, one at a time
 				break;
-
 			case 2:
-				updateStatus();
+				checkOffer();
 				break;
 			case 3:
-				addRecord();
+				updateAvailability();
 				break;
+
 			case 4:
-				updateRecords();
+				updateStatus();
 				break;
 			case 5:
-				addReference();
+				addRecord();
 				break;
 			case 6:
-				addReference();
+				updateRecords();
 				break;
 			case 7:
+				case 8:
+					addReference();
+				break;
+				case 9:
 				uploadCV();
 				break;
-			case 8:
+			case 10:
 				chooseJobCategory();
 				break;
-			case 9:
+			case 11:
 				lodgeComplaint();
 				break;
-			case 10:
+			case 12:
 				changeUsername();
 				break;
-			case 11:
+			case 13:
 				changePassword();
 				break;
-			case 12:
+			case 14:
 				System.out.println("You have successfully logged out!\n");
 				depart = true;
 				return;
@@ -96,36 +108,75 @@ public class StudentConsole {
 		//switch case
 	}
 
+	private void checkOffer() {
+
+		ArrayList<Offer> offers = std.getOffers();
+
+		if(offers.size() ==0)
+			System.out.println("You have zero Job Offers");
+
+		for(int i =0; i<offers.size();i++)
+		{
+			offers.get(i).getJob().getDetails();
+		}
+
+		if(std.getStatus() == ApplicantStatus.Employed)
+		{
+			System.out.println("You cant accept offers now.You're Employed!");
+			return;
+		}
+
+		System.out.println("Enter Job Id");
+		String jobID = Utilities.getScanner().nextLine();
+
+		for(int i =0; i<offers.size();i++)
+		{
+			if(offers.get(i).getJob().getJobId().equalsIgnoreCase(jobID))
+			{
+				offers.get(i).getJob().getDetails();
+
+				System.out.println("Accept or Reject? Input Y to accept, anything else to reject");
+				String input = Utilities.getScanner().nextLine();
+
+				if(input.equalsIgnoreCase("Y"))
+				{
+					offers.get(i).setAcceptedOrRejected(true);
+					std.setStatus(ApplicantStatus.Employed);
+				}
+
+				else
+					offers.get(i).setAcceptedOrRejected(true);
+
+			}
+		}
+
+	}
+
 
 	public void chooseJobCategory() {
 
 			for(int i=0;i<MainConsole.jobCategories.size();i++)
 			{
-				
-					System.out.println(MainConsole.jobCategories+ "\n");
-
-			
+					System.out.println(MainConsole.jobCategories.get(i).getName()+ "\n");
 			}
 		boolean exists = false;
 		do
 		{
 		System.out.println("Choose desired job category");
-<<<<<<< HEAD
-		String jobcat = scan.nextLine();
-		JobCategory jobcat1 = new JobCategory(jobcat);
-				std.addJobCategory(jobcat1);
-=======
 		String jobcat = Utilities.getScanner().nextLine();
->>>>>>> f6f74dbcd75b9c10bf841ae8aad71e3b9bbbc8c6
-		
-		
+
 		try
 		{
-			
 			exists = jobCatego(jobcat);
+			if(exists) {
+				JobCategory jobcat1 = new JobCategory(jobcat);
+				std.addJobCategory(jobcat1);
+				System.out.print("Category has been added to your list");
+			}
+
 		} catch (InvalidInputException e)
 		{
-			
+
 			e.printStackTrace();
 		}
 		if(!exists)
@@ -134,34 +185,36 @@ public class StudentConsole {
 		if(resp.equalsIgnoreCase("q"))
 		{
 			exists=true;
-		}	
-		}while(true);
+		}
+		}while(!exists);
 	}
 
-	public boolean jobCatego(JobCategory jobcat1) throws InvalidInputException
-	{
-//		jobcat = "cafe";
-		int i;
-		for(i=0;i<MainConsole.jobCategories.size();i++)
-		{
-			if(std.jobcat1.equals(MainConsole.jobCategories.get(i)))
-			{
-			MainConsole.jobCategories.add(jobcat1);
+	public boolean jobCatego(String jobcat) throws InvalidInputException {
 
-				break;	
+		int i;
+		for (i = 0; i < MainConsole.jobCategories.size(); i++) {
+			if (jobcat.equalsIgnoreCase(MainConsole.jobCategories.get(i).getName())) {
+
+				break;
 			}
-				
 		}
-		if(i==MainConsole.jobCategories.size())
-		{
-			throw new InvalidInputException("Incorrenct input");
+		if(i== MainConsole.jobCategories.size()){
+			throw new InvalidInputException("Category does not exist");
 		}
+		ArrayList<JobCategory> jobCat = std.getSelectedJobCategories();
+		for (i = 0; i < jobCat.size(); i++) {
+			if (jobcat.equalsIgnoreCase(jobCat.get(i).getName())) {
+				throw new InvalidInputException("Category already exists in your list");
+			}
+		}
+
 		return true;
 	}
 
+
 	private void changePassword()  {
 		
-		System.out.println("New Password");
+		System.out.println("Please enter new password");
 		
 		String newPassword = Utilities.getScanner().nextLine();
 
@@ -174,18 +227,21 @@ public class StudentConsole {
 	}
 
 	public void changeUsername() {
-		
-		String newUsername = "abc";
-		
-		User a1 = new Student ((Student)MainConsole.userList.get(MainConsole.user));
-		
-		MainConsole.userList.put(newUsername, a1);
-		MainConsole.userList.remove(MainConsole.user);
-		
-		
+
+		System.out.println("Please enter new username");
+		String newUsername = Utilities.getScanner().nextLine();
+		MainConsole.userList.get(MainConsole.user).setUsername(newUsername);
+		System.out.println("Username changed");
+
+//		User a1 = new Student ((Student)MainConsole.userList.get(MainConsole.user));
+//
+//		MainConsole.userList.put(newUsername, a1);
+//		MainConsole.userList.remove(MainConsole.user);
+
+
 		//MainConsole.user = newUsername; // If we want to continue from here
 		
-		depart =true; //to login again
+		depart = true; //to login again
 		
 		
 		
@@ -225,11 +281,6 @@ public class StudentConsole {
 
 	}
 
-
-
-		
-
-
 	private void uploadCV() {
 		
 		//UPLOAD CV FILE
@@ -251,44 +302,55 @@ public class StudentConsole {
 
 				Reference ref1 = new Reference(nameRef,emailRef, phoneRef);
 				std.setReferences(ref1);
+		System.out.println("Reference successfully added!");
 
 		}
 
 
 	private void updateRecords() {
-		
-		System.out.println(std.getEmploymentRecords());
+		System.out.println("Please enter type of employment");
+		String type1 = Utilities.getScanner().nextLine();
+		std.getEmploymentRecords();
+		System.out.println("Please enter description of employment");
+		String description1 = Utilities.getScanner().nextLine();
+		EmploymentRecord empRec = new EmploymentRecord(type1, description1);
+		std.setEmploymentRecords(empRec);
+		System.out.println("Employment Record added!");
+		}
 	
-	}
+	//}
 
-	private void addRecord() {
+	private void addRecord(){
 		
-		System.out.println("Please enter previous experience, qualifactions and certifications");
-		String cv = Utilities.getScanner().nextLine();
-		std.setLocationCV(cv);
-		System.out.println("CV added!");
+		System.out.println("Please enter type of employment");
+		String type = Utilities.getScanner().nextLine();
+		System.out.println("Please enter description of employment");
+		String description = Utilities.getScanner().nextLine();
+		EmploymentRecord empRec = new EmploymentRecord(type, description);
+		std.setEmploymentRecords(empRec);
+		System.out.println("Employment Record added!");
 	}
 
 	private void updateStatus() {
 		
 		System.out.println("Please enter desired status update Available(A)/Pending(P)/Unknown(U)/Employed(E)");
 		String response = Utilities.getScanner().nextLine();
-		if(response == "A")
+		if(response.equalsIgnoreCase( "A"))
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Available);
 			System.out.println("Status successfully updated");
 		}
-		else if(response == "P")
+		else if(response.equalsIgnoreCase("P"))
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Pending);
 			System.out.println("Status successfully updated");
 		}
-		else if(response == "U")
+		else if(response.equalsIgnoreCase("U"))
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Unknown);
 			System.out.println("Status successfully updated");
 		}
-		else if(response == "E")
+		else if(response.equalsIgnoreCase("E"))
 		{
 			((Student)MainConsole.userList.get(MainConsole.user)).setStatus(ApplicantStatus.Employed);
 			System.out.println("Status successfully updated");
@@ -297,24 +359,55 @@ public class StudentConsole {
 
 	public void updateAvailability() {
 		
-		
+
 		if(((Student)MainConsole.userList.get(MainConsole.user)).getAvailability()==Availability.PartTime)
 		{
 			Availability availability = Availability.FullTime;
 			((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability);
+			System.out.println("Availability set to FullTime");
 		}
 		else if((((Student)MainConsole.userList.get(MainConsole.user)).getAvailability()==Availability.FullTime))
 		{
 		Availability availability2 = Availability.PartTime;
 		((Student)MainConsole.userList.get(MainConsole.user)).setAvailability(availability2);
+			System.out.println("Availability set to PartTime");
 		}
 		else
 			System.out.println("Process could not be completed");
 
 	}
 
+	private void showNotifications() {
 
-	// auto update to unknown after 2 weeks
-	//
+
+		ArrayList<Interview> interviews = std.getInterviewNotifications();
+
+		if(interviews.size() == 0)
+			System.out.println("No new notifications");
+
+		for(int j=0;j<interviews.size();j++)
+		{
+			System.out.println(interviews.get(j).giveStudentDetails());
+
+			System.out.println("Y to accept, anything else to reject");
+
+			String input = Utilities.getScanner().nextLine();
+			if(input.equalsIgnoreCase("Y"))
+			{
+				interviews.get(j).setInterviewAccepted(true);
+				/*for(int i=0; i<MainConsole.jobListings.size();i++)
+				{
+					if(MainConsole.jobListings.get(i).getJobId().equalsIgnoreCase(abc.get(j).getJob().getJobId()))
+					{
+						//Interview interview = new Interview(std,abc.get(j).getInterviewTime());
+						MainConsole.jobListings.get(i).setInterview(interview);
+						break;
+					}
+				}*/
+
+			}
+		}
+		interviews.clear();
+	}
 
 }

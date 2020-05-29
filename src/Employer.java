@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class Employer extends User {
+public class Employer extends User implements Serializable {
 	
 	private String phNo;
 	private ArrayList<Complaint> complaints;
@@ -66,8 +67,8 @@ public class Employer extends User {
 
 	@Override
 	public String getDetails() {
-		// TODO Auto-generated method stub
-		return null;
+		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress();
+		return s;
 	}
 	
 	

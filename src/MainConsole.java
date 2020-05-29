@@ -1,10 +1,10 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
-public class MainConsole {
+public class MainConsole implements Serializable {
 	
-	static HashMap<String, User> userList = new HashMap<>();
+	 static HashMap<String, User> userList = new HashMap<>();
 	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
@@ -16,7 +16,8 @@ public class MainConsole {
 	
 	public void run() 
 	{
-		userList.put("admin", new Maintenance("admin","admin","admin@gmail.com"));
+		getFromFiles();
+		//populate();
 		
 		while (true)
 		{
@@ -42,7 +43,30 @@ public class MainConsole {
 
 		
 	}
-	
+
+	private void populate() {
+
+		userList.put("admin", new Maintenance("admin","admin","admin@email.com"));
+		userList.put("s123", new Student("s123","s123","s123@email.com",Availability.FullTime));
+		userList.put("student1", new Student("student1","123","student1@email.com",Availability.FullTime));
+		userList.put("student2", new Student("student2","123","student2@email.com",Availability.PartTime));
+		userList.put("student3", new Student("student3","123","student3@email.com",Availability.PartTime));
+		userList.put("emp123", new Employer("emp123","123","emp1@email.com"));
+		userList.put("e123", new Employer("e123", "password", "e123@email.com"));
+		userList.put("e001", new Employer("e001", "qwerty", "e001@email.com"));
+
+		((Student)userList.get("student3")).setBlacklistStatus(BlacklistStatus.PROVISIONAL);
+
+		jobCategories.add(new JobCategory("waiter"));
+		jobCategories.add( new JobCategory("maid"));
+		jobCategories.add(new JobCategory("Engineering"));
+		jobCategories.add(new JobCategory("Accounting"));
+
+		jobListings.add(new Job("JOB001", (Employer)userList.get("emp123"), "Job Description", jobCategories.get(0)));
+		jobListings.add(new Job("JOB002", (Employer)userList.get("e123"), "Job Description",jobCategories.get(1)));
+		jobListings.add(new Job("JOB003", (Employer)userList.get("e001"), "Job Description",jobCategories.get(2)));
+	}
+
 	public void login()
 	{
 		boolean flag = false;
@@ -72,13 +96,7 @@ public class MainConsole {
 						
 						System.out.println("Password:");
 						String password = Utilities.getScanner().nextLine();
-						
-						/*
-						 * Console c = System.console(); char[] passwordArray =
-						 * c.readPassword("Password: ");
-						 * 
-						 * String password = new String(passwordArray);
-						 */
+
 						try
 						{
 							if(userList.containsKey(user) && userList.get(user).validatePassword(password))//verify if the username exists, if yes use validatePassword() for password
@@ -102,8 +120,6 @@ public class MainConsole {
 						}
 						
 					}while(!validUser);
-					
-					
 					//if true then return or else show Invalid Credential Exception
 					break;
 				case 2:
@@ -111,6 +127,7 @@ public class MainConsole {
 					//if they want to register
 					break;
 				case 3:
+					putToFiles();
 					System.out.println("Thank you for using the Casual Employment System.");
 					System.exit(0);
 					break;
@@ -196,6 +213,71 @@ public class MainConsole {
 		}while(!flag);
 		
 		
+	}
+
+	private void getFromFiles()
+	{
+		ObjectInputStream oisUsers;
+		ObjectInputStream oisJobs;
+		ObjectInputStream oisJobCategories;
+		try
+		{
+			File fusers = new File("users.txt");
+			File fjobs = new File("jobs.txt");
+			File fjobcategories = new File("job_categories.txt");
+			if(fusers.exists() && !fusers.isDirectory())
+			{
+				oisUsers = new ObjectInputStream(new FileInputStream("users.txt"));
+
+				userList.putAll((HashMap<String,User>)oisUsers.readObject());
+
+				oisUsers.close();
+			}
+
+			if(fjobs.exists() && !fjobs.isDirectory())
+			{
+				oisJobs = new ObjectInputStream(new FileInputStream("jobs.txt"));
+				jobListings.addAll((ArrayList<Job>)oisJobs.readObject());
+				oisJobs.close();
+			}
+			if(fjobcategories.exists() && !fjobcategories.isDirectory())
+			{
+				oisJobCategories = new ObjectInputStream(new FileInputStream("job_categories.txt"));
+				jobCategories.addAll((ArrayList<JobCategory>)oisJobCategories.readObject());
+				oisJobCategories.close();
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	//update the files from the ArrayList
+	private void putToFiles()
+	{
+
+
+		try
+		{
+			ObjectOutputStream objUsers = new ObjectOutputStream(new FileOutputStream("users.txt"));
+			objUsers.writeObject(userList);
+			objUsers.close();
+
+			ObjectOutputStream objJobs = new ObjectOutputStream(new FileOutputStream("jobs.txt"));
+			objJobs.writeObject(jobListings);
+			objJobs.close();
+
+
+			ObjectOutputStream objCategories = new ObjectOutputStream(new FileOutputStream("job_categories.txt"));
+			objCategories.writeObject(jobCategories);
+			objCategories.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 	
 	

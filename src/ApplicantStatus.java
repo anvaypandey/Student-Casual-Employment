@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public enum ApplicantStatus {
+public enum ApplicantStatus implements Serializable {
 	
 	Available,Pending,Unknown,Employed
 

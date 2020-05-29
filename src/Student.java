@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Student extends User{
+public class Student extends User implements Serializable {
 	
 	private Availability availability;
 	private ApplicantStatus status;
@@ -10,20 +11,25 @@ public class Student extends User{
 	private ArrayList<EmploymentRecord> employmentRecords;
 	private String locationCV;
 	private ArrayList<Complaint> complaints;
-	private ArrayList<JobCategory> jobCategories;
+	private ArrayList<JobCategory> selectedJobCategories;
 	private BlacklistStatus blacklistStatus;
 	private DateTime blacklistTime;
-	
+
+
+
+	private ArrayList<Interview> interviews;
+	//private ArrayList<InterviewNotification> notifications;
+	private ArrayList<Offer> offers;
 
 	protected Student(String username, String password, String email, Availability availability) {
 		super(username, password,email);
 		
-		status = ApplicantStatus.Unknown;
+		status = ApplicantStatus.Available;
 		this.availability = availability;
 		references = new ArrayList<Reference>();
 		employmentRecords = new ArrayList<EmploymentRecord>();
 		complaints = new ArrayList<Complaint>();
-		jobCategories = new ArrayList<JobCategory>();
+		selectedJobCategories = new ArrayList<JobCategory>();
 		blacklistStatus = BlacklistStatus.NONE;
 	}
 
@@ -48,10 +54,10 @@ public class Student extends User{
 		else
 			employmentRecords = new ArrayList<>();
 
-		if(that.getJobCategories().iterator().hasNext())
-			Collections.copy(jobCategories,that.getJobCategories());
+		if(that.getSelectedJobCategories().iterator().hasNext())
+			Collections.copy(selectedJobCategories,that.getSelectedJobCategories());
 		else
-			jobCategories = new ArrayList<>();
+			selectedJobCategories = new ArrayList<>();
 		setBlacklistStatus(that.getBlacklistStatus());
 	}
 
@@ -95,12 +101,12 @@ public class Student extends User{
 		this.locationCV = locationCV;
 	}
 	
-	public ArrayList<JobCategory> getJobCategories() {
-		return jobCategories;
+	public ArrayList<JobCategory> getSelectedJobCategories() {
+		return selectedJobCategories;
 	}
 
 	public void addJobCategory(JobCategory jobCategory) {
-		this.jobCategories.add(jobCategory);
+		this.selectedJobCategories.add(jobCategory);
 	}
 
 	public ArrayList<Complaint> getComplaints() {
@@ -134,9 +140,27 @@ public class Student extends User{
 		return blacklistTime;
 	}
 
+	public ArrayList<Offer> getOffers() {
+		return offers;
+	}
+
+	public void addOffer(Offer offer) {
+		this.offers.add(offer);
+	}
+
+	public ArrayList<Interview> getInterviewNotifications() {
+		return interviews;
+	}
+
 	@Override
 	public String getDetails() {
-		return null;
+		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress()+"\nAvailability: "+ getAvailability()+
+				"\nStatus:"+getStatus();
+		return s;
+	}
+
+	public void addInterviewNotification(Interview interview) {
+		interviews.add(interview);
 	}
 	
 	
