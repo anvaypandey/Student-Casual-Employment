@@ -17,9 +17,10 @@ public class MainConsole implements Serializable {
 	public void run() 
 	{
 		getFromFiles();
+
 		updateStudentStatus();
 		//populate();
-		
+    
 		while (true)
 		{
 			login();

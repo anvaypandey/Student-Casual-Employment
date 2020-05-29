@@ -27,8 +27,6 @@ public class Job implements Serializable {
 		this.interviews.add(interview);
 	}
 	
-
-
 	public String getJobId() {
 		return jobId;
 	}

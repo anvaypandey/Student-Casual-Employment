@@ -27,14 +27,6 @@ public class Employer extends User implements Serializable {
 			Collections.copy(complaints,that.getComplaints());
 		else
 			complaints = new ArrayList<>();
-		/*if(that.getJobsCreated().iterator().hasNext())
-			Collections.copy(jobsCreated,that.getJobsCreated());
-		else
-			jobsCreated = new ArrayList<>();*/
-	}
-
-	public ArrayList<Complaint> getComplaints() {
-		return complaints;
 	}
 
 	public void addComplaint(Complaint complaint) {
@@ -43,15 +35,7 @@ public class Employer extends User implements Serializable {
 			setBlacklistStatus(BlacklistStatus.PROVISIONAL);
 	}
 
-	/*public ArrayList<Job> getJobsCreated() {
-		return jobsCreated;
-	}
-
-	public void setJobsCreated(ArrayList<Job> jobsCreated) {
-		this.jobsCreated = jobsCreated;
-	}
-*/
-
+	//Getters and Setters
 	public BlacklistStatus getBlacklistStatus() {
 		return blacklistStatus;
 	}
@@ -70,9 +54,9 @@ public class Employer extends User implements Serializable {
 		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress();
 		return s;
 	}
-	
-	
-	
-	
 
+	public ArrayList<Complaint> getComplaints() {
+		return complaints;
+	}
+	
 }

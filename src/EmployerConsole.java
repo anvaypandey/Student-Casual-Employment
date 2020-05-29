@@ -71,6 +71,7 @@ public class EmployerConsole implements Serializable {
 //		}
 //	}
 
+	//Menu option for Employer Console
 	private void managemenu()
 	{
 		try {
@@ -133,9 +134,9 @@ public class EmployerConsole implements Serializable {
 			e.printStackTrace();
 		}	
 
-		
 	}
 
+	//Stores interview status, results and offers 
 	private void inputResultforInterviews() {
 		boolean flag = false;
 		do {
@@ -195,14 +196,12 @@ public class EmployerConsole implements Serializable {
 								}
 								else
 									throw new InvalidInputException("The Student hasn't accepted the interview request");
-
 							}
 						}
 						break;
 					}
 				}
 				flag=true;
-
 			}
 			catch (InvalidInputException e)
 			{
@@ -226,15 +225,13 @@ public class EmployerConsole implements Serializable {
 
 
 		}while(!flag);
-
 	}
 
+	//Lodging complaint against student/applicant
 	private void lodgeComplaint() {
 		boolean flag = false;
 		do {
-
 			try {
-
 				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
 					throw new AuthorizationException("You are not Authorised to Use this feature");
 
@@ -283,16 +280,12 @@ public class EmployerConsole implements Serializable {
 			{
 				e.printStackTrace();
 			}
-
-
 		}while (!flag);
-
 	}
 
+	//Changing employer password
 	public void changePassword() {
-
 		boolean flag = false;
-
 		do {
 			try{
 				System.out.println("New Password");
@@ -314,14 +307,11 @@ public class EmployerConsole implements Serializable {
 			catch(Exception e){
 				e.printStackTrace();
 			}
-
 		}while(!flag);
-
-
 	}
 
+	//Changing employer username
 	public boolean changeUsername(String newUsername){
-
 		boolean flag = false;
 		do {
 			try {
@@ -361,6 +351,7 @@ public class EmployerConsole implements Serializable {
 		return true;
 	}
 
+	//gets user input for availability and calls  searchApplicantByAvailability() 
 	private void userEntry() {
 		System.out.println("Enter 1 for Fulltime\n" + "Enter 2 for Part time\n" + "Enter 3 for Internship\n"
 				+ "Enter your choice: ");
@@ -377,6 +368,7 @@ public class EmployerConsole implements Serializable {
 			System.out.println("Invalid input.");
 	}
 
+	//gets user input for job preference and calls searchApplicantByJobPreference()
 	private void jobPrefEntry() throws Exception
 	{
 		System.out.println("Select from below list:\n");
@@ -394,7 +386,7 @@ public class EmployerConsole implements Serializable {
 		}
 	}
 	
-
+	//searching applicants based on availability
 	public boolean searchApplicantsbyAvailability(int i) throws Exception
 	{
 		boolean exists = false;
@@ -427,6 +419,7 @@ public class EmployerConsole implements Serializable {
 		return exists;
 	}
 
+	//searching applicants based on job preference
 	public boolean searchApplicantsbyJobPreference(String str) throws Exception
 	{
 		boolean exists = false;
@@ -452,6 +445,7 @@ public class EmployerConsole implements Serializable {
 		return exists;
 	}
 
+	//shortlisting candidates and setting up interview time 
 	private void shortlistCandidate(String studentId) throws InvalidInputException
 	{
 		boolean flag = false;
@@ -497,9 +491,9 @@ public class EmployerConsole implements Serializable {
 			}
 
 		}while(!flag);
-
 	}
 
+	//ranking applicants based on employer preference
 	private void rankCandidates()
 	{
 		//assumption one employer just has one jobListing
@@ -549,25 +543,9 @@ public class EmployerConsole implements Serializable {
 				e.printStackTrace();
 			}
 		}while(!flag);
-
 	}
 
-
-//FOR TESTING
-	// public void addNewJob(Job job)
-	// {
-	// 	String id ="JOB";
-	// 	String index = String.valueOf(MainConsole.jobListings.size());
-
-	// 	for(int j=3;j>index.length();j--) // to add 0s in front of the idNumber
-	// 		index+="0";
-	// 	id += index;
-	// 	String desc = "Sample";
-
-	// 	job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc);
-	// 	MainConsole.jobListings.add(job);
-	// }
-
+	//adding new job listing
 	public void addNewJob() {
 
 		boolean flag = false;
@@ -579,49 +557,49 @@ public class EmployerConsole implements Serializable {
 				{
 					throw new AuthorizationException("You are not Authorised to Use this feature");
 				}
-				System.out.println("Enter Job Category for the new Job from the following list");
 
-				for (int i=0;i<MainConsole.jobCategories.size();i++)
-				{
-					System.out.println((i+1)+":"+MainConsole.jobCategories.get(i).getName());
-				}
+						System.out.println("Enter Job Category for the new Job from the following list");
+						for (int i=0;i<MainConsole.jobCategories.size();i++)
+						{
+							System.out.println((i+1)+":"+MainConsole.jobCategories.get(i).getName());
+						}
 
-				System.out.println("Enter the Job Category:");
+						System.out.println("Enter the Job Category:");
 
-				String jobcategory = Utilities.getScanner().nextLine();
+						String jobcategory = Utilities.getScanner().nextLine();
 
-				int i;
-				for(i=0;i<MainConsole.jobCategories.size();i++)
-				{
-					if(MainConsole.jobCategories.get(i).getName().equalsIgnoreCase(jobcategory))
-						break;
-				}
-				if(i==MainConsole.jobCategories.size())
-					throw new InvalidInputException("Such Job Category Doesn't Exist");
+						int i;
+						for(i=0;i<MainConsole.jobCategories.size();i++)
+						{
+							if(MainConsole.jobCategories.get(i).getName().equalsIgnoreCase(jobcategory))
+								break;
+						}
+						if(i==MainConsole.jobCategories.size())
+							throw new InvalidInputException("Such Job Category Doesn't Exist");
 
-				JobCategory jobCat = new JobCategory(jobcategory);
+						JobCategory jobCat = new JobCategory(jobcategory);
 
-				System.out.println("Enter job description: ");
-				String desc = Utilities.getScanner().nextLine();
+						System.out.println("Enter job description: ");
+						String desc = Utilities.getScanner().nextLine();
 
-				String id ="JOB";
-				String index = String.valueOf(MainConsole.jobListings.size());
+						String id ="JOB";
+						String index = String.valueOf(MainConsole.jobListings.size());
 
-				//job category
+						//job category
 
-				for(int j=3;j>=index.length();j--) // to add 0s in front of the idNumber
-					index="0"+index;
-				id += index;
+						for(int j=3;j>=index.length();j--) // to add 0s in front of the idNumber
+							index="0"+index;
+						id += index;
 
+						//Employer is only allowed to have one job post
+						
+						Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc,jobCat);
+						MainConsole.jobListings.add(job);
 
-				Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc,jobCat);
-				MainConsole.jobListings.add(job);
+						flag = true;
 
-				flag = true;
-
-				System.out.println("Job "+id+" has been created");
-
-			}
+						System.out.println("Job "+id+" has been created");
+					}
 			catch (InvalidInputException e)
 			{
 				System.err.println(e.getMessage());
@@ -638,90 +616,10 @@ public class EmployerConsole implements Serializable {
 			catch(Exception e){
 				e.printStackTrace();
 			}
+		
 
 		}while(!flag);
-
-
 	}
 
-	/*private int jobInput()
-	{
-		String jobId =null;
-		String input = null;
-		if(showTheirJobListings())
-		{
-			if(MainConsole.userBlacklistStatus == BlacklistStatus.NONE)
-			{
-				do {
-					System.out.println("Enter the job ID :");
-					jobId = scan.nextLine();
-
-					if(validJobId(jobId)<0)
-					{
-						System.out.println("Invalid Job Id.\nEnter Q to quit or any other value to try again");
-						input = scan.nextLine();
-					}
-
-				}while (!input.equalsIgnoreCase("q"));
-
-				if(input.equalsIgnoreCase("q"))
-					return -2;
-			}
-			else
-				return -1;
-
-		}
-		else
-			return -2;
-
-		return validJobId(jobId);
-
-	}*/
-
-	/*private String createJobId()
-	{
-		int typeID = 0;
-		int count = 0;
-		int i;
-		for (i=MainConsole.jobListings.size()-1;i>=0;i--) {
-			count++;
-		}
-		typeID = count + 1;
-		String jobID = "JOB" + String.format("%03d", typeID);
-		return jobID;
-	}*/
-
-	/*private int validJobId(String jobListing)
-	{
-		int i;
-		for(i=0;i<MainConsole.jobListings.size();i++)
-		{
-			if(MainConsole.jobListings.get(i).getJobId().equalsIgnoreCase(jobListing))
-				break;
-		}
-		if(i<MainConsole.jobListings.size())
-			return i;
-		else
-			return -1;
-	}*/
-
-	/*private boolean showTheirJobListings()
-	{
-		boolean exists = false;
-		for(int i=0;i<MainConsole.jobListings.size();i++)
-		{
-			 Job job = MainConsole.jobListings.get(i);
-			if(job.getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
-			{
-				exists = true;
-				System.out.println(job.getDetails()+ "\n");
-
-			}
-		}
-		if (!exists)
-			System.out.println("You have zero Job Listings");
-
-		return exists;
-	}*/
 
 }
