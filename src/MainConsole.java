@@ -17,7 +17,7 @@ public class MainConsole implements Serializable {
 	public void run() 
 	{
 		getFromFiles();
-		//populate();
+		populate();
 		
 		while (true)
 		{

@@ -11,6 +11,8 @@ public class Complaint implements Serializable {
         this.complainer=complainer;
         this.complaint=complaint;
     }
+
+    //Getters and Setters
     public User getComplainer() {
         return complainer;
     }
