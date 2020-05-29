@@ -17,6 +17,59 @@ public class EmployerConsole implements Serializable {
 			managemenu();
 		} while (!depart);
 	}
+//	public void run() {
+//		System.out.println("Welcome " + MainConsole.user);
+//
+//		if (std.getBlacklistStatus() == BlacklistStatus.FULL)
+//		{
+//			do {
+//				fullyBlacklistedMenu();
+//
+//			} while (!depart);
+//		}
+//
+//		else
+//		{
+//			do {
+//				manageMenu();
+//
+//			} while (!depart);
+//
+//		}
+//
+//		return;
+//	}
+
+//	private void fullyBlacklistedMenu() {
+//
+//		System.out.println("As you have been fully blacklisted,you can only access limited features");
+//		try
+//		{
+//			String menu = "1.Change password" +
+//					"2.Change Username" +
+//					"3.LogOut";
+//			System.out.println(menu);
+//
+//			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
+//
+//			switch (userChoice) {
+//				case 1:
+//					changeUsername(); // all notifications, one at a time
+//					break;
+//				case 2:
+//					changePassword();
+//					break;
+//				case 3:
+//					System.out.println("You have successfully logged out!\n");
+//					depart = true;
+//					return;
+//				default:
+//					System.out.println("Invalid Choice. Please try again");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	//Menu option for Employer Console
 	private void managemenu()

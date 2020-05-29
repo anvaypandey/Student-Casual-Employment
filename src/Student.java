@@ -14,9 +14,6 @@ public class Student extends User implements Serializable {
 	private ArrayList<JobCategory> selectedJobCategories;
 	private BlacklistStatus blacklistStatus;
 	private DateTime blacklistTime;
-
-
-
 	private ArrayList<Interview> interviews;
 	//private ArrayList<InterviewNotification> notifications;
 	private ArrayList<Offer> offers;
@@ -38,12 +35,10 @@ public class Student extends User implements Serializable {
 		super(that.getUsername(),that.getPassword(),that.getEmailAddress());
 		status = that.getStatus();
 		this.availability = that.getAvailability();
-
 		if(that.getReferences().iterator().hasNext())
 			Collections.copy(references,that.getReferences());
 		else
 			references = new ArrayList<>();
-
 		if(that.getComplaints().iterator().hasNext())
 			Collections.copy(complaints,that.getComplaints());
 		else
@@ -125,6 +120,7 @@ public class Student extends User implements Serializable {
 
 	public void setStatus(ApplicantStatus status) {
 		this.status = status;
+		setLastStatusUpdateDate(new DateTime());
 	}
 
 	public BlacklistStatus getBlacklistStatus() {
@@ -135,7 +131,6 @@ public class Student extends User implements Serializable {
 		this.blacklistStatus = blacklistStatus;
 		blacklistTime = new DateTime();
 	}
-
 	public DateTime getBlacklistTime() {
 		return blacklistTime;
 	}
@@ -162,8 +157,4 @@ public class Student extends User implements Serializable {
 	public void addInterviewNotification(Interview interview) {
 		interviews.add(interview);
 	}
-	
-	
-	
-
 }
