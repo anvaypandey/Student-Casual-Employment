@@ -38,8 +38,8 @@ public class TestBlackListUser {
 
 	@Test(expected = InvalidInputException.class)
 	public void testInvalidInputException() throws InvalidInputException, AuthorizationException {
-		String simulatedUserInput = "s2";
-		System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+//		String simulatedUserInput = "s2";
+//		System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
 
 		main.blackListUser();
 	}
