@@ -15,6 +15,9 @@ public class StudentConsole implements Serializable {
 	public void run()
 	{
 		System.out.println("Welcome "+ MainConsole.user);
+
+		if(std.getBlacklistStatus()== BlacklistStatus.FULL)
+			System.out.println("You have been fully BlackListed. You cannot access any feature");
 		do
 		{
 			manageMenu();

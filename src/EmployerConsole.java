@@ -9,6 +9,10 @@ public class EmployerConsole implements Serializable {
 	public void run() {
 
 		System.out.println(" Welcome Employer " + MainConsole.user);
+
+		if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()== BlacklistStatus.FULL)
+			System.out.println("You have been fully BlackListed. You cannot access any feature");
+
 		do {
 			managemenu();
 		} while (!depart);
@@ -17,7 +21,6 @@ public class EmployerConsole implements Serializable {
 	private void managemenu()
 	{
 		try {
-			//reference checks, interview result
 			String menu ="1. Create a new Job Listing\n"
 					+"2. Search candidates based on Availability\n"
 					+"3. Search candidates based on Job Preference\n"
@@ -74,133 +77,234 @@ public class EmployerConsole implements Serializable {
 					System.out.println("Invalid Choice. Please try again");
 				}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 
 		
 	}
 
-	private void inputResultforInterviews() throws Exception {
-		for(int i=0;i<MainConsole.jobListings.size();i++)
-		{
-			if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
-			{
-				Job job = MainConsole.jobListings.get(i);
-				ArrayList<Interview> interviewArrayList = job.getInterviews();
-				for(int j=0;j<interviewArrayList.size();i++)
-				{
-					System.out.println(interviewArrayList.get(i).giveEmployeeDetails());
-				}
-				System.out.println("Enter Student Username");
-				String studentUsername = Utilities.getScanner().nextLine();
+	private void inputResultforInterviews() {
+		boolean flag = false;
+		do {
 
-				//check if he accepted the interview
-				//check if he exists
-				//then!
-				for(int j=0;j<interviewArrayList.size();i++)
+			try {
+
+				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
+					throw new AuthorizationException("You are not Authorised to Use this feature");
+
+				for(int i=0;i<MainConsole.jobListings.size();i++)
 				{
-					if(interviewArrayList.get(j).getStudent().getUsername().equalsIgnoreCase(studentUsername))
+					if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
 					{
-						if(interviewArrayList.get(j).isInterviewAccepted())
+						Job job = MainConsole.jobListings.get(i);
+						ArrayList<Interview> interviewArrayList = job.getInterviews();
+						for(int j=0;j<interviewArrayList.size();i++)
 						{
-							System.out.println("Enter interview result for the student");
-							String result = Utilities.getScanner().nextLine();
-							interviewArrayList.get(j).setInterviewResult(result);
+							System.out.println(interviewArrayList.get(i).giveEmployeeDetails());
+						}
+						System.out.println("Enter Student Username");
+						String studentUsername = Utilities.getScanner().nextLine();
 
-							System.out.println("Valid references? Y for YES, anything else for NO");
-							String input = Utilities.getScanner().nextLine();
-							if(input.equalsIgnoreCase("y"))
-								interviewArrayList.get(j).setReferenceCheck(true);
-							else
-								interviewArrayList.get(j).setReferenceCheck(false);
+						if(!MainConsole.userList.containsKey(studentUsername) || !(MainConsole.userList.get(studentUsername) instanceof Student))
+							throw new InvalidInputException("Such Student doesn't exist");
 
-							System.out.println("Sent the student an offer? Y for yes, anything else for no");
-							input = Utilities.getScanner().nextLine();
-
-							if(input.equalsIgnoreCase("y"))
+						//check if he accepted the interview
+						//check if he exists
+						//then!
+						for(int j=0;j<interviewArrayList.size();i++)
+						{
+							if(interviewArrayList.get(j).getStudent().getUsername().equalsIgnoreCase(studentUsername))
 							{
-								Offer offer = new Offer(job,interviewArrayList.get(j).getStudent());
-								interviewArrayList.get(j).getStudent().addOffer(offer);
-								interviewArrayList.get(j).getStudent().setStatus(ApplicantStatus.Pending);
+								if(interviewArrayList.get(j).isInterviewAccepted())
+								{
+									System.out.println("Enter interview result for the student");
+									String result = Utilities.getScanner().nextLine();
+									interviewArrayList.get(j).setInterviewResult(result);
+
+									System.out.println("Valid references? Y for YES, anything else for NO");
+									String input = Utilities.getScanner().nextLine();
+									if(input.equalsIgnoreCase("y"))
+										interviewArrayList.get(j).setReferenceCheck(true);
+									else
+										interviewArrayList.get(j).setReferenceCheck(false);
+
+									System.out.println("Sent the student an offer? Y for yes, anything else for no");
+									input = Utilities.getScanner().nextLine();
+
+									if(input.equalsIgnoreCase("y"))
+									{
+										Offer offer = new Offer(job,interviewArrayList.get(j).getStudent());
+										interviewArrayList.get(j).getStudent().addOffer(offer);
+										interviewArrayList.get(j).getStudent().setStatus(ApplicantStatus.Pending);
+
+									}
+
+								}
+								else
+									throw new InvalidInputException("The Student hasn't accepted the interview request");
 
 							}
-
 						}
-						else
-							throw new Exception("The Student hasn't accepted the interview request");
-
+						break;
 					}
 				}
-				break;
+				flag=true;
+
 			}
-		}
+			catch (InvalidInputException e)
+			{
+				System.err.println(e.getMessage());
+
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
+
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+			}
+			catch (AuthorizationException e)
+			{
+				System.err.println(e.getMessage());
+					flag=true;
+			}
+			catch (Exception e)
+			{
+				System.err.println(e.getMessage());
+			}
+
+
+		}while(!flag);
+
 	}
 
 	private void lodgeComplaint() {
+		boolean flag = false;
+		do {
 
-		System.out.println("Enter the username of the User you want to complain about");
+			try {
 
-		String complaintUser = Utilities.getScanner().nextLine();
+				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
+					throw new AuthorizationException("You are not Authorised to Use this feature");
 
-		System.out.println("Enter your complaint");
+				System.out.println("Enter the username of the User you want to complain about");
 
-		String complaint = Utilities.getScanner().nextLine();
+				String complaintUser = Utilities.getScanner().nextLine();
 
-		try {
-			if(MainConsole.userList.containsKey(complaintUser))
-			{
-				Complaint complaint1 = new Complaint(MainConsole.userList.get(MainConsole.user),complaint);
-				if(MainConsole.userList.get(complaintUser) instanceof Student)
-					((Student) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
-				else if(MainConsole.userList.get(complaintUser) instanceof Employer)
-					((Employer) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
+				System.out.println("Enter your complaint");
+
+				String complaint = Utilities.getScanner().nextLine();
+
+
+				if(MainConsole.userList.containsKey(complaintUser))
+				{
+					Complaint complaint1 = new Complaint(MainConsole.userList.get(MainConsole.user),complaint);
+					if(MainConsole.userList.get(complaintUser) instanceof Student)
+						((Student) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
+					else if(MainConsole.userList.get(complaintUser) instanceof Employer)
+						((Employer) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
+					else
+						throw new AuthorizationException("You are not authorised to complain against the Maintenance");
+				}
 				else
-					throw new AuthorizationException("You are not authorised to complain against the Maintenance");
+					throw new InvalidInputException("Such user does not exist");
+
+				flag=true;
+
 			}
-			else
-				throw new InvalidInputException("Such user does not exist");
+			catch (AuthorizationException e) {
+				System.err.println(e.getMessage());
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
 
-		}
-		catch (AuthorizationException e) {
-			e.printStackTrace();
-		} catch (InvalidInputException e) {
-			e.printStackTrace();
-		}
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+			}
+			catch (InvalidInputException e) {
+				System.err.println(e.getMessage());
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
 
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+
+
+		}while (!flag);
 
 	}
 
 	public void changePassword() {
 
-		System.out.println("New Password");
+		boolean flag = false;
 
-		String newPassword = Utilities.getScanner().nextLine();
+		do {
+			try{
+				System.out.println("New Password");
 
-		try {
-			MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
-		} catch (InvalidInputException e) {
-			System.err.println(e.getMessage());
-		}
+				String newPassword = Utilities.getScanner().nextLine();
+
+
+				MainConsole.userList.get(MainConsole.user).setPassword(newPassword);
+				flag=true;
+			}
+			catch (InvalidInputException e) {
+				System.err.println(e.getMessage());
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
+
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		}while(!flag);
+
 
 	}
 
-	public boolean changeUsername(String newUsername) throws InvalidInputException{
+	public boolean changeUsername(String newUsername){
 
-		if (newUsername.equalsIgnoreCase(MainConsole.user))
-			throw new InvalidInputException(" Your new username is the same as the old one");
-		if(MainConsole.userList.containsKey(newUsername))
-			throw new InvalidInputException(" This username is already taken");
+		boolean flag = false;
+		do {
+			try {
+				if (newUsername.equalsIgnoreCase(MainConsole.user))
+					throw new InvalidInputException(" Your new username is the same as the old one");
+				if(MainConsole.userList.containsKey(newUsername))
+					throw new InvalidInputException(" This username is already taken");
 
-		User a1 = new Employer((Employer) MainConsole.userList.get(MainConsole.user));
+				User a1 = new Employer((Employer) MainConsole.userList.get(MainConsole.user));
 
-		MainConsole.userList.put(newUsername, a1);
+				MainConsole.userList.put(newUsername, a1);
 
-		MainConsole.userList.remove(MainConsole.user);
+				MainConsole.userList.remove(MainConsole.user);
 
-		// MainConsole.user = newUsername; // If we want to continue from here
 
-		depart = true;// to login again
+				// MainConsole.user = newUsername; // If we want to continue from here
+
+				depart = true;// to login again
+
+				flag=true;
+			}
+			catch (InvalidInputException e){
+
+				System.err.println(e.getMessage());
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
+
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}while(!flag);
+
 		return true;
 	}
 
@@ -297,57 +401,101 @@ public class EmployerConsole implements Serializable {
 
 	private void shortlistCandidate(String studentId) throws InvalidInputException
 	{
-		if(MainConsole.userList.containsKey(studentId) && MainConsole.userList.get(studentId) instanceof Student)
-		{
-			int i;
-			for(i=0;i<MainConsole.jobListings.size();i++)
-			{
-				if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
+		boolean flag = false;
+		do{
+			try {
+				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
+					throw new AuthorizationException("You are not Authorised to Use this feature");
+				if(MainConsole.userList.containsKey(studentId) && MainConsole.userList.get(studentId) instanceof Student)
 				{
-					try {
-						//set time and add to notification
-						MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId), new DateTime());
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
+					int i;
+					for(i=0;i<MainConsole.jobListings.size();i++)
+					{
+						if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
+						{
+								//set time and add to notification
+								MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId), new DateTime());
+							break;
+						}
 					}
-					break;
 				}
-			}
-		}
-		else
-		{
-			throw new InvalidInputException("No student with this username exists!");
-		}
+				else
+				{
+					throw new InvalidInputException("No student with this username exists!");
+				}
 
+			}
+			catch (InvalidInputException e){
+				System.err.println(e.getMessage());
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
+
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+			}
+			catch (AuthorizationException e)
+			{
+				System.err.println(e.getMessage());
+				flag=true;
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+
+		}while(!flag);
 
 	}
 
 	private void rankCandidates()
 	{
 		//assumption one employer just has one jobListing
+		boolean flag = false;
+		do {
+			try {
+				System.out.println(" The current Ranking is : \n");
 
-		System.out.println(" The current Ranking is : \n");
+				for (Job job: MainConsole.jobListings) {
+					if(job.getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
+					{
+						ArrayList<Student> students = job.getShortlist();
+						for (int i=0;i<students.size();i++) {
+							System.out.println((i+1)+". "+students.get(i).getDetails());// show the list of candidates
+						}
 
-		for (Job job: MainConsole.jobListings) {
-			if(job.getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
-			{
-				ArrayList<Student> students = job.getShortlist();
-				for (int i=0;i<students.size();i++) {
-					System.out.println((i+1)+". "+students.get(i).getDetails());// show the list of candidates
+						if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus() == BlacklistStatus.PROVISIONAL)
+							throw new AuthorizationException("You are not Authorised to Use this feature");
+
+						// ask them to give the ranking of the list Eg : 3 4 2 1 5
+						System.out.println("Enter the way they have to be ranked. With spaces between ranks");
+						String ranking = Utilities.getScanner().nextLine();
+							job.rankCandidates(ranking);
+							flag = true;
+						break;
+					}
+
 				}
 
-				// ask them to give the ranking of the list Eg : 3 4 2 1 5
-				System.out.println("Enter the way they have to be ranked. With spaces between ranks");
-				String ranking = Utilities.getScanner().nextLine();
-				try {
-					job.rankCandidates(ranking);
-				} catch (InvalidInputException e) {
-					System.err.println(e.getMessage());
-				}
-				break;
 			}
+			catch (InvalidInputException e)
+			{
+				System.err.println(e.getMessage());
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
 
-		}
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+			}
+			catch (AuthorizationException e)
+			{
+				System.err.println(e.getMessage());
+				flag=true;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}while(!flag);
 
 	}
 
@@ -367,47 +515,80 @@ public class EmployerConsole implements Serializable {
 	// 	MainConsole.jobListings.add(job);
 	// }
 
-	public void addNewJob() throws InvalidInputException {
+	public void addNewJob() {
 
-		System.out.println("Enter Job Category for the new Job from the following list");
+		boolean flag = false;
 
-		for (int i=0;i<MainConsole.jobCategories.size();i++)
-		{
-			System.out.println((i+1)+":"+MainConsole.jobCategories.get(i).getName());
-		}
+		do{
+			try {
 
-		System.out.println("Enter the Job Category:");
+				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
+				{
+					throw new AuthorizationException("You are not Authorised to Use this feature");
+				}
+				System.out.println("Enter Job Category for the new Job from the following list");
 
-		String jobcategory = Utilities.getScanner().nextLine();
+				for (int i=0;i<MainConsole.jobCategories.size();i++)
+				{
+					System.out.println((i+1)+":"+MainConsole.jobCategories.get(i).getName());
+				}
 
-		int i;
-		for(i=0;i<MainConsole.jobCategories.size();i++)
-		{
-			if(MainConsole.jobCategories.get(i).getName().equalsIgnoreCase(jobcategory))
-				break;
-		}
-		if(i==MainConsole.jobCategories.size())
-			throw new InvalidInputException("Such Job Category Doesn't Exist");
+				System.out.println("Enter the Job Category:");
 
-		JobCategory jobCat = new JobCategory(jobcategory);
+				String jobcategory = Utilities.getScanner().nextLine();
 
-		System.out.println("Enter job description: ");
-		String desc = Utilities.getScanner().nextLine();
+				int i;
+				for(i=0;i<MainConsole.jobCategories.size();i++)
+				{
+					if(MainConsole.jobCategories.get(i).getName().equalsIgnoreCase(jobcategory))
+						break;
+				}
+				if(i==MainConsole.jobCategories.size())
+					throw new InvalidInputException("Such Job Category Doesn't Exist");
 
-		String id ="JOB";
-		String index = String.valueOf(MainConsole.jobListings.size());
+				JobCategory jobCat = new JobCategory(jobcategory);
 
-		//job category
+				System.out.println("Enter job description: ");
+				String desc = Utilities.getScanner().nextLine();
 
-		for(int j=3;j>=index.length();j--) // to add 0s in front of the idNumber
-			index="0"+index;
-		id += index;
+				String id ="JOB";
+				String index = String.valueOf(MainConsole.jobListings.size());
+
+				//job category
+
+				for(int j=3;j>=index.length();j--) // to add 0s in front of the idNumber
+					index="0"+index;
+				id += index;
 
 
-		Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc,jobCat);
-		MainConsole.jobListings.add(job);
+				Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc,jobCat);
+				MainConsole.jobListings.add(job);
 
-		System.out.println("Job "+id+" has been created");
+				flag = true;
+
+				System.out.println("Job "+id+" has been created");
+
+			}
+			catch (InvalidInputException e)
+			{
+				System.err.println(e.getMessage());
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
+
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+			}
+			catch (AuthorizationException e){
+				System.err.println(e.getMessage());
+				flag=true;
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		}while(!flag);
+
+
 	}
 
 	/*private int jobInput()
