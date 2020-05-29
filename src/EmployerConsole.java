@@ -9,6 +9,10 @@ public class EmployerConsole implements Serializable {
 	public void run() {
 
 		System.out.println(" Welcome Employer " + MainConsole.user);
+
+		if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()== BlacklistStatus.FULL)
+			System.out.println("You have been fully BlackListed. You cannot access any feature");
+
 		do {
 			managemenu();
 		} while (!depart);
@@ -84,6 +88,10 @@ public class EmployerConsole implements Serializable {
 		do {
 
 			try {
+
+				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
+					throw new AuthorizationException("You are not Authorised to Use this feature");
+
 				for(int i=0;i<MainConsole.jobListings.size();i++)
 				{
 					if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
@@ -133,7 +141,7 @@ public class EmployerConsole implements Serializable {
 
 								}
 								else
-									throw new AuthorizationException("The Student hasn't accepted the interview request");
+									throw new InvalidInputException("The Student hasn't accepted the interview request");
 
 							}
 						}
@@ -156,10 +164,6 @@ public class EmployerConsole implements Serializable {
 			catch (AuthorizationException e)
 			{
 				System.err.println(e.getMessage());
-				System.out.println("Enter Q to quit or anything else to try again");
-				String input = Utilities.getScanner().nextLine();
-
-				if(input.equalsIgnoreCase("q"))
 					flag=true;
 			}
 			catch (Exception e)
@@ -177,6 +181,9 @@ public class EmployerConsole implements Serializable {
 		do {
 
 			try {
+
+				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
+					throw new AuthorizationException("You are not Authorised to Use this feature");
 
 				System.out.println("Enter the username of the User you want to complain about");
 
@@ -397,6 +404,8 @@ public class EmployerConsole implements Serializable {
 		boolean flag = false;
 		do{
 			try {
+				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
+					throw new AuthorizationException("You are not Authorised to Use this feature");
 				if(MainConsole.userList.containsKey(studentId) && MainConsole.userList.get(studentId) instanceof Student)
 				{
 					int i;
@@ -424,6 +433,11 @@ public class EmployerConsole implements Serializable {
 				if(input.equalsIgnoreCase("q"))
 					flag=true;
 			}
+			catch (AuthorizationException e)
+			{
+				System.err.println(e.getMessage());
+				flag=true;
+			}
 			catch (Exception e)
 			{
 				e.printStackTrace();
@@ -449,6 +463,9 @@ public class EmployerConsole implements Serializable {
 							System.out.println((i+1)+". "+students.get(i).getDetails());// show the list of candidates
 						}
 
+						if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus() == BlacklistStatus.PROVISIONAL)
+							throw new AuthorizationException("You are not Authorised to Use this feature");
+
 						// ask them to give the ranking of the list Eg : 3 4 2 1 5
 						System.out.println("Enter the way they have to be ranked. With spaces between ranks");
 						String ranking = Utilities.getScanner().nextLine();
@@ -468,6 +485,11 @@ public class EmployerConsole implements Serializable {
 
 				if(input.equalsIgnoreCase("q"))
 					flag=true;
+			}
+			catch (AuthorizationException e)
+			{
+				System.err.println(e.getMessage());
+				flag=true;
 			}
 			catch(Exception e)
 			{
@@ -493,12 +515,17 @@ public class EmployerConsole implements Serializable {
 	// 	MainConsole.jobListings.add(job);
 	// }
 
-	public void addNewJob() throws InvalidInputException {
+	public void addNewJob() {
 
 		boolean flag = false;
 
 		do{
 			try {
+
+				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
+				{
+					throw new AuthorizationException("You are not Authorised to Use this feature");
+				}
 				System.out.println("Enter Job Category for the new Job from the following list");
 
 				for (int i=0;i<MainConsole.jobCategories.size();i++)
@@ -550,6 +577,10 @@ public class EmployerConsole implements Serializable {
 
 				if(input.equalsIgnoreCase("q"))
 					flag=true;
+			}
+			catch (AuthorizationException e){
+				System.err.println(e.getMessage());
+				flag=true;
 			}
 			catch(Exception e){
 				e.printStackTrace();
