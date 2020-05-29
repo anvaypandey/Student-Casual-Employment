@@ -17,6 +17,7 @@ public class MainConsole implements Serializable {
 	public void run() 
 	{
 		getFromFiles();
+		updateStudentStatus();
 		//populate();
 		
 		while (true)
@@ -280,6 +281,14 @@ public class MainConsole implements Serializable {
 
 	}
 	
-	
-
+	public void updateStudentStatus()
+	{
+		for(int i=0; i<userList.size(); i++)
+		{
+			if(userList.get(i) instanceof Student && (DateTime.diffDays(new DateTime(), ((Student) userList.get(i)).getLastStatusUpdateDate()))>=14)
+			{
+				((Student) userList.get(i)).setStatus(ApplicantStatus.Unknown);
+			}
+		}
+	}
 }
