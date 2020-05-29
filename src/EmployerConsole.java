@@ -6,72 +6,64 @@ public class EmployerConsole implements Serializable {
 
 	boolean depart = false;
 
+
 	public void run() {
+		System.out.println("Welcome " + MainConsole.user);
 
-		System.out.println(" Welcome Employer " + MainConsole.user);
+		if (((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus() == BlacklistStatus.FULL)
+		{
+			do {
+				fullyBlacklistedMenu();
 
-		if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()== BlacklistStatus.FULL)
-			System.out.println("You have been fully BlackListed. You cannot access any feature");
+			} while (!depart);
+		}
 
-		do {
-			managemenu();
-		} while (!depart);
+		else
+		{
+			do {
+				manageMenu();
+
+			} while (!depart);
+
+		}
+
+		return;
 	}
-//	public void run() {
-//		System.out.println("Welcome " + MainConsole.user);
-//
-//		if (std.getBlacklistStatus() == BlacklistStatus.FULL)
-//		{
-//			do {
-//				fullyBlacklistedMenu();
-//
-//			} while (!depart);
-//		}
-//
-//		else
-//		{
-//			do {
-//				manageMenu();
-//
-//			} while (!depart);
-//
-//		}
-//
-//		return;
-//	}
 
-//	private void fullyBlacklistedMenu() {
-//
-//		System.out.println("As you have been fully blacklisted,you can only access limited features");
-//		try
-//		{
-//			String menu = "1.Change password" +
-//					"2.Change Username" +
-//					"3.LogOut";
-//			System.out.println(menu);
-//
-//			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
-//
-//			switch (userChoice) {
-//				case 1:
-//					changeUsername(); // all notifications, one at a time
-//					break;
-//				case 2:
-//					changePassword();
-//					break;
-//				case 3:
-//					System.out.println("You have successfully logged out!\n");
-//					depart = true;
-//					return;
-//				default:
-//					System.out.println("Invalid Choice. Please try again");
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	private void fullyBlacklistedMenu() {
 
-	private void managemenu()
+		System.out.println("As you have been fully blacklisted,you can only access limited features");
+		try
+		{
+			String menu = "1.Change password" +
+					"2.Change Username" +
+					"3.LogOut";
+			System.out.println(menu);
+
+			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
+
+			switch (userChoice) {
+				case 1:
+					System.out.println(" Enter the new Username");
+					String newUsername = Utilities.getScanner().nextLine();
+					changeUsername(newUsername);
+					break;
+				case 2:
+					changePassword();
+					break;
+				case 3:
+					System.out.println("You have successfully logged out!\n");
+					depart = true;
+					return;
+				default:
+					System.out.println("Invalid Choice. Please try again");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void manageMenu()
 	{
 		try {
 			String menu ="1. Create a new Job Listing\n"
