@@ -80,12 +80,12 @@ public class EmployerConsole implements Serializable {
 					+ "Enter your choice: ";
 			System.out.println(menu);
 
-				int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
+			int userChoice = Integer.parseInt(Utilities.getScanner().nextLine());
 
-				switch(userChoice)
-				{
-				case 1: 
-					addNewJob(); 
+			switch(userChoice)
+			{
+				case 1:
+					addNewJob();
 					break;
 				case 2:
 					userEntry();
@@ -121,10 +121,10 @@ public class EmployerConsole implements Serializable {
 					return;
 				default:
 					System.out.println("Invalid Choice. Please try again");
-				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
 
 	}
 
@@ -144,25 +144,26 @@ public class EmployerConsole implements Serializable {
 					{
 						Job job = MainConsole.jobListings.get(i);
 						ArrayList<Interview> interviewArrayList = job.getInterviews();
-						for(int j=0;j<interviewArrayList.size();i++)
+						for(int j=0;j<interviewArrayList.size();j++)
 						{
-							System.out.println(interviewArrayList.get(i).giveEmployeeDetails());
+							System.out.println(interviewArrayList.get(j).giveEmployeeDetails()+"\n");
 						}
 						System.out.println("Enter Student Username");
 						String studentUsername = Utilities.getScanner().nextLine();
 
-						if(!MainConsole.userList.containsKey(studentUsername) || !(MainConsole.userList.get(studentUsername) instanceof Student))
+						if(!(MainConsole.userList.containsKey(studentUsername)) || !(MainConsole.userList.get(studentUsername) instanceof Student))
 							throw new InvalidInputException("Such Student doesn't exist");
 
 						//check if he accepted the interview
 						//check if he exists
 						//then!
-						for(int j=0;j<interviewArrayList.size();i++)
+						for(int j=0;j<interviewArrayList.size();j++)
 						{
 							if(interviewArrayList.get(j).getStudent().getUsername().equalsIgnoreCase(studentUsername))
 							{
 								if(interviewArrayList.get(j).isInterviewAccepted())
 								{
+									flag = true;
 									System.out.println("Enter interview result for the student");
 									String result = Utilities.getScanner().nextLine();
 									interviewArrayList.get(j).setInterviewResult(result);
@@ -174,7 +175,7 @@ public class EmployerConsole implements Serializable {
 									else
 										interviewArrayList.get(j).setReferenceCheck(false);
 
-									System.out.println("Sent the student an offer? Y for yes, anything else for no");
+									System.out.println("Send the student an offer? Y for yes, anything else for no");
 									input = Utilities.getScanner().nextLine();
 
 									if(input.equalsIgnoreCase("y"))
@@ -182,18 +183,20 @@ public class EmployerConsole implements Serializable {
 										Offer offer = new Offer(job,interviewArrayList.get(j).getStudent());
 										interviewArrayList.get(j).getStudent().addOffer(offer);
 										interviewArrayList.get(j).getStudent().setStatus(ApplicantStatus.Pending);
+										System.out.println("Offer sent to candidate "+studentUsername);
 
 									}
 
 								}
 								else
 									throw new InvalidInputException("The Student hasn't accepted the interview request");
+								break;
 							}
 						}
-						break;
+					break;
 					}
 				}
-				flag=true;
+
 			}
 			catch (InvalidInputException e)
 			{
@@ -208,11 +211,11 @@ public class EmployerConsole implements Serializable {
 			catch (AuthorizationException e)
 			{
 				System.err.println(e.getMessage());
-					flag=true;
+				flag=true;
 			}
 			catch (Exception e)
 			{
-				System.err.println(e.getMessage());
+				e.printStackTrace();
 			}
 
 
@@ -356,7 +359,7 @@ public class EmployerConsole implements Serializable {
 				e.printStackTrace();
 			}
 		else
-		// throw invalid input
+			// throw invalid input
 			System.out.println("Invalid input.");
 	}
 
@@ -364,25 +367,24 @@ public class EmployerConsole implements Serializable {
 	private void jobPrefEntry() throws Exception
 	{
 		System.out.println("Select from below list:\n");
-		ArrayList<JobCategory> jobCat = new ArrayList<>();
-		for (int i = 0; i < jobCat.size(); i++){
-			System.out.println("/n"+i);
+		for (int i = 0; i < MainConsole.jobCategories.size(); i++){
+			System.out.println((i+1)+". "+MainConsole.jobCategories.get(i).getName());
 		}
-		System.out.println("Enter Job Preference of your choice: ");
-		
+		System.out.println("Enter Job Category of your choice: ");
+
 		String prefChoice= Utilities.getScanner().nextLine();
 		try {
 			searchApplicantsbyJobPreference(prefChoice);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 	}
-	
+
 	//searching applicants based on availability
 	public boolean searchApplicantsbyAvailability(int i) throws Exception
 	{
 		boolean exists = false;
-		for(Map.Entry<String,User> me : MainConsole.userList.entrySet()) 
+		for(Map.Entry<String,User> me : MainConsole.userList.entrySet())
 		{
 			if(me.getValue() instanceof Student)
 			{
@@ -391,13 +393,13 @@ public class EmployerConsole implements Serializable {
 					System.out.println(me.getValue().getDetails()+"\n\n");
 					exists = true;
 				}
-					
+
 				else if (i==2 && ((Student) me.getValue()).getAvailability() == Availability.PartTime)
 				{
 					System.out.println(me.getValue().getDetails()+"\n\n");
 					exists = true;
 				}
-					
+
 				else if (i==3 && ((Student) me.getValue()).getAvailability() == Availability.Internship)
 				{
 					System.out.println(me.getValue().getDetails()+"\n\n");
@@ -406,7 +408,7 @@ public class EmployerConsole implements Serializable {
 			}
 		}
 		if(!exists)
-		throw new Exception("No student exists in this search criteria");
+			throw new Exception("No student exists in this search criteria");
 
 		return exists;
 	}
@@ -415,12 +417,12 @@ public class EmployerConsole implements Serializable {
 	public boolean searchApplicantsbyJobPreference(String str) throws Exception
 	{
 		boolean exists = false;
-		for(Map.Entry<String,User> me : MainConsole.userList.entrySet()) 
+		for(Map.Entry<String,User> me : MainConsole.userList.entrySet())
 		{
 			if(me.getValue() instanceof Student)
 			{
 				ArrayList<JobCategory> jobCat = ((Student) me.getValue()).getSelectedJobCategories();
-				
+
 
 				for(int i=0;i<jobCat.size();i++)
 
@@ -428,11 +430,11 @@ public class EmployerConsole implements Serializable {
 					{
 						System.out.println(me.getValue().getDetails()+"\n\n");
 						exists = true;
-					}	
+					}
 			}
 		}
 		if (!exists)
-		throw new Exception("No student exists in this search criteria");
+			throw new Exception("No student exists in this search criteria");
 
 		return exists;
 	}
@@ -452,8 +454,10 @@ public class EmployerConsole implements Serializable {
 					{
 						if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
 						{
-								//set time and add to notification
-								MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId), new DateTime());
+							//set time and add to notification
+							MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId), new DateTime());
+							System.out.println("Candidate "+studentId+" has been successfully shortlisted\n");
+							flag=true;
 							break;
 						}
 					}
@@ -479,7 +483,7 @@ public class EmployerConsole implements Serializable {
 			}
 			catch (Exception e)
 			{
-				e.printStackTrace();
+				System.err.println(e.getMessage());
 			}
 
 		}while(!flag);
@@ -499,17 +503,30 @@ public class EmployerConsole implements Serializable {
 					{
 						ArrayList<Student> students = job.getShortlist();
 						for (int i=0;i<students.size();i++) {
-							System.out.println((i+1)+". "+students.get(i).getDetails());// show the list of candidates
+							System.out.println((i+1)+". "+students.get(i).getDetails()+"\n");// show the list of candidates
 						}
 
 						if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus() == BlacklistStatus.PROVISIONAL)
 							throw new AuthorizationException("You are not Authorised to Use this feature");
 
-						// ask them to give the ranking of the list Eg : 3 4 2 1 5
-						System.out.println("Enter the way they have to be ranked. With spaces between ranks");
-						String ranking = Utilities.getScanner().nextLine();
-							job.rankCandidates(ranking);
-							flag = true;
+						// ask them to give the ranking of the list
+						System.out.println("Enter the way they have to be ranked. One by one.");
+						ArrayList<Integer> rank = new ArrayList<>();
+						for(int i=0;i<students.size();i++)
+						{
+							rank.add(Integer.parseInt(Utilities.getScanner().nextLine()));
+
+						}
+						//String ranking = Utilities.getScanner().nextLine();
+						job.rankCandidates(rank);
+
+						System.out.println("The revised ranking of the candidates is:");
+
+						ArrayList<Student> newRanks = job.getShortlist();
+						for (int i=0;i<newRanks.size();i++) {
+							System.out.println((i+1)+". "+newRanks.get(i).getDetails()+"\n");// show the list of candidates
+						}
+						flag = true;
 						break;
 					}
 
@@ -549,49 +566,57 @@ public class EmployerConsole implements Serializable {
 				{
 					throw new AuthorizationException("You are not Authorised to Use this feature");
 				}
+				int x;
+				for(x=0;x<MainConsole.jobListings.size();x++){
+					if(MainConsole.jobListings.get(x).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user));
+					break;
+				}
 
-						System.out.println("Enter Job Category for the new Job from the following list");
-						for (int i=0;i<MainConsole.jobCategories.size();i++)
-						{
-							System.out.println((i+1)+":"+MainConsole.jobCategories.get(i).getName());
-						}
+				if(x<MainConsole.jobListings.size())
+					throw new AuthorizationException("You already have a job Listing. You cannot create another one.");
 
-						System.out.println("Enter the Job Category:");
+				System.out.println("Enter Job Category for the new Job from the following list");
+				for (int i=0;i<MainConsole.jobCategories.size();i++)
+				{
+					System.out.println((i+1)+":"+MainConsole.jobCategories.get(i).getName());
+				}
 
-						String jobcategory = Utilities.getScanner().nextLine();
+				System.out.println("Enter the Job Category:");
 
-						int i;
-						for(i=0;i<MainConsole.jobCategories.size();i++)
-						{
-							if(MainConsole.jobCategories.get(i).getName().equalsIgnoreCase(jobcategory))
-								break;
-						}
-						if(i==MainConsole.jobCategories.size())
-							throw new InvalidInputException("Such Job Category Doesn't Exist");
+				String jobcategory = Utilities.getScanner().nextLine();
 
-						JobCategory jobCat = new JobCategory(jobcategory);
+				int i;
+				for(i=0;i<MainConsole.jobCategories.size();i++)
+				{
+					if(MainConsole.jobCategories.get(i).getName().equalsIgnoreCase(jobcategory))
+						break;
+				}
+				if(i==MainConsole.jobCategories.size())
+					throw new InvalidInputException("Such Job Category Doesn't Exist");
 
-						System.out.println("Enter job description: ");
-						String desc = Utilities.getScanner().nextLine();
+				JobCategory jobCat = new JobCategory(jobcategory);
 
-						String id ="JOB";
-						String index = String.valueOf(MainConsole.jobListings.size());
+				System.out.println("Enter job description: ");
+				String desc = Utilities.getScanner().nextLine();
 
-						//job category
+				String id ="JOB";
+				String index = String.valueOf(MainConsole.jobListings.size());
 
-						for(int j=3;j>=index.length();j--) // to add 0s in front of the idNumber
-							index="0"+index;
-						id += index;
+				//job category
 
-						//Employer is only allowed to have one job post
+				for(int j=3;j>=index.length();j--) // to add 0s in front of the idNumber
+					index="0"+index;
+				id += index;
 
-						Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc,jobCat);
-						MainConsole.jobListings.add(job);
+				//Employer is only allowed to have one job post
 
-						flag = true;
+				Job job = new Job(id, ((Employer) MainConsole.userList.get(MainConsole.user)), desc,jobCat);
+				MainConsole.jobListings.add(job);
 
-						System.out.println("Job "+id+" has been created");
-					}
+				flag = true;
+
+				System.out.println("Job "+id+" has been created");
+			}
 			catch (InvalidInputException e)
 			{
 				System.err.println(e.getMessage());

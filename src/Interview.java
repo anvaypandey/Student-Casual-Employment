@@ -70,8 +70,7 @@ public class Interview implements Serializable {
 
     public String giveEmployeeDetails()
     {
-        String s = job.getDetails()+"\n student Username:"+student.getUsername()+"Time:"+time.toString();
-
+        String s = job.getDetails()+"Student Username: "+student.getUsername()+"\nInterview Time:"+time.toString();
         return s;
     }
     public boolean isInterviewAccepted() {

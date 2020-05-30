@@ -192,35 +192,27 @@ public class Report implements Serializable {
 
                 if(MainConsole.userList.containsKey(userId))
                 {
-                    for(int i=0;i<MainConsole.userList.size();i++)
+                    if(MainConsole.userList.get(userId) instanceof Student)
                     {
-                        if(MainConsole.userList.get(i).getUsername().equalsIgnoreCase(userId))
-                        {
-                            if(MainConsole.userList.get(i) instanceof Student)
-                            {
-                                ArrayList<Complaint> complaints= ((Student)MainConsole.userList.get(i)).getComplaints();
+                        ArrayList<Complaint> complaints= new ArrayList<>();
+                        complaints = ((Student)MainConsole.userList.get(userId)).getComplaints();
 
-                                if(complaints.size() == 0)
-                                    System.out.println("No Complaints!");
+                        if(complaints.size() == 0)
+                            System.out.println("No Complaints!");
 
-                                for (int j=0;j<complaints.size();j++)
-                                    System.out.println(complaints.get(j).getComplaint()+"\n By: "+complaints.get(j).getComplainer()+"\n\n");
-
-                            }
-                            else if(MainConsole.userList.get(i) instanceof Employer)
-                            {
-                                ArrayList<Complaint> complaints= ((Employer)MainConsole.userList.get(i)).getComplaints();
-
-                                if(complaints.size() == 0)
-                                    System.out.println("No Complaints!");
-
-                                for (int j=0;j<complaints.size();j++)
-                                    System.out.println(complaints.get(j).getComplaint()+"\n By: "+complaints.get(j).getComplainer()+"\n\n");
-                            }
-
-                        }
+                        for (int j=0;j<complaints.size();j++)
+                            System.out.println(complaints.get(j).getComplaint()+"\n By: "+complaints.get(j).getComplainer().getUsername()+"\n\n");
                     }
+                    else if (MainConsole.userList.get(userId) instanceof Employer)
+                    {
+                        ArrayList<Complaint> complaints= ((Employer)MainConsole.userList.get(userId)).getComplaints();
 
+                        if(complaints.size() == 0)
+                            System.out.println("No Complaints!");
+
+                        for (int j=0;j<complaints.size();j++)
+                            System.out.println(complaints.get(j).getComplaint()+"\n By: "+complaints.get(j).getComplainer().getUsername()+"\n\n");
+                    }
                     completed=true;
 
                 }
@@ -239,7 +231,7 @@ public class Report implements Serializable {
             }
             catch (Exception e)
             {
-                System.err.println(e.getMessage());
+                e.printStackTrace();
             }
 
         }while(!completed);

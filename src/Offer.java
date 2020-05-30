@@ -4,8 +4,6 @@ public class Offer implements Serializable {
 
     private Job job;
     private boolean acceptedOrRejected;
-
-
     private Student student;
 
     public Offer(Job job,Student student) {
