@@ -4,12 +4,11 @@ import java.util.HashMap;
 
 public class MainConsole implements Serializable {
 	
-	 static HashMap<String, User> userList = new HashMap<>();
+	static HashMap<String, User> userList = new HashMap<>();
 	
 	static ArrayList<Job>  jobListings = new ArrayList<Job>();
 	
 	static ArrayList<JobCategory> jobCategories = new ArrayList<JobCategory>();
-	
 	
 	static String user;
 
@@ -17,7 +16,6 @@ public class MainConsole implements Serializable {
 	public void run() 
 	{
 		getFromFiles();
-
 		updateStudentStatus();
 		//populate();
     

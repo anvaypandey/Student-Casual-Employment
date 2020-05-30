@@ -4,19 +4,16 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class Employer extends User implements Serializable {
-	
-	private String phNo;
+
 	private ArrayList<Complaint> complaints;
 	private BlacklistStatus blacklistStatus;
 	private DateTime blacklistTime;
-	//private ArrayList<Job> jobsCreated;
 	
 	
 	public Employer(String username, String password, String email) {
 		super(username, password,email);
 		complaints = new ArrayList<Complaint>();
 		blacklistStatus = BlacklistStatus.NONE;
-		//jobsCreated = new ArrayList<>();
 	}
 	
 	public Employer(Employer that)

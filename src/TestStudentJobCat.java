@@ -26,8 +26,7 @@ public class TestStudentJobCat {
 
 
 	@Test (expected = NullPointerException.class)
-	public void testJobCat() throws InvalidInputException, NullPointerException
-	{
+	public void testJobCat() throws InvalidInputException, NullPointerException, AuthorizationException {
 
 		assertEquals(true, std.jobCatego("waiter"));
 	}

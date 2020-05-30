@@ -133,43 +133,75 @@ public class StudentConsole implements Serializable {
 		//switch case
 	}
 
-	private void checkOffer() throws AuthorizationException { //allows user to check any job offers
+	private void checkOffer() throws AuthorizationException{ //allows user to check any job offers
 
-		if (std.getBlacklistStatus() != BlacklistStatus.NONE) { //if student is blacklisted they cannot access this feature
-			throw new AuthorizationException("You are not Authorised to Use this feature");
-		} else {
-			ArrayList<Offer> offers = std.getOffers(); //get offers
-			if (offers.size() == 0) //check if there are any offers
-				System.out.println("You have zero Job Offers");
+		if (std.getBlacklistStatus() != BlacklistStatus.NONE) //if student is blacklisted they cannot access this feature
+			throw new AuthorizationException("You are not Authorised to use this feature");
 
-			for (int i = 0; i < offers.size(); i++) {
-				offers.get(i).getJob().getDetails();
-			}
+		boolean flag=false;
+		do {
+			try
+			{
+				if (std.getStatus() == ApplicantStatus.Employed) //students cannot accept offers if employed
+					throw new AuthorizationException("You cant accept offers now.You're Employed!\n");
 
-			if (std.getStatus() == ApplicantStatus.Employed) { //students cannot accept offers if employed
-				System.out.println("You cant accept offers now.You're Employed!");
-				return;
-			}
+				ArrayList<Offer> offers = std.getOffers(); //get offers
+				if (offers.size() == 0) //check if there are any offers
+					throw new AuthorizationException("You have zero Job Offers");
 
-			System.out.println("Enter Job Id"); //of job offer student wants to respond to
-			String jobID = Utilities.getScanner().nextLine();
-
-			for (int i = 0; i < offers.size(); i++) {
-				if (offers.get(i).getJob().getJobId().equalsIgnoreCase(jobID)) {
-					offers.get(i).getJob().getDetails();
-
-					System.out.println("Accept or Reject? Input Y to accept, anything else to reject"); //respond to offer
-					String input = Utilities.getScanner().nextLine();
-
-					if (input.equalsIgnoreCase("Y")) {
-						offers.get(i).setAcceptedOrRejected(true);
-						std.setStatus(ApplicantStatus.Employed);
-					} else
-						offers.get(i).setAcceptedOrRejected(true);
-
+				for (int i = 0; i < offers.size(); i++) {
+					System.out.println(offers.get(i).getJob().getDetails()+"\n");
 				}
+
+				System.out.println("Enter Job Id"); //of job offer student wants to respond to
+				String jobID = Utilities.getScanner().nextLine();
+
+				for (int i = 0; i < offers.size(); i++) {
+					if (offers.get(i).getJob().getJobId().equalsIgnoreCase(jobID)) {
+						flag =true;
+						System.out.println(offers.get(i).getJob().getDetails()+"\n");
+
+						System.out.println("Accept or Reject? Input Y to accept, anything else to reject"); //respond to offer
+						String input = Utilities.getScanner().nextLine();
+
+						if (input.equalsIgnoreCase("Y")) {
+							offers.get(i).setAcceptedOrRejected(true);
+							std.setStatus(ApplicantStatus.Employed);
+							System.out.println("You have accepted the offer. You are now Employed!");
+						} else
+						{
+							offers.get(i).setAcceptedOrRejected(false);
+							std.setStatus(ApplicantStatus.Available);
+							System.out.println("You have rejected the offer.");
+						}
+						offers.remove(i);
+						break;
+					}
+				}
+				if(!flag)
+					throw new InvalidInputException("Incorrect Job Id.\n");
+
 			}
-		}
+			catch(InvalidInputException e){
+				System.err.println(e.getMessage());
+
+				System.out.println("Enter Q to quit or anything else to try again");
+				String input = Utilities.getScanner().nextLine();
+
+				if(input.equalsIgnoreCase("q"))
+					flag=true;
+
+			}
+			catch (AuthorizationException e){
+				System.err.println(e.getMessage());
+				flag=true;
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+
+		}while (!flag);
 	}
 
 	public void chooseJobCategory() throws AuthorizationException { //allows students to add job categories to their list of interests
@@ -390,7 +422,7 @@ public class StudentConsole implements Serializable {
 			ArrayList<Interview> interviews = std.getInterviewNotifications();
 
 			if (interviews.size() == 0)
-				System.out.println("No new notifications");
+				System.out.println("No new notification\n");
 
 			for (int j = 0; j < interviews.size(); j++) {
 				System.out.println(interviews.get(j).giveStudentDetails());
@@ -400,7 +432,7 @@ public class StudentConsole implements Serializable {
 				String input = Utilities.getScanner().nextLine();
 				if (input.equalsIgnoreCase("Y")) {
 					interviews.get(j).setInterviewAccepted(true);
-
+					System.out.println(" You have accepted the interview request.\n");
 				}
 			}
 			interviews.clear();
