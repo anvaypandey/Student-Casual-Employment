@@ -68,7 +68,7 @@ public class Interview implements Serializable {
         return s;
     }
 
-    public String giveEmployeeDetails()
+    public String giveEmployerDetails()
     {
         String s = job.getDetails()+"Student Username: "+student.getUsername()+"\nInterview Time:"+time.toString();
         return s;

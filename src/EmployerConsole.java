@@ -146,7 +146,7 @@ public class EmployerConsole implements Serializable {
 						ArrayList<Interview> interviewArrayList = job.getInterviews();
 						for(int j=0;j<interviewArrayList.size();j++)
 						{
-							System.out.println(interviewArrayList.get(j).giveEmployeeDetails()+"\n");
+							System.out.println(interviewArrayList.get(j).giveEmployerDetails()+"\n");
 						}
 						System.out.println("Enter Student Username");
 						String studentUsername = Utilities.getScanner().nextLine();
