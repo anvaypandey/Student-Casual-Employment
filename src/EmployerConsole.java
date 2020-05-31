@@ -440,14 +440,14 @@ public class EmployerConsole implements Serializable {
 	}
 
 	//shortlisting candidates and setting up interview time
-	private void shortlistCandidate(String studentId) throws InvalidInputException
+	private void shortlistCandidate(String userId) throws InvalidInputException
 	{
 		boolean flag = false;
 		do{
 			try {
 				if(((Employer)MainConsole.userList.get(MainConsole.user)).getBlacklistStatus()!= BlacklistStatus.NONE)
 					throw new AuthorizationException("You are not Authorised to Use this feature");
-				if(MainConsole.userList.containsKey(studentId) && MainConsole.userList.get(studentId) instanceof Student)
+				if(MainConsole.userList.containsKey(userId) && MainConsole.userList.get(userId) instanceof Student)
 				{
 					int i;
 					for(i=0;i<MainConsole.jobListings.size();i++)
@@ -455,8 +455,8 @@ public class EmployerConsole implements Serializable {
 						if(MainConsole.jobListings.get(i).getJobCreator().getUsername().equalsIgnoreCase(MainConsole.user))
 						{
 							//set time and add to notification
-							MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(studentId), new DateTime());
-							System.out.println("Candidate "+studentId+" has been successfully shortlisted\n");
+							MainConsole.jobListings.get(i).addtoShortlist((Student)MainConsole.userList.get(userId), new DateTime());
+							System.out.println("Candidate "+userId+" has been successfully shortlisted\n");
 							flag=true;
 							break;
 						}
