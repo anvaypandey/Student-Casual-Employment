@@ -18,7 +18,7 @@ public class Student extends User implements Serializable {
 	private ArrayList<Offer> offers;
 
 	protected Student(String username, String password, String email, Availability availability) {
-		super(username, password,email);
+		super(username, password,email); //student constructor
 		
 		status = ApplicantStatus.Available;
 		this.availability = availability;
@@ -67,7 +67,7 @@ public class Student extends User implements Serializable {
 
 		setBlacklistStatus(that.getBlacklistStatus());
 	}
-
+//GETTERS AND SETTERS
 	public Availability getAvailability() {
 		return availability;
 	}
@@ -158,7 +158,7 @@ public class Student extends User implements Serializable {
 	public ArrayList<Interview> getInterviewNotifications() {
 		return interviews;
 	}
-
+//Student details to string
 	@Override
 	public String getDetails() {
 		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress()+"\nAvailability: "+ getAvailability()+

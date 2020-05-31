@@ -298,7 +298,7 @@ public class StudentConsole implements Serializable {
 			try {
 				if (MainConsole.userList.containsKey(complaintUser)) {
 					Complaint complaint1 = new Complaint(MainConsole.userList.get(MainConsole.user), complaint);
-					if (MainConsole.userList.get(complaintUser) instanceof Student)
+					if (MainConsole.userList.get(complaintUser) instanceof Student) //adds complaint to appropriate type of user
 						((Student) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);
 					else if (MainConsole.userList.get(complaintUser) instanceof Employer)
 						((Employer) MainConsole.userList.get(complaintUser)).addComplaint(complaint1);

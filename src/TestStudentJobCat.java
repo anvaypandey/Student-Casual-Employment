@@ -8,12 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class TestStudentJobCat {
+public class TestStudentJobCat { //tests the student add job category method
 	ArrayList<JobCategory> jobCat;
 	StudentConsole std;
 	String jobcat;
 	@Before
-	public void setUp() {
+	public void setUp() { //adds information
 		std = new StudentConsole();
 		MainConsole.userList.put("123", new Employer("e123", "password", "s123@gmail.com"));
         jobcat = "waiter";
@@ -22,9 +22,6 @@ public class TestStudentJobCat {
 
 
 	}
-
-
-
 	@Test (expected = NullPointerException.class)
 	public void testJobCat() throws InvalidInputException, NullPointerException, AuthorizationException {
 
