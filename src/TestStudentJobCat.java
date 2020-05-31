@@ -10,27 +10,29 @@ import org.junit.Test;
 
 public class TestStudentJobCat { //tests the student add job category method
 	ArrayList<JobCategory> jobCat;
-	StudentConsole std;
+	Student std;
 	String jobcat;
+	StudentConsole stu;
 	@Before
 	public void setUp() { //adds information
-		std = new StudentConsole();
-		MainConsole.userList.put("123", new Employer("e123", "password", "s123@gmail.com"));
+
+		MainConsole.userList.put("s123", new Student("s123", "password", "s123@gmail.com", Availability.FullTime));
         jobcat = "waiter";
         JobCategory jobcat1 = new JobCategory(jobcat);
         MainConsole.jobCategories.add(jobcat1);
-
+		stu = new StudentConsole();
+		MainConsole.user = "s123";
 
 	}
-	@Test (expected = NullPointerException.class)
-	public void testJobCat() throws InvalidInputException, NullPointerException, AuthorizationException {
+	@Test
+	public void testJobCat() throws InvalidInputException, AuthorizationException {
 
-		assertEquals(true, std.jobCatego("waiter"));
+		assertEquals(true, stu.jobCatego("waiter"));
 	}
 	@Test(expected = InvalidInputException.class)
-	public void testInvalidInputException() throws InvalidInputException, AuthorizationException {
+	public void testInvalidInputException() throws InvalidInputException,  AuthorizationException {
 
-		std.jobCatego("clean");
+		stu.jobCatego("clean");
 
 	}
 

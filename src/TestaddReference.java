@@ -19,18 +19,19 @@ public class TestaddReference
 		std.getReferences();
 
 	}
-	@Test (expected = java.lang.AssertionError.class)
+	@Test
 	public void getAddRef() {
 		Student std = (Student)MainConsole.userList.get("s123");
 		Reference expect1 = new Reference("Michael Smith"," michsmith@yahoo.com"," 044315423");
-		Assert.assertEquals(expect1, std.getReferences());
+		std.setReferences(expect1);
+		Assert.assertEquals(std.getReferences().size(), 2);
 }
 
-	@Test (expected = java.lang.AssertionError.class)
+	@Test
 	public void getDetails() {
 		Student std = (Student)MainConsole.userList.get("s123");
-		Reference expect = new Reference("Ellie Smith","esmith@yahoo.com","044315423");
+		//expected is Michael Smith
 
-		Assert.assertNotEquals(expect, std.getReferences());
+		Assert.assertNotEquals(std.getReferences().get(0).getName(), "Ellie Smith");
 	
 }}

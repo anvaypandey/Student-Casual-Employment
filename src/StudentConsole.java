@@ -240,9 +240,6 @@ public class StudentConsole implements Serializable {
 	}
 	public boolean jobCatego(String jobcat) throws InvalidInputException, AuthorizationException {
 
-			if (std.getBlacklistStatus() != BlacklistStatus.NONE) { //if student is blacklisted they cannot access this feature
-				throw new AuthorizationException("You are not Authorised to Use this feature");
-			} else {
 				int i;
 				for (i = 0; i < MainConsole.jobCategories.size(); i++) {
 					if (jobcat.equalsIgnoreCase(MainConsole.jobCategories.get(i).getName())) { //ensures job category exists
@@ -253,7 +250,7 @@ public class StudentConsole implements Serializable {
 				if (i == MainConsole.jobCategories.size()) {
 					throw new InvalidInputException("Category does not exist");
 				}
-				ArrayList<JobCategory> jobCat = std.getSelectedJobCategories();
+				ArrayList<JobCategory> jobCat = ((Student) MainConsole.userList.get(MainConsole.user)).getSelectedJobCategories();
 				for (i = 0; i < jobCat.size(); i++) {
 					if (jobcat.equalsIgnoreCase(jobCat.get(i).getName())) {
 						throw new InvalidInputException("Category already exists in your list");
@@ -262,8 +259,6 @@ public class StudentConsole implements Serializable {
 
 				return true;
 			}
-
-		}
 	private void changePassword()  { //allows user to change password
 
 			System.out.println("Please enter new password");
