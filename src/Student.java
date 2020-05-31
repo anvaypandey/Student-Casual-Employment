@@ -15,19 +15,20 @@ public class Student extends User implements Serializable {
 	private BlacklistStatus blacklistStatus;
 	private DateTime blacklistTime;
 	private ArrayList<Interview> interviews;
-	//private ArrayList<InterviewNotification> notifications;
 	private ArrayList<Offer> offers;
 
 	protected Student(String username, String password, String email, Availability availability) {
-		super(username, password,email);
+		super(username, password,email); //student constructor
 		
 		status = ApplicantStatus.Available;
 		this.availability = availability;
-		references = new ArrayList<Reference>();
-		employmentRecords = new ArrayList<EmploymentRecord>();
-		complaints = new ArrayList<Complaint>();
-		selectedJobCategories = new ArrayList<JobCategory>();
+		references = new ArrayList<>();
+		employmentRecords = new ArrayList<>();
+		complaints = new ArrayList<>();
+		selectedJobCategories = new ArrayList<>();
 		blacklistStatus = BlacklistStatus.NONE;
+		interviews = new ArrayList<>();
+		offers = new ArrayList<>();
 	}
 
 	public Student(Student that) {
@@ -53,9 +54,20 @@ public class Student extends User implements Serializable {
 			Collections.copy(selectedJobCategories,that.getSelectedJobCategories());
 		else
 			selectedJobCategories = new ArrayList<>();
+
+		if(that.getInterviewNotifications().iterator().hasNext())
+			Collections.copy(interviews,that.getInterviewNotifications());
+		else
+			interviews = new ArrayList<>();
+
+		if(that.getOffers().iterator().hasNext())
+			Collections.copy(offers,that.getOffers());
+		else
+			selectedJobCategories = new ArrayList<>();
+
 		setBlacklistStatus(that.getBlacklistStatus());
 	}
-
+//GETTERS AND SETTERS
 	public Availability getAvailability() {
 		return availability;
 	}
@@ -146,7 +158,7 @@ public class Student extends User implements Serializable {
 	public ArrayList<Interview> getInterviewNotifications() {
 		return interviews;
 	}
-
+//Student details to string
 	@Override
 	public String getDetails() {
 		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress()+"\nAvailability: "+ getAvailability()+

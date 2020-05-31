@@ -27,8 +27,6 @@ public class Job implements Serializable {
 		this.interviews.add(interview);
 	}
 	
-
-
 	public String getJobId() {
 		return jobId;
 	}
@@ -46,7 +44,7 @@ public class Job implements Serializable {
 		return students;
 	}
 
-	public boolean addtoShortlist(Student student, DateTime dateTime) throws Exception {
+	public boolean addtoShortlist(Student student, DateTime dateTime) throws InvalidInputException {
 		int i;
 		for(i = 0;i<interviews.size();i++)
 		{
@@ -54,7 +52,7 @@ public class Job implements Serializable {
 			break;
 		}
 		if(i<interviews.size())
-			throw new Exception("Already Exists");
+			throw new InvalidInputException("Already Exists");
 
 		Interview interview = new Interview(this,student,dateTime);
 		interviews.add(interview);
@@ -88,22 +86,21 @@ public class Job implements Serializable {
 		return s;
 	}
 
-	public void rankCandidates(String ranks)throws InvalidInputException
+	public void rankCandidates(ArrayList<Integer> ranks)throws InvalidInputException
 	{
 
-		String [] rankArray = ranks.split(" ");
 
-		if(rankArray.length!= interviews.size())// check the length of the string array, which should be equal to the length of string
-			throw new InvalidInputException("Incorrect Input!");
+		if(ranks.size()!= interviews.size())// check the length of the string array, which should be equal to the length of string
+			throw new InvalidInputException("Incorrect Input.");
 
 		try{
 			int i=0;
-			while (i<ranks.length()) {
-				if(Integer.parseInt(rankArray[i]) >= interviews.size() || Integer.parseInt(rankArray[i])<= 0)
-					throw new InvalidInputException("Invalid Input");
-				for(int j=i+1;j<rankArray.length;j++) {
-					if(Integer.parseInt(rankArray[i]) == Integer.parseInt(rankArray[j]))
-						throw new InvalidInputException("Invalid Input");
+			while (i<ranks.size()) {
+				if(ranks.get(i) > interviews.size() || ranks.get(i)<= 0)
+					throw new InvalidInputException("Invalid Input. Rank Values more/less than number of candidates");
+				for(int j=i+1;j<ranks.size();j++) {
+					if(ranks.get(i) == ranks.get(j))
+						throw new InvalidInputException("Invalid Input. All the ranks should be unique.");
 				}
 				i++;
 			}
@@ -116,8 +113,8 @@ public class Job implements Serializable {
 		// sort the list according the the ranking
 		ArrayList<Interview> temp = new ArrayList<>();
 
-		for(int i=0;i<rankArray.length;i++)
-			temp.add(interviews.get(Integer.parseInt(rankArray[i])-1));
+		for(int i=0;i<ranks.size();i++)
+			temp.add(interviews.get(ranks.get(i)-1));
 
 		interviews.clear();
 		interviews.addAll(temp);

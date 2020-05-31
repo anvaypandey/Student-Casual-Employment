@@ -4,19 +4,16 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class Employer extends User implements Serializable {
-	
-	private String phNo;
+
 	private ArrayList<Complaint> complaints;
 	private BlacklistStatus blacklistStatus;
 	private DateTime blacklistTime;
-	//private ArrayList<Job> jobsCreated;
 	
 	
 	public Employer(String username, String password, String email) {
 		super(username, password,email);
 		complaints = new ArrayList<Complaint>();
 		blacklistStatus = BlacklistStatus.NONE;
-		//jobsCreated = new ArrayList<>();
 	}
 	
 	public Employer(Employer that)
@@ -27,14 +24,6 @@ public class Employer extends User implements Serializable {
 			Collections.copy(complaints,that.getComplaints());
 		else
 			complaints = new ArrayList<>();
-		/*if(that.getJobsCreated().iterator().hasNext())
-			Collections.copy(jobsCreated,that.getJobsCreated());
-		else
-			jobsCreated = new ArrayList<>();*/
-	}
-
-	public ArrayList<Complaint> getComplaints() {
-		return complaints;
 	}
 
 	public void addComplaint(Complaint complaint) {
@@ -43,15 +32,7 @@ public class Employer extends User implements Serializable {
 			setBlacklistStatus(BlacklistStatus.PROVISIONAL);
 	}
 
-	/*public ArrayList<Job> getJobsCreated() {
-		return jobsCreated;
-	}
-
-	public void setJobsCreated(ArrayList<Job> jobsCreated) {
-		this.jobsCreated = jobsCreated;
-	}
-*/
-
+	//Getters and Setters
 	public BlacklistStatus getBlacklistStatus() {
 		return blacklistStatus;
 	}
@@ -70,9 +51,9 @@ public class Employer extends User implements Serializable {
 		String s = "UserName :"+getUsername()+"\nEmail:"+getEmailAddress();
 		return s;
 	}
-	
-	
-	
-	
 
+	public ArrayList<Complaint> getComplaints() {
+		return complaints;
+	}
+	
 }
